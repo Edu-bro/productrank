@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # Challenge routes
+  get '/challenges' => 'challenges#index'
+  get '/challenges/weekly' => 'challenges#weekly'
+  get '/challenges/monthly' => 'challenges#monthly'
+
   # Admin routes
   namespace :admin do
     root 'dashboard#index'

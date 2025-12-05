@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  start_date: 2025-12-06 05:07:47
+  end_date: 2025-12-06 05:07:47
+  status: 1
+  period_type: MyString
+
+two:
+  title: MyString
+  description: MyText
+  start_date: 2025-12-06 05:07:47
+  end_date: 2025-12-06 05:07:47
+  status: 1
+  period_type: MyString
