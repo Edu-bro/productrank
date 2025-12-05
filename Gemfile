@@ -76,5 +76,5 @@ end
 gem "tailwindcss-rails", "~> 4.3"
 
 # Pagination - switch to pagy for better performance
-gem 'pagy', '~> 9.0'
+gem 'pagy', '~> 43.2'
 gem 'kaminari' # TODO: remove after migration to pagy
