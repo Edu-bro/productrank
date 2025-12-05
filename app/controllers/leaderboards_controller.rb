@@ -59,23 +59,20 @@ class LeaderboardsController < ApplicationController
 
     case period
     when :daily
-      products = Product.joins(:launches)
-                       .where(launches: { launch_date: date.beginning_of_day..date.end_of_day })
+      products = Product.where(created_at: date.beginning_of_day..date.end_of_day)
     when :weekly
-      products = Product.joins(:launches)
-                       .where(launches: { launch_date: date.beginning_of_week..date.end_of_week })
+      products = Product.where(created_at: date.beginning_of_week..date.end_of_week)
     when :monthly
-      products = Product.joins(:launches)
-                       .where(launches: { launch_date: date.beginning_of_month..date.end_of_month })
+      products = Product.where(created_at: date.beginning_of_month..date.end_of_month)
     when :yearly
-      products = Product.joins(:launches)
-                       .where(launches: { launch_date: date.beginning_of_year..date.end_of_year })
+      products = Product.where(created_at: date.beginning_of_year..date.end_of_year)
     when :all_time
       products = Product.all
     end
 
-    # 투표 수로 정렬하고 페이지네이션 적용 (HomeController와 동일한 정렬 기준)
-    products = products.order('products.votes_count DESC, products.likes_count DESC')
+    # 투표 수로 정렬하고 페이지네이션 적용
+    products = products.published
+                      .order('products.votes_count DESC, products.likes_count DESC, products.created_at DESC')
                       .limit(per_page)
                       .offset(offset)
 
@@ -91,23 +88,15 @@ class LeaderboardsController < ApplicationController
   def get_total_count(period, date = nil)
     case period
     when :daily
-      Product.joins(:launches)
-             .where(launches: { launch_date: date.beginning_of_day..date.end_of_day })
-             .count
+      Product.published.where(created_at: date.beginning_of_day..date.end_of_day).count
     when :weekly
-      Product.joins(:launches)
-             .where(launches: { launch_date: date.beginning_of_week..date.end_of_week })
-             .count
+      Product.published.where(created_at: date.beginning_of_week..date.end_of_week).count
     when :monthly
-      Product.joins(:launches)
-             .where(launches: { launch_date: date.beginning_of_month..date.end_of_month })
-             .count
+      Product.published.where(created_at: date.beginning_of_month..date.end_of_month).count
     when :yearly
-      Product.joins(:launches)
-             .where(launches: { launch_date: date.beginning_of_year..date.end_of_year })
-             .count
+      Product.published.where(created_at: date.beginning_of_year..date.end_of_year).count
     when :all_time
-      Product.count
+      Product.published.count
     end
   end
 end

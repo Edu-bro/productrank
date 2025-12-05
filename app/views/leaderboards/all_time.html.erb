@@ -1,1 +1,22 @@
-<%= render 'leaderboard_layout' %>
+<div class="rankboard-container">
+  <!-- 통합 제어판 -->
+  <div class="control-panel">
+    <div class="control-panel-flex">
+      <%= render 'leaderboards/shared/period_tabs' %>
+
+      <!-- 전체 기간 정보 -->
+      <div class="date-navigation">
+        <div class="date-controls">
+          <div class="current-period">
+            <span class="period-text">전체 기간</span>
+            <span class="period-label">(역대 최고)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'leaderboards/shared/ranking_list_new' %>
+</div>
+
+<%= render 'leaderboards/shared/styles' %>
