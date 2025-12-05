@@ -1,0 +1,32 @@
+<%= link_to product_path(comment.product, anchor: "comment-#{comment.id}"), class: "search-result-card" do %>
+  <div class="result-header">
+    <div class="result-logo">
+      <div class="result-logo-placeholder"><%= comment.user.name[0].upcase %></div>
+    </div>
+    <div class="result-info">
+      <h3 class="result-title"><%= comment.user.name %></h3>
+      <p class="result-tagline"><%= comment.product.name %>에서 댓글</p>
+    </div>
+  </div>
+  
+  <p class="result-description"><%= truncate(comment.body, length: 150) %></p>
+  
+  <div class="result-meta">
+    <div class="result-topics">
+      <span class="topic-tag-small"><%= time_ago_in_words(comment.created_at) %> 전</span>
+      <% if comment.reply? %>
+        <span class="topic-tag-small">답글</span>
+      <% end %>
+    </div>
+    <div class="result-stats">
+      <div class="stat-item">
+        <i class="fas fa-arrow-up"></i>
+        <span><%= comment.upvotes %></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-reply"></i>
+        <span><%= comment.replies.count %></span>
+      </div>
+    </div>
+  </div>
+<% end %>

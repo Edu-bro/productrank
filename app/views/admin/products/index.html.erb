@@ -1,0 +1,202 @@
+<div class="admin-container">
+    <!-- 헤더 -->
+    <div class="admin-header">
+        <h1>제품 관리</h1>
+        <p>등록된 모든 제품을 확인하고 관리하세요</p>
+    </div>
+
+    <!-- 통계 카드 -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">전체 제품</span>
+                <div class="stat-card-icon blue">
+                    <i class="fas fa-box"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= Product.count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">승인 대기</span>
+                <div class="stat-card-icon orange">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= Product.where(status: :pending).count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">출시됨</span>
+                <div class="stat-card-icon green">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= Product.where(status: :live).count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">예정</span>
+                <div class="stat-card-icon purple">
+                    <i class="fas fa-calendar"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= Product.where(status: :scheduled).count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">Featured</span>
+                <div class="stat-card-icon purple">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= Product.where(featured: true).count %></div>
+        </div>
+    </div>
+
+    <!-- 제품 목록 -->
+    <div class="admin-section">
+        <div class="admin-section-header">
+            <h3 class="admin-section-title">제품 목록</h3>
+        </div>
+
+        <!-- 검색 및 필터 -->
+        <div class="search-filter-bar">
+            <%= form_with url: admin_products_path, method: :get, local: true, style: "display: flex; gap: 12px; width: 100%;" do |f| %>
+                <%= f.text_field :search,
+                    placeholder: "제품명 또는 설명으로 검색...",
+                    class: "search-input",
+                    value: params[:search] %>
+
+                <%= f.select :status,
+                    options_for_select([
+                        ['모든 상태', ''],
+                        ['초안', 'draft'],
+                        ['대기중', 'pending'],
+                        ['예정', 'scheduled'],
+                        ['출시', 'live'],
+                        ['보관', 'archived']
+                    ], params[:status]),
+                    {},
+                    class: "filter-select" %>
+
+                <%= f.submit "검색", class: "btn btn-primary" %>
+                <%= link_to "초기화", admin_products_path, class: "btn btn-secondary" %>
+            <% end %>
+        </div>
+
+        <!-- 제품 테이블 -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>제품</th>
+                    <th>등록자</th>
+                    <th>상태</th>
+                    <th>토픽</th>
+                    <th>통계</th>
+                    <th>등록일</th>
+                    <th style="text-align: center;">액션</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @products.each do |product| %>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <% if product.logo_url.present? %>
+                                    <img src="<%= product.logo_url %>" alt="<%= product.name %>" class="product-thumbnail">
+                                <% else %>
+                                    <div class="product-thumbnail" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-image" style="color: #ccc;"></i>
+                                    </div>
+                                <% end %>
+                                <div>
+                                    <%= link_to product.name, admin_product_path(product), class: "product-name" %>
+                                    <% if product.tagline.present? %>
+                                        <div style="font-size: 12px; color: #999; margin-top: 2px;">
+                                            <%= truncate(product.tagline, length: 40) %>
+                                        </div>
+                                    <% end %>
+                                    <% if product.featured %>
+                                        <span class="topic-tag" style="background: #f3e5f5; color: #9c27b0; margin-top: 4px;">
+                                            <i class="fas fa-star"></i> Featured
+                                        </span>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="user-avatar" style="width: 24px; height: 24px; font-size: 11px;">
+                                    <%= product.user.name.first.upcase %>
+                                </span>
+                                <div>
+                                    <div style="font-size: 13px; color: #333;"><%= product.user.name %></div>
+                                    <div style="font-size: 11px; color: #999;"><%= product.user.email %></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge <%= product.status %>">
+                                <%= product.status.titleize %>
+                            </span>
+                        </td>
+                        <td>
+                            <% product.topics.first(2).each do |topic| %>
+                                <span class="topic-tag"><%= topic.emoji %> <%= topic.name %></span>
+                            <% end %>
+                            <% if product.topics.count > 2 %>
+                                <span class="topic-tag">+<%= product.topics.count - 2 %></span>
+                            <% end %>
+                        </td>
+                        <td>
+                            <div style="font-size: 13px; color: #666;">
+                                <i class="fas fa-arrow-up" style="color: #ff6b35;"></i> <%= product.votes_count %>
+                                <i class="fas fa-heart" style="color: #e91e63; margin-left: 8px;"></i> <%= product.likes_count %>
+                                <i class="fas fa-comment" style="color: #2196f3; margin-left: 8px;"></i> <%= product.comments_count %>
+                            </div>
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= time_ago_in_words(product.created_at) %> 전
+                        </td>
+                        <td>
+                            <div class="action-buttons" style="justify-content: center;">
+                                <%= link_to admin_product_path(product), class: "btn btn-secondary btn-small", title: "상세" do %>
+                                    <i class="fas fa-eye"></i>
+                                <% end %>
+                                <%= link_to edit_admin_product_path(product), class: "btn btn-primary btn-small", title: "수정" do %>
+                                    <i class="fas fa-edit"></i>
+                                <% end %>
+                                <% if product.draft? %>
+                                    <%= button_to approve_admin_product_path(product), method: :post, class: "btn btn-success btn-small", title: "출시", form: { data: { turbo_confirm: "이 제품을 출시하시겠습니까?" } } do %>
+                                        <i class="fas fa-check"></i>
+                                    <% end %>
+                                <% end %>
+                                <%= button_to admin_product_path(product), method: :delete, class: "btn btn-danger btn-small", title: "삭제", form: { data: { turbo_confirm: "정말 삭제하시겠습니까?" } } do %>
+                                    <i class="fas fa-trash"></i>
+                                <% end %>
+                            </div>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <% if @products.respond_to?(:total_pages) && @products.total_pages > 1 %>
+            <div class="pagination">
+                <%= link_to_unless @products.first_page?, "‹ 이전", admin_products_path(page: @products.prev_page, search: params[:search], status: params[:status]), class: "page-link" %>
+
+                <% (1..@products.total_pages).each do |page| %>
+                    <%= link_to page, admin_products_path(page: page, search: params[:search], status: params[:status]), class: "page-link #{page == @products.current_page ? 'active' : ''}" %>
+                <% end %>
+
+                <%= link_to_unless @products.last_page?, "다음 ›", admin_products_path(page: @products.next_page, search: params[:search], status: params[:status]), class: "page-link" %>
+            </div>
+        <% end %>
+    </div>
+</div>

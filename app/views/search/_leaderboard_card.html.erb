@@ -1,0 +1,61 @@
+<div class="leaderboard-card">
+  <div class="leaderboard-header">
+    <h4 class="leaderboard-title">
+      <i class="fas fa-trophy"></i>
+      <%= leaderboard[:title] %>
+    </h4>
+    <span class="leaderboard-period <%= leaderboard[:period] %>">
+      <% case leaderboard[:period] %>
+      <% when :daily %>
+        <i class="fas fa-calendar-day"></i> 일간
+      <% when :weekly %>
+        <i class="fas fa-calendar-week"></i> 주간
+      <% when :category %>
+        <i class="fas fa-tags"></i> 카테고리
+      <% end %>
+    </span>
+  </div>
+  
+  <div class="leaderboard-list">
+    <% leaderboard[:products].each do |item| %>
+      <div class="leaderboard-item">
+        <div class="rank-number rank-<%= item[:rank] %>">
+          <% if item[:rank] <= 3 %>
+            <i class="fas fa-<%= item[:rank] == 1 ? 'crown' : 'medal' %>"></i>
+          <% end %>
+          #<%= item[:rank] %>
+        </div>
+        
+        <%= link_to product_path(item[:product]), class: "leaderboard-product" do %>
+          <div class="leaderboard-logo">
+            <% if item[:product].logo_image.attached? %>
+              <%= image_tag item[:product].logo_image, alt: "#{item[:product].name} 로고" %>
+            <% elsif item[:product].logo_url.present? %>
+              <img src="<%= item[:product].logo_url %>" alt="<%= item[:product].name %> 로고" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;logo-placeholder&quot;><%= item[:product].name[0].upcase %></div>';">
+            <% else %>
+              <div class="logo-placeholder"><%= item[:product].name[0].upcase %></div>
+            <% end %>
+          </div>
+          
+          <div class="leaderboard-info">
+            <h5 class="leaderboard-product-name"><%= item[:product].name %></h5>
+            <p class="leaderboard-tagline"><%= truncate(item[:product].tagline, length: 50) %></p>
+          </div>
+          
+          <div class="leaderboard-stats">
+            <div class="stat">
+              <i class="fas fa-arrow-up"></i>
+              <span><%= item[:product].vote_count %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="leaderboard-footer">
+    <%= link_to "/rankboard", class: "view-full-ranking" do %>
+      전체 랭킹 보기 <i class="fas fa-arrow-right"></i>
+    <% end %>
+  </div>
+</div>

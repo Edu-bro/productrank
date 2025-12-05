@@ -1,0 +1,272 @@
+<div class="rankboard-container">
+  <!-- 통합 제어판 -->
+  <div class="control-panel">
+    <div class="control-panel-flex">
+      <%= render 'leaderboards/shared/period_tabs' %>
+
+      <!-- 월간 네비게이션 -->
+      <div class="date-navigation">
+        <div class="date-controls">
+          <%= link_to "/rankboard/monthly?date=#{(@date - 1.month).strftime('%Y-%m-01')}", class: "nav-arrow prev" do %>
+            <i class="fas fa-chevron-left"></i>
+          <% end %>
+
+          <div class="current-period" onclick="toggleDatePicker()">
+            <span class="period-text"><%= @date.strftime('%Y년 %m월') %></span>
+            <span class="period-label">(<%= @date.strftime('%Y년 %m월') %> 전체)</span>
+          </div>
+
+          <%= link_to "/rankboard/monthly?date=#{(@date + 1.month).strftime('%Y-%m-01')}", class: "nav-arrow next" do %>
+            <i class="fas fa-chevron-right"></i>
+          <% end %>
+
+          <button class="calendar-btn" onclick="toggleDatePicker()">
+            <i class="fas fa-calendar-alt"></i>
+          </button>
+        </div>
+
+        <!-- 월 선택기 -->
+        <div id="datePicker" class="date-picker-dropdown" style="display: none;">
+          <div class="calendar-header">
+            <button type="button" onclick="changeYear(-1)" class="calendar-nav">‹</button>
+            <span id="calendarMonth"></span>
+            <button type="button" onclick="changeYear(1)" class="calendar-nav">›</button>
+          </div>
+          <div class="month-grid" id="monthGrid">
+            <!-- 월 선택기가 여기에 동적으로 생성됩니다 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'leaderboards/shared/ranking_list' %>
+</div>
+
+<%= render 'leaderboards/shared/styles' %>
+
+<style>
+.calendar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.calendar-btn:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.date-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  z-index: 20;
+  border: 1px solid #e2e8f0;
+  margin-top: 0.5rem;
+  min-width: 280px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+.calendar-nav {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.calendar-nav:hover {
+  background: #f1f5f9;
+  color: #1a202c;
+}
+
+#calendarMonth {
+  font-weight: 700;
+  color: #1a202c;
+  font-size: 1rem;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.month-item {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: none;
+  background: #f8fafc;
+  color: #475569;
+}
+
+.month-item:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.month-item.current {
+  background: #3b82f6;
+  color: white;
+}
+
+.month-item.selected {
+  background: #1e40af;
+  color: white;
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // 스코프 내 변수
+  let rankboardCurrentDate = new Date('<%= @date.strftime('%Y-%m-%d') %>');
+  let rankboardYear = rankboardCurrentDate.getFullYear();
+  let rankboardPickerOpen = false;
+  let rankboardClickHandler = null;
+
+  // 기존 이벤트 리스너 정리
+  function cleanup() {
+    if (rankboardClickHandler) {
+      document.removeEventListener('click', rankboardClickHandler);
+      rankboardClickHandler = null;
+    }
+  }
+
+  // 페이지 로드/전환 시 초기화
+  function initialize() {
+    cleanup();
+    setupEventListeners();
+  }
+
+  // 월 선택기 토글
+  window.toggleDatePicker = function() {
+    const picker = document.getElementById('datePicker');
+    if (!picker) return;
+
+    rankboardPickerOpen = !rankboardPickerOpen;
+
+    if (rankboardPickerOpen) {
+      picker.style.display = 'block';
+      renderMonthPicker();
+    } else {
+      picker.style.display = 'none';
+    }
+  };
+
+  // 월 선택기 렌더링
+  function renderMonthPicker() {
+    const yearElement = document.getElementById('calendarMonth');
+    const grid = document.getElementById('monthGrid');
+
+    if (!yearElement || !grid) return;
+
+    // 연도 표시
+    yearElement.textContent = `${rankboardYear}년`;
+
+    // 기존 월 제거
+    grid.innerHTML = '';
+
+    // 12개월 생성
+    const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    const selectedMonth = rankboardCurrentDate.getMonth();
+    const selectedYear = rankboardCurrentDate.getFullYear();
+
+    months.forEach((monthName, index) => {
+      const monthElement = document.createElement('button');
+      monthElement.className = 'month-item';
+      monthElement.textContent = monthName;
+
+      // 현재 월 표시
+      if (index === currentMonth && rankboardYear === currentYear) {
+        monthElement.classList.add('current');
+      }
+
+      // 선택된 월 표시
+      if (index === selectedMonth && rankboardYear === selectedYear) {
+        monthElement.classList.add('selected');
+      }
+
+      // 클릭 이벤트
+      monthElement.addEventListener('click', () => {
+        const month = index + 1;
+        window.location.href = `/rankboard/monthly?date=${rankboardYear}-${String(month).padStart(2, '0')}-01`;
+      });
+
+      grid.appendChild(monthElement);
+    });
+  }
+
+  // 연도 변경
+  window.changeYear = function(direction) {
+    rankboardYear += direction;
+    renderMonthPicker();
+  };
+
+  // 이벤트 리스너 설정
+  function setupEventListeners() {
+    cleanup();
+
+    rankboardClickHandler = function(event) {
+      const datePicker = document.getElementById('datePicker');
+      const calendarBtn = document.querySelector('.calendar-btn');
+      const currentPeriodElement = document.querySelector('.current-period');
+
+      if (datePicker && calendarBtn && currentPeriodElement &&
+          !datePicker.contains(event.target) &&
+          !calendarBtn.contains(event.target) &&
+          !currentPeriodElement.contains(event.target)) {
+        if (rankboardPickerOpen) {
+          window.toggleDatePicker();
+        }
+      }
+    };
+
+    document.addEventListener('click', rankboardClickHandler);
+  }
+
+  // Turbo 이벤트 처리
+  document.addEventListener('turbo:load', initialize);
+  document.addEventListener('DOMContentLoaded', initialize);
+
+  // 페이지 떠날 때 정리
+  document.addEventListener('turbo:before-render', cleanup);
+  window.addEventListener('beforeunload', cleanup);
+})();
+</script>

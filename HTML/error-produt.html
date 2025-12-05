@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://localhost:3002/products -->
+<html lang="ko"><script src="chrome-extension://dncepekefegjiljlfbihljgogephdhph/contentscript.js"></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="./error-produt_files/all.min.css">
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="DUm0mbgNXQ1R8w6UC_g0_g8gROkfSP_i2DFMuHXFOxdocwYf47tieifrR1w3uPf5dZ-XDfE54kq-mWPJVfbWWw">
+    
+    <link rel="stylesheet" href="./error-produt_files/application-8b441ae0.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./error-produt_files/custom-86f9e0d7.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./error-produt_files/tailwind-cb445571.css" data-turbo-track="reload">
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "application": "/assets/application-bfcdf840.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-3a2e143f.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-4b1e420e.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc53fe7.js",
+    "controllers/application": "/assets/controllers/application-3affb389.js",
+    "controllers/hello_controller": "/assets/controllers/hello_controller-708796bd.js",
+    "controllers": "/assets/controllers/index-ee64e1f1.js"
+  }
+}</script>
+<link rel="modulepreload" href="http://localhost:3002/assets/application-bfcdf840.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/turbo.min-3a2e143f.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/stimulus.min-4b1e420e.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/stimulus-loading-1fc53fe7.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/controllers/application-3affb389.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/controllers/hello_controller-708796bd.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/controllers/index-ee64e1f1.js">
+<script type="module">import "application"</script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a class="logo" href="http://localhost:3002/">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="http://localhost:3002/products">제품</a>
+                <a href="http://localhost:3002/leaderboard">리더보드</a>
+                <a href="http://localhost:3002/community">커뮤니티</a>
+                <a href="http://localhost:3002/collections">컬렉션</a>
+            </nav>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="다음으로 좋아할 만한 것을 발견하세요...">
+            </div>
+            
+            <div class="auth-buttons">
+                <a class="login-btn" href="http://localhost:3002/products#">로그인</a>
+                <a class="signup-btn" href="http://localhost:3002/products#">가입하기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BEGIN app/views/products/index.html.erb --><!-- 메인 콘텐츠 -->
+<div class="main-container">
+    <main>
+        <div class="products-explorer-container">
+            
+            <!-- 사이드바 - 카테고리 목록 -->
+            <aside class="left-sidebar">
+                <h3><i class="fas fa-layer-group"></i> 카테고리</h3>
+                <ul class="category-list">
+                    <li class="category-item active">
+                        <a class="category-link" href="http://localhost:3002/products">
+                            전체
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=productivity">
+                            생산성 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=engineering">
+                            개발 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=design">
+                            디자인 &amp; 창작
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=finance">
+                            금융 서비스
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=social">
+                            소셜 &amp; 커뮤니티
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=marketing">
+                            마케팅 &amp; 세일즈
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=health">
+                            헬스 &amp; 피트니스
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=travel">
+                            여행
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=platforms">
+                            플랫폼
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=addons">
+                            제품 확장 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=web3">
+                            Web3 &amp; 블록체인
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=ai-agents">
+                            AI 에이전트
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=llms">
+                            언어 모델 (LLM)
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=physical">
+                            물리적 제품
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=voice-ai">
+                            음성 AI 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=ecommerce">
+                            이커머스
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=data-analysis">
+                            데이터 분석 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=nocode">
+                            노코드 플랫폼
+</a>                    </li>
+                </ul>
+            </aside>
+
+            <!-- 제품 탐색 메인 영역 -->
+            <div class="main-content">
+                <!-- 정렬 옵션 -->
+                <div class="products-sort-options">
+                    <select onchange="updateSort(this.value)" class="products-sort-select">
+                        <option value="popular" selected="">인기순</option>
+                        <option value="newest">최신순</option>
+                        <option value="most_commented">댓글순</option>
+                    </select>
+                </div>
+
+                    <!-- 전체 카테고리 - 카테고리별 섹션 표시 -->
+                    
+                    <!-- 생산성 도구 섹션 -->
+                    <section class="products-category-section">
+                        <div class="products-category-header">
+                            <h2 class="products-category-title">생산성 도구</h2>
+                            <a class="products-view-more" href="http://localhost:3002/products?category=productivity">
+                                더보기 <i class="fas fa-chevron-right"></i>
+</a>                        </div>
+                        <div class="products-grid">
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/20">
+            
+            <div class="product-image">
+                    <img alt="TimeTracker Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/toggl.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">TimeTracker Pro</h3>
+                <p class="product-tagline">시간 관리의 새로운 기준</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            27
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">생산성</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/1">
+            
+            <div class="product-image">
+                    <img alt="AI Assistant Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/openai.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">AI Assistant Pro</h3>
+                <p class="product-tagline">혁신적인 AI 어시스턴트로 일상 업무를 자동화하세요</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">인공지능</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/2">
+            
+            <div class="product-image">
+                    <img alt="FlowSpace" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/slack.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">FlowSpace</h3>
+                <p class="product-tagline">원격 팀을 위한 협업 작업 공간</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">생산성</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/3">
+            
+            <div class="product-image">
+                    <img alt="DesignKit Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/figma.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">DesignKit Pro</h3>
+                <p class="product-tagline">전문 디자이너를 위한 올인원 툴킷</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">디자인</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/8">
+            
+            <div class="product-image">
+                    <img alt="ShopEasy" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/shopify.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">ShopEasy</h3>
+                <p class="product-tagline">간편하고 안전한 온라인 쇼핑몰 솔루션</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">이커머스</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                        </div>
+                    </section>
+                    
+                    <!-- AI 에이전트 섹션 -->
+                    <section class="products-category-section">
+                        <div class="products-category-header">
+                            <h2 class="products-category-title">AI 에이전트</h2>
+                            <a class="products-view-more" href="http://localhost:3002/products?category=ai-agents">
+                                더보기 <i class="fas fa-chevron-right"></i>
+</a>                        </div>
+                        <div class="products-grid">
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/1">
+            
+            <div class="product-image">
+                    <img alt="AI Assistant Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/openai.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">AI Assistant Pro</h3>
+                <p class="product-tagline">혁신적인 AI 어시스턴트로 일상 업무를 자동화하세요</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">인공지능</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/5">
+            
+            <div class="product-image">
+                    <img alt="HealthTracker+" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/myfitnesspal.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">HealthTracker+</h3>
+                <p class="product-tagline">개인 맞춤형 건강 관리 어시스턴트</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">건강</span>
+                            <span class="topic-badge">인공지능</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/6">
+            
+            <div class="product-image">
+                    <img alt="SmartBudget" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/mint.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">SmartBudget</h3>
+                <p class="product-tagline">개인 재정 관리를 위한 스마트 예산 앱</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">금융</span>
+                            <span class="topic-badge">인공지능</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/7">
+            
+            <div class="product-image">
+                    <img alt="EduMaster" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/coursera.org">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">EduMaster</h3>
+                <p class="product-tagline">온라인 학습을 혁신하는 교육 플랫폼</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">교육</span>
+                            <span class="topic-badge">인공지능</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/9">
+            
+            <div class="product-image">
+                    <img alt="MindSpace" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/headspace.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">MindSpace</h3>
+                <p class="product-tagline">정신 건강을 위한 디지털 명상 공간</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">건강</span>
+                            <span class="topic-badge">인공지능</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                        </div>
+                    </section>
+                    
+                    <!-- 디자인 도구 섹션 -->
+                    <section class="products-category-section">
+                        <div class="products-category-header">
+                            <h2 class="products-category-title">디자인 &amp; 창작</h2>
+                            <a class="products-view-more" href="http://localhost:3002/products?category=design">
+                                더보기 <i class="fas fa-chevron-right"></i>
+</a>                        </div>
+                        <div class="products-grid">
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/3">
+            
+            <div class="product-image">
+                    <img alt="DesignKit Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/figma.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">DesignKit Pro</h3>
+                <p class="product-tagline">전문 디자이너를 위한 올인원 툴킷</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">디자인</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/11">
+            
+            <div class="product-image">
+                    <img alt="CreativeStudio" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/adobe.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">CreativeStudio</h3>
+                <p class="product-tagline">창작자를 위한 올인원 콘텐츠 제작 도구</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">디자인</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/19">
+            
+            <div class="product-image">
+                    <img alt="PhotoMagic AI" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/canva.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">PhotoMagic AI</h3>
+                <p class="product-tagline">AI로 완성하는 완벽한 사진 편집</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">디자인</span>
+                            <span class="topic-badge">인공지능</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/21">
+            
+            <div class="product-image">
+                    <div class="logo-fallback">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">DataViz Studio</h3>
+                <p class="product-tagline">데이터를 아름다운 시각화로 변환</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">디자인</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/29">
+            
+            <div class="product-image">
+                    <div class="logo-fallback">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">BrandBuilder</h3>
+                <p class="product-tagline">브랜드 아이덴티티 제작 플랫폼</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">디자인</span>
+                            <span class="topic-badge">생산성</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                        </div>
+                    </section>
+                    
+                    <!-- 개발 도구 섹션 -->
+                    <section class="products-category-section">
+                        <div class="products-category-header">
+                            <h2 class="products-category-title">개발 도구</h2>
+                            <a class="products-view-more" href="http://localhost:3002/products?category=engineering">
+                                더보기 <i class="fas fa-chevron-right"></i>
+</a>                        </div>
+                        <div class="products-grid">
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/20">
+            
+            <div class="product-image">
+                    <img alt="TimeTracker Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/toggl.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">TimeTracker Pro</h3>
+                <p class="product-tagline">시간 관리의 새로운 기준</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            27
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">생산성</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/2">
+            
+            <div class="product-image">
+                    <img alt="FlowSpace" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/slack.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">FlowSpace</h3>
+                <p class="product-tagline">원격 팀을 위한 협업 작업 공간</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">생산성</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/12">
+            
+            <div class="product-image">
+                    <img alt="CryptoWallet+" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/coinbase.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">CryptoWallet+</h3>
+                <p class="product-tagline">안전하고 직관적인 암호화폐 지갑</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">금융</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/14">
+            
+            <div class="product-image">
+                    <img alt="LearnCode" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/codecademy.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">LearnCode</h3>
+                <p class="product-tagline">코딩을 재미있게 배우는 인터랙티브 플랫폼</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">교육</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/16">
+            
+            <div class="product-image">
+                    <img alt="CloudSync Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./error-produt_files/dropbox.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">CloudSync Pro</h3>
+                <p class="product-tagline">멀티 클라우드 파일 동기화 솔루션</p>
+                
+                <div class="product-meta">
+                    <div class="product-stats">
+                        <span class="stat">
+                            <i class="fas fa-arrow-up"></i>
+                            4
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-comment"></i>
+                            4
+                        </span>
+                    </div>
+                    
+                    <div class="product-topics">
+                            <span class="topic-badge">생산성</span>
+                            <span class="topic-badge">개발</span>
+                    </div>
+                </div>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                        </div>
+                    </section>
+                    
+                
+                <!-- 빈 상태 -->
+            </div>
+            
+        </div>
+    </main>
+</div>
+
+
+<script>
+function updateSort(sortValue) {
+    const url = new URL(window.location);
+    url.searchParams.set('sort', sortValue);
+    window.location.href = url.toString();
+}
+</script><!-- END app/views/products/index.html.erb -->
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a class="footer-logo" href="http://localhost:3002/">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="http://localhost:3002/products#">소개</a>
+                    <a href="http://localhost:3002/products#">자주 묻는 질문</a>
+                    <a href="http://localhost:3002/products#">이용약관</a>
+                    <a href="http://localhost:3002/products#">개인정보처리방침</a>
+                    <a href="http://localhost:3002/products#">문의하기</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="http://localhost:3002/products#"><i class="fab fa-twitter"></i></a>
+                    <a href="http://localhost:3002/products#"><i class="fab fa-facebook"></i></a>
+                    <a href="http://localhost:3002/products#"><i class="fab fa-instagram"></i></a>
+                    <a href="http://localhost:3002/products#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

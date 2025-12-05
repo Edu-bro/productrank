@@ -1,0 +1,670 @@
+<style>
+.rankboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.control-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.control-panel-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.period-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 0.25rem;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+  max-width: 120px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.tab-btn:hover {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.tab-btn.active {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.date-navigation {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.date-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.nav-arrow:hover:not(.disabled) {
+  background: #3b82f6;
+  color: white;
+}
+
+.nav-arrow.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.current-period {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0 0.5rem;
+}
+
+.current-period:hover {
+  background: #e2e8f0;
+}
+
+.period-text {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.125rem;
+}
+
+.period-label {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* 랭크보드 제품 섹션 */
+.rankboard-products-section {
+  margin-top: 1rem;
+}
+
+.results-info {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-count {
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 2rem 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 상위 3등 특별 섹션 */
+.top-three-section {
+  margin-bottom: 3rem;
+}
+
+.top-three-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.top-product-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  border: 3px solid transparent;
+}
+
+.top-product-card.rank-1 {
+  border-color: #fbbf24;
+}
+
+.top-product-card.rank-2 {
+  border-color: #9ca3af;
+}
+
+.top-product-card.rank-3 {
+  border-color: #cd7c2f;
+}
+
+.top-product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 메달 배지 */
+.medal-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+}
+
+.medal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.125rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.medal.gold {
+  background: #fbbf24;
+}
+
+.medal.silver {
+  background: #9ca3af;
+}
+
+.medal.bronze {
+  background: #cd7c2f;
+}
+
+.rank-num {
+  font-size: 1.125rem;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 상위 3등 카드 썸네일 */
+.top-card-thumbnail {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+.top-card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.top-product-card:hover .top-card-thumbnail img {
+  transform: scale(1.05);
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 3rem;
+}
+
+/* 상위 3등 카드 콘텐츠 */
+.top-card-content {
+  padding: 1.5rem;
+}
+
+.top-product-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.top-product-tagline {
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+/* 주요 기능 */
+.top-features {
+  margin-bottom: 1.5rem;
+}
+
+.features-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.75rem 0;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.features-list li i {
+  color: #10b981;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.top-product-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.top-product-logo {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.top-product-logo img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.top-stats-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.top-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.top-stat i {
+  font-size: 1rem;
+}
+
+/* 4등 이하 컴팩트 리스트 */
+.rest-products-section {
+  margin-top: 2rem;
+}
+
+.compact-list {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.compact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.compact-item:last-child {
+  border-bottom: none;
+}
+
+.compact-item.even {
+  background: #f8fafc;
+}
+
+.compact-item:hover {
+  background: #e2e8f0;
+  transform: translateX(4px);
+}
+
+.compact-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+}
+
+.rank-number {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compact-thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f1f5f9;
+  flex-shrink: 0;
+}
+
+.compact-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.compact-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 1.5rem;
+}
+
+.compact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.compact-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.25rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-tagline {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-logo {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.compact-logo img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+
+.compact-stats {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.compact-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.compact-stat i {
+  font-size: 0.875rem;
+}
+
+/* 기존 스타일들은 새로운 카드 디자인으로 대체됨 */
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #64748b;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #475569;
+}
+
+@media (max-width: 768px) {
+  .rankboard-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .rankboard-title {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.125rem;
+  }
+  
+  /* 상위 3등 모바일 */
+  .top-three-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .top-product-card {
+    border-width: 2px;
+  }
+  
+  .top-card-thumbnail {
+    height: 150px;
+  }
+  
+  .top-card-content {
+    padding: 1rem;
+  }
+  
+  .top-product-title {
+    font-size: 1.25rem;
+  }
+  
+  .top-product-tagline {
+    font-size: 0.875rem;
+  }
+  
+  .medal {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .rank-num {
+    font-size: 1rem;
+  }
+  
+  .features-title {
+    font-size: 0.8rem;
+  }
+  
+  .features-list li {
+    font-size: 0.8rem;
+  }
+  
+  .top-product-stats {
+    gap: 0.75rem;
+  }
+  
+  .top-product-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .top-product-logo img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* 컴팩트 리스트 모바일 */
+  .compact-item {
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+  
+  .compact-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .compact-title {
+    font-size: 0.9rem;
+  }
+  
+  .compact-tagline {
+    font-size: 0.8rem;
+  }
+  
+  .compact-logo {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .compact-logo img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .compact-stats {
+    gap: 0.5rem;
+  }
+  
+  .compact-stat {
+    font-size: 0.8rem;
+  }
+  
+  .rank-number {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+  
+  .date-controls {
+    gap: 0.5rem;
+  }
+  
+  .current-period {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .compact-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .compact-info {
+    order: 2;
+    width: 100%;
+  }
+  
+  .compact-stats {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .compact-logo {
+    order: 4;
+  }
+}
+</style>

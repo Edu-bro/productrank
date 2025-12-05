@@ -1,0 +1,55 @@
+<%= link_to product_path(product), class: "search-result-card" do %>
+  <div class="result-header">
+    <div class="result-logo">
+      <% if product.logo_image.attached? %>
+        <%= image_tag product.logo_image, alt: "#{product.name} 로고" %>
+      <% elsif product.logo_url.present? %>
+        <img src="<%= product.logo_url %>" alt="<%= product.name %> 로고" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;result-logo-placeholder&quot;><%= product.name[0].upcase %></div>';">
+      <% else %>
+        <div class="result-logo-placeholder"><%= product.name[0].upcase %></div>
+      <% end %>
+    </div>
+    <div class="result-info">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        <h3 class="result-title" style="margin: 0;"><%= product.name %></h3>
+        <% if product.launch_status_badge %>
+          <span class="status-badge status-<%= product.launch_status_badge.downcase %>">
+            <%= product.launch_status_badge %>
+          </span>
+        <% end %>
+        <% if product.best_rank_info %>
+          <span class="rank-badge">
+            <%= product.best_rank_info[:period] %> #<%= product.best_rank_info[:rank] %>
+          </span>
+        <% end %>
+      </div>
+      <p class="result-tagline"><%= product.tagline %></p>
+    </div>
+  </div>
+  
+  <% if product.description.present? %>
+    <p class="result-description"><%= truncate(product.description, length: 120) %></p>
+  <% end %>
+  
+  <div class="result-meta">
+    <div class="result-topics">
+      <% product.topics.limit(3).each do |topic| %>
+        <span class="topic-tag-small"><%= topic.name %></span>
+      <% end %>
+    </div>
+    <div class="result-stats">
+      <div class="stat-item">
+        <i class="fas fa-arrow-up"></i>
+        <span><%= product.votes_count || 0 %></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-arrow-up"></i>
+        <span><%= product.likes_count || 0 %></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-comment"></i>
+        <span><%= product.comments_count || 0 %></span>
+      </div>
+    </div>
+  </div>
+<% end %>

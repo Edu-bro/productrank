@@ -1,0 +1,383 @@
+<!-- 컬렉션 페이지 -->
+<div class="collection-page">
+  <!-- 헤더 -->
+  <div class="collection-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="page-info">
+          <h1><i class="fas fa-heart"></i> 컬렉션</h1>
+          <p>마음에 드는 제품들을 모아둔 나만의 컬렉션</p>
+        </div>
+        
+        <div class="collection-stats">
+          <div class="stat-badge">
+            <span class="count"><%= @user_likes.length %></span>
+            <span class="label">개 제품</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="container">
+    <% if @liked_products.any? %>
+      <div class="collection-grid">
+        <% @user_likes.each do |like| %>
+          <% product = like.product %>
+          <div class="collection-card" data-product-id="<%= product.id %>">
+            <!-- 제품 이미지 -->
+            <div class="card-thumbnail">
+              <% if product.cover_url.present? %>
+                <img src="<%= product.cover_url %>" alt="<%= product.name %>" loading="lazy">
+              <% else %>
+                <div class="placeholder-image">
+                  <i class="fas fa-cube"></i>
+                </div>
+              <% end %>
+              
+              <!-- 좋아요 버튼 -->
+              <div class="like-overlay">
+                <button class="like-btn liked" data-product-id="<%= product.id %>">
+                  <i class="fas fa-heart"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- 제품 정보 -->
+            <div class="card-content">
+              <h3 class="product-title"><%= product.name %></h3>
+              <p class="product-tagline"><%= product.tagline %></p>
+              
+              <div class="product-stats">
+                <div class="product-logo">
+                  <% if product.logo_url.present? %>
+                    <img src="<%= product.logo_url %>" alt="<%= product.name %> logo">
+                  <% else %>
+                    <i class="fas fa-cube"></i>
+                  <% end %>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-star"></i>
+                  <span><%= product.average_rating %></span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-heart"></i>
+                  <span><%= product.likes_count %></span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-comment"></i>
+                  <span><%= product.comment_count %></span>
+                </div>
+              </div>
+              
+              <!-- 좋아요 날짜 -->
+              <div class="liked-date">
+                <i class="fas fa-clock"></i>
+                <span><%= like.created_at.strftime('%Y.%m.%d') %></span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-collection">
+        <div class="empty-icon">
+          <i class="fas fa-heart-broken"></i>
+        </div>
+        <h3>아직 좋아요한 제품이 없습니다</h3>
+        <p>마음에 드는 제품을 찾아서 하트를 눌러보세요!</p>
+        <%= link_to "제품 둘러보기", root_path, class: "browse-btn" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+/* 컬렉션 페이지 스타일 */
+.collection-page {
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* 헤더 */
+.collection-header {
+  background: #3b82f6;
+  color: white;
+  padding: 3rem 0 2rem;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.page-info h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page-info h1 i {
+  color: #1f2937;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.page-info p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.collection-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat-badge {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.stat-badge .count {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.stat-badge .label {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* 컬렉션 그리드 */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.collection-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.collection-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-thumbnail {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+.card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.collection-card:hover .card-thumbnail img {
+  transform: scale(1.05);
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 3rem;
+}
+
+.like-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.like-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.like-btn.liked {
+  background: #3b82f6;
+  color: white;
+}
+
+.like-btn:hover {
+  transform: scale(1.1);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.product-tagline {
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0 0 1rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-stats {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.product-logo {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.product-logo img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.liked-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* 빈 상태 */
+.empty-collection {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: #3b82f6;
+  opacity: 0.5;
+}
+
+.empty-collection h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.browse-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  background: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.browse-btn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .collection-header {
+    padding: 2rem 0 1.5rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .page-info h1 {
+    font-size: 2rem;
+    justify-content: center;
+  }
+  
+  .collection-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+}
+</style>

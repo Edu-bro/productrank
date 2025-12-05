@@ -1,0 +1,332 @@
+<!-- 커뮤니티 헤더 -->
+<div class="community-header">
+    <div class="community-header-content">
+        <h1>커뮤니티</h1>
+        <p class="community-subtitle">제품에 대한 토론과 피드백을 나누는 공간입니다</p>
+        <button class="btn-primary new-post-btn">새 글 작성</button>
+    </div>
+</div>
+
+<!-- 커뮤니티 네비게이션 -->
+<div class="community-nav">
+    <div class="nav-tabs">
+        <a href="<%= community_path %>" class="nav-tab <%= 'active' if @current_category == 'all' %>">전체</a>
+        <a href="<%= community_path(category: 'discussion') %>" class="nav-tab <%= 'active' if @current_category == 'discussion' %>">토론</a>
+        <a href="<%= community_path(category: 'question') %>" class="nav-tab <%= 'active' if @current_category == 'question' %>">질문</a>
+        <a href="<%= community_path(category: 'feedback') %>" class="nav-tab <%= 'active' if @current_category == 'feedback' %>">피드백</a>
+        <a href="<%= community_path(category: 'review') %>" class="nav-tab <%= 'active' if @current_category == 'review' %>">리뷰</a>
+        <a href="<%= community_path(category: 'showcase') %>" class="nav-tab <%= 'active' if @current_category == 'showcase' %>">쇼케이스</a>
+        <a href="<%= community_path(category: 'announcement') %>" class="nav-tab <%= 'active' if @current_category == 'announcement' %>">공지</a>
+    </div>
+    <div class="community-search">
+        <input type="text" placeholder="글 검색..." class="search-input">
+        <button class="search-btn">🔍</button>
+    </div>
+</div>
+
+<!-- 메인 콘텐츠 -->
+<div class="community-container">
+    <main class="community-main">
+        <!-- 인기 토픽 섹션 -->
+        <div class="featured-topics">
+            <h3>🔥 이번 주 인기 토픽</h3>
+            <div class="topic-cards">
+                <div class="topic-card">
+                    <h4>AI 도구들의 생산성 비교</h4>
+                    <p>ChatGPT vs Claude vs Gemini 실제 사용 후기</p>
+                    <div class="topic-stats">💬 24 · 👍 89</div>
+                </div>
+                <div class="topic-card">
+                    <h4>2024년 최고의 디자인 도구</h4>
+                    <p>Figma 대안들을 찾고 있다면</p>
+                    <div class="topic-stats">💬 18 · 👍 67</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게시글 리스트 -->
+        <div class="community-posts-section">
+            <div class="posts-header">
+                <div class="posts-title">
+                    <h3>커뮤니티 게시글</h3>
+                    <span class="posts-count"><%= @recent_posts.count %>개의 글</span>
+                </div>
+                <div class="posts-controls">
+                    <select class="sort-dropdown">
+                        <option>최신순</option>
+                        <option>인기순</option>
+                        <option>댓글순</option>
+                        <option>조회순</option>
+                    </select>
+                    <button class="view-toggle" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button class="view-toggle active" data-view="card">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="posts-container" id="posts-container">
+                <% if @recent_posts.any? %>
+                    <% @recent_posts.each_with_index do |product, index| %>
+                        <article class="community-post-card">
+                            <%= link_to product_path(product), class: "post-link" do %>
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                <% if product.makers.first&.avatar_url.present? %>
+                                                    <%= image_tag product.makers.first.avatar_url, alt: product.makers.first.name %>
+                                                <% else %>
+                                                    <div class="avatar-placeholder">
+                                                        <%= (product.makers.first&.name || '익명')[0].upcase %>
+                                                    </div>
+                                                <% end %>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name"><%= product.makers.first&.name || "익명" %></span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                    <% if product.created_at > 1.day.ago %>
+                                                        <span class="time-badge new">신규</span>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span><%= time_ago_in_words(product.created_at) %> 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                        <% case rand(1..5)
+                                           when 1 %>
+                                            <%= product.name %> 사용해보신 분 있나요? 후기 듣고 싶어요
+                                        <% when 2 %>
+                                            <%= product.name %>에 대한 생각이 궤금합니다
+                                        <% when 3 %>
+                                            <%= product.name %> vs 다른 대안들 비교 분석
+                                        <% when 4 %>
+                                            <%= product.name %> 사용법 궁금한 점들
+                                        <% else %>
+                                            <%= product.name %> 도입 고민 중인데 조언 구합니다
+                                        <% end %>
+                                    </h2>
+                                    <p class="post-preview">
+                                        <% case rand(1..4)
+                                           when 1 %>
+                                            업무에서 <%= product.tagline %> 기능을 사용해보려고 하는데, 실제로 사용해보신 분들의 솔직한 후기가 궁금합니다. 장단점이나 사용성에 대해 알려주세요.
+                                        <% when 2 %>
+                                            <%= truncate(product.tagline, length: 80) %> 이런 기능들이 있는데, 어떤 분들이 사용하면 좋을까요? 업무 효율성이 정말 올라가나요?
+                                        <% when 3 %>
+                                            비슷한 서비스들과 비교해서 <%= product.name %>의 차별점이 무엇인지 궁금합니다. 사용비도 고려해서 추천해주세요.
+                                        <% else %>
+                                            <%= product.tagline %> 이런 특징들이 매력적인데, 실제 사용해보면 어떨까요? 도입 전에 미리 알아두면 좋을 팁들이 있다면 알려주세요.
+                                        <% end %>
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                        <% product.topics.limit(4).each do |topic| %>
+                                            <span class="topic-tag"><%= topic.name %></span>
+                                        <% end %>
+                                        <% if product.topics.count > 4 %>
+                                            <span class="more-tags">+<%= product.topics.count - 4 %></span>
+                                        <% end %>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span><%= product.votes.count + rand(5..25) %></span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span><%= product.comments.count + rand(2..15) %></span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span><%= rand(50..500) %></span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span><%= rand(1..12) %></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            <% end %>
+                        </article>
+                    <% end %>
+                <% else %>
+                    <div class="empty-community">
+                        <div class="empty-illustration">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>아직 게시글이 없습니다</h3>
+                        <p>커뮤니티에 첫 번째 글을 작성해보세요!</p>
+                        <button class="btn-primary">
+                            <i class="fas fa-pen"></i>
+                            글 작성하기
+                        </button>
+                    </div>
+                <% end %>
+            </div>
+            
+            <!-- 더 보기 버튼 -->
+            <% if @recent_posts.any? %>
+                <div class="load-more-section">
+                    <button class="load-more-btn">
+                        <span>더 많은 글 보기</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            <% end %>
+        </div>
+    </main>
+    
+    <aside class="community-sidebar">
+        <div class="sidebar-card">
+            <h3>📊 커뮤니티 통계</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">1,234</div>
+                    <div class="stat-label">전체 게시글</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">567</div>
+                    <div class="stat-label">활성 회원</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">89</div>
+                    <div class="stat-label">오늘 새 글</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">234</div>
+                    <div class="stat-label">답변 대기</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>🏷️ 인기 태그</h3>
+            <div class="popular-tags">
+                <% @popular_topics.each do |topic| %>
+                    <%= link_to topic.name, topic_path(topic), class: "popular-tag" %>
+                <% end %>
+                
+                <% if @popular_topics.empty? %>
+                    <a href="#" class="popular-tag">생산성</a>
+                    <a href="#" class="popular-tag">인공지능</a>
+                    <a href="#" class="popular-tag">개발도구</a>
+                    <a href="#" class="popular-tag">디자인</a>
+                    <a href="#" class="popular-tag">스타트업</a>
+                    <a href="#" class="popular-tag">마케팅</a>
+                <% end %>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>🚀 이번 주 최고의 글</h3>
+            <div class="top-posts">
+                <div class="top-post-item">
+                    <div class="top-post-rank">1</div>
+                    <div class="top-post-content">
+                        <h5>노코드 도구 비교 완벽 가이드</h5>
+                        <div class="top-post-stats">👍 156 · 💬 43</div>
+                    </div>
+                </div>
+                <div class="top-post-item">
+                    <div class="top-post-rank">2</div>
+                    <div class="top-post-content">
+                        <h5>스타트업 초기 필수 도구들</h5>
+                        <div class="top-post-stats">👍 134 · 💬 28</div>
+                    </div>
+                </div>
+                <div class="top-post-item">
+                    <div class="top-post-rank">3</div>
+                    <div class="top-post-content">
+                        <h5>개발자를 위한 생산성 앱 추천</h5>
+                        <div class="top-post-stats">👍 98 · 💬 31</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card community-rules">
+            <h3>📋 커뮤니티 가이드</h3>
+            <ul class="rules-list">
+                <li>✅ 건설적인 피드백을 남겨주세요</li>
+                <li>✅ 구체적인 사용 경험을 공유해주세요</li>
+                <li>❌ 스팸이나 광고성 글은 금지</li>
+                <li>❌ 개인정보 공유 금지</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
+<script>
+// 뷰 토글 기능
+document.querySelectorAll('.view-toggle').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // 모든 버튼에서 active 클래스 제거
+        document.querySelectorAll('.view-toggle').forEach(b => b.classList.remove('active'));
+        // 클릭된 버튼에 active 클래스 추가
+        this.classList.add('active');
+        
+        const view = this.dataset.view;
+        const postsContainer = document.getElementById('posts-container');
+        
+        if (view === 'list') {
+            postsContainer.classList.add('list-view');
+        } else {
+            postsContainer.classList.remove('list-view');
+        }
+    });
+});
+
+// 정렬 드롭다운 기능
+document.querySelector('.sort-dropdown').addEventListener('change', function() {
+    // 실제 구현에서는 AJAX로 데이터를 다시 로드하거나 페이지를 새로고침
+    console.log('정렬 기준 변경:', this.value);
+});
+
+// 검색 기능
+document.querySelector('.search-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const query = this.value;
+        console.log('검색어:', query);
+        // 실제 구현에서는 검색 기능 추가
+    }
+});
+
+document.querySelector('.search-btn').addEventListener('click', function() {
+    const query = document.querySelector('.search-input').value;
+    console.log('검색어:', query);
+    // 실제 구현에서는 검색 기능 추가
+});
+
+// 새 글 작성 버튼
+document.querySelector('.new-post-btn').addEventListener('click', function() {
+    console.log('새 글 작성 페이지로 이동');
+    // 실제 구현에서는 글 작성 페이지로 이동
+});
+
+// 더 보기 버튼
+document.querySelector('.load-more-btn')?.addEventListener('click', function() {
+    console.log('더 많은 글 로드');
+    // 실제 구현에서는 AJAX로 추가 글 로드
+});
+</script>

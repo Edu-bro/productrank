@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #da552f;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            background-color: #f8f8f8;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e6e6e6;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f8f8f8;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .login-btn, .signup-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .login-btn {
+            color: #333;
+        }
+        
+        .signup-btn {
+            background-color: #da552f;
+            color: white;
+        }
+        
+        /* 메인 콘텐츠 */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 30px;
+        }
+        
+        /* 탭 메뉴 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e6e6e6;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #999;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            color: #da552f;
+            border-bottom-color: #da552f;
+        }
+        
+        /* 제품 목록 */
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-rank {
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #da552f;
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            flex-shrink: 0;
+        }
+        
+        .product-content {
+            flex-grow: 1;
+        }
+        
+        .product-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .product-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .product-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .product-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 80px;
+        }
+        
+        .stat-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        
+        .stat-button:hover {
+            background-color: #f8f8f8;
+        }
+        
+        .stat-button i {
+            font-size: 16px;
+        }
+        
+        .stat-button.vote i {
+            color: #da552f;
+        }
+        
+        .stat-button span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* 사이드바 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar-widget {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .widget-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag {
+            padding: 5px 10px;
+            background-color: #f8f8f8;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tag:hover {
+            background-color: #eee;
+        }
+        
+        .upcoming-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .upcoming-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .upcoming-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: #f0f0f0;
+        }
+        
+        .upcoming-item-content {
+            flex-grow: 1;
+        }
+        
+        .upcoming-item-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .upcoming-item-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 푸터 */
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #e6e6e6;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #da552f;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .footer-links a:hover {
+            color: #da552f;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #e6e6e6;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                margin: 15px 0 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-card {
+                flex-wrap: wrap;
+            }
+            
+            .product-stats {
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid #f0f0f0;
+            }
+            
+            .footer-top, .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="#">제품</a>
+                <a href="#">토론</a>
+                <a href="#">컬렉션</a>
+                <a href="#">이벤트</a>
+            </nav>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="다음으로 좋아할 만한 것을 발견하세요...">
+            </div>
+            
+            <div class="auth-buttons">
+                <a href="#" class="login-btn">로그인</a>
+                <a href="#" class="signup-btn">가입하기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <div class="main-container">
+        <main>
+            <div class="tabs">
+                <a href="#" class="tab active">오늘</a>
+                <a href="#" class="tab">이번 주</a>
+                <a href="#" class="tab">이번 달</a>
+                <a href="#" class="tab">올해</a>
+                <a href="#" class="tab">전체</a>
+            </div>
+            
+            <div class="product-list">
+                <!-- 제품 1 -->
+                <div class="product-card">
+                    <div class="product-rank">1</div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Blocks @</h3>
+                        <p class="product-description">평범한 언어를 스마트한 작업 앱과 에이전트로 변환하세요</p>
+                        <div class="product-meta">
+                            <span>생산성</span>
+                            <span>인공지능</span>
+                            <span>노코드</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>342</span>
+                        </a>
+                        <a href="#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>84</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 제품 2 -->
+                <div class="product-card">
+                    <div class="product-rank">2</div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">FlowSpace</h3>
+                        <p class="product-description">원격 팀이 의사소통하고 프로젝트를 관리하기 위해 설계된 협업 작업 공간입니다.</p>
+                        <div class="product-meta">
+                            <span>생산성</span>
+                            <span>원격 작업</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>289</span>
+                        </a>
+                        <a href="#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>67</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 제품 3 -->
+                <div class="product-card">
+                    <div class="product-rank">3</div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ZenSync</h3>
+                        <p class="product-description">스트레스 수준과 일상 생활에 맞춰 조정되는 명상 및 마음챙김 앱입니다.</p>
+                        <div class="product-meta">
+                            <span>건강 및 피트니스</span>
+                            <span>웰빙</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>256</span>
+                        </a>
+                        <a href="#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>42</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 제품 4 -->
+                <div class="product-card">
+                    <div class="product-rank">4</div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Nexus Browser</h3>
+                        <p class="product-description">내장 광고 차단기와 VPN으로 안전한 브라우징을 위한 프라이버시 중심 브라우저입니다.</p>
+                        <div class="product-meta">
+                            <span>웹 앱</span>
+                            <span>프라이버시</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>231</span>
+                        </a>
+                        <a href="#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>58</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 제품 5 -->
+                <div class="product-card">
+                    <div class="product-rank">5</div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">SoundSphere</h3>
+                        <p class="product-description">몇 분 만에 오리지널 음악을 작곡할 수 있도록 도와주는 AI 기반 음악 생성 도구입니다.</p>
+                        <div class="product-meta">
+                            <span>음악</span>
+                            <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>198</span>
+                        </a>
+                        <a href="#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>36</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">인기 태그</h3>
+                <div class="tag-list">
+                    <a href="#" class="tag">인공지능</a>
+                    <a href="#" class="tag">생산성</a>
+                    <a href="#" class="tag">기술</a>
+                    <a href="#" class="tag">디자인</a>
+                    <a href="#" class="tag">마케팅</a>
+                    <a href="#" class="tag">개발</a>
+                    <a href="#" class="tag">건강</a>
+                    <a href="#" class="tag">금융</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3 class="widget-title">출시 예정 제품</h3>
+                <div class="upcoming-list">
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">TaskMaster 2.0</h4>
+                            <div class="upcoming-item-meta">생산성 · 출시 예정</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">FitTrack Pro</h4>
+                            <div class="upcoming-item-meta">건강 및 피트니스 · 다음 주 출시</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">CodeSync</h4>
+                            <div class="upcoming-item-meta">개발 · 내일 출시</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3 class="widget-title">ProductRank 만들기</h3>
+                <p style="font-size: 14px; margin-bottom: 15px;">ProductRank는 매일 최고의 새 제품을 공유하는 제품 애호가 커뮤니티입니다.</p>
+                <a href="#" class="signup-btn" style="display: inline-block; text-align: center;">가입하기</a>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a href="#" class="footer-logo">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="#">소개</a>
+                    <a href="#">자주 묻는 질문</a>
+                    <a href="#">이용약관</a>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">문의하기</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

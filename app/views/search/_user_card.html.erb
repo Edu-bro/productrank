@@ -1,0 +1,36 @@
+<div class="search-result-card">
+  <div class="result-header">
+    <div class="result-logo">
+      <div class="result-logo-placeholder"><%= user.name[0].upcase %></div>
+    </div>
+    <div class="result-info">
+      <h3 class="result-title"><%= user.name %></h3>
+      <p class="result-tagline">@<%= user.username %> • <%= user.role.humanize %></p>
+    </div>
+  </div>
+  
+  <% if user.bio.present? %>
+    <p class="result-description"><%= truncate(user.bio, length: 120) %></p>
+  <% end %>
+  
+  <div class="result-meta">
+    <div class="result-topics">
+      <span class="topic-tag-small">평판 <%= user.reputation %></span>
+      <span class="topic-tag-small">제품 <%= user.products.count %>개</span>
+    </div>
+    <div class="result-stats">
+      <div class="stat-item">
+        <i class="fas fa-users"></i>
+        <span><%= user.followers.count %></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-comment"></i>
+        <span><%= user.comments.count %></span>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-star"></i>
+        <span><%= user.reputation %></span>
+      </div>
+    </div>
+  </div>
+</div>

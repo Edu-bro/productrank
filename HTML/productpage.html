@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://localhost:3002/products -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.turbo-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 2147483647;
+  transition:
+    width 300ms ease-out,
+    opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="./productpage_files/all.min.css">
+    <meta name="csrf-param" content="authenticity_token">
+
+    
+    <link rel="stylesheet" href="./productpage_files/application-8b441ae0.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./productpage_files/custom-27e46ae8.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./productpage_files/tailwind-cb445571.css" data-turbo-track="reload">
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "application": "/assets/application-bfcdf840.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-3a2e143f.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-4b1e420e.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc53fe7.js",
+    "controllers/application": "/assets/controllers/application-3affb389.js",
+    "controllers/hello_controller": "/assets/controllers/hello_controller-708796bd.js",
+    "controllers": "/assets/controllers/index-ee64e1f1.js"
+  }
+}</script>
+<link rel="modulepreload" href="http://localhost:3002/assets/application-bfcdf840.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/turbo.min-3a2e143f.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/stimulus.min-4b1e420e.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/stimulus-loading-1fc53fe7.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/controllers/application-3affb389.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/controllers/hello_controller-708796bd.js">
+<link rel="modulepreload" href="http://localhost:3002/assets/controllers/index-ee64e1f1.js">
+<script type="module">import "application"</script>
+<meta name="csrf-token" content="f1LI-CEBt79MTdGye7tR-9e3gp9s3lacNo1snPQSQlwaaHp-ereIyDpVmHpH-5L8rQhRe4KvSzRQJUPt1CGvEA"></head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a class="logo" href="http://localhost:3002/">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="http://localhost:3002/products">제품</a>
+                <a href="http://localhost:3002/leaderboard">리더보드</a>
+                <a href="http://localhost:3002/community">커뮤니티</a>
+                <a href="http://localhost:3002/collections">컬렉션</a>
+            </nav>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="다음으로 좋아할 만한 것을 발견하세요...">
+            </div>
+            
+            <div class="auth-buttons">
+                <a class="login-btn" href="http://localhost:3002/products#">로그인</a>
+                <a class="signup-btn" href="http://localhost:3002/products#">가입하기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BEGIN app/views/products/index.html.erb --><!-- 메인 콘텐츠 -->
+<div class="main-container">
+    <main>
+        <div class="products-explorer-container">
+            
+            <!-- 사이드바 - 카테고리 목록 -->
+            <aside class="left-sidebar">
+                <h3><i class="fas fa-layer-group"></i> 카테고리</h3>
+                <ul class="category-list">
+                    <li class="category-item active">
+                        <a class="category-link" href="http://localhost:3002/products">
+                            전체
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=productivity">
+                            생산성 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=engineering">
+                            개발 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=design">
+                            디자인 &amp; 창작
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=finance">
+                            금융 서비스
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=social">
+                            소셜 &amp; 커뮤니티
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=marketing">
+                            마케팅 &amp; 세일즈
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=health">
+                            헬스 &amp; 피트니스
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=travel">
+                            여행
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=platforms">
+                            플랫폼
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=addons">
+                            제품 확장 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=web3">
+                            Web3 &amp; 블록체인
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=ai-agents">
+                            AI 에이전트
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=llms">
+                            언어 모델 (LLM)
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=physical">
+                            물리적 제품
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=voice-ai">
+                            음성 AI 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=ecommerce">
+                            이커머스
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=data-analysis">
+                            데이터 분석 도구
+</a>                    </li>
+                    <li class="category-item ">
+                        <a class="category-link" href="http://localhost:3002/products?category=nocode">
+                            노코드 플랫폼
+</a>                    </li>
+                </ul>
+            </aside>
+
+            <!-- 제품 탐색 메인 영역 -->
+            <div class="main-content">
+
+                    <!-- 전체 카테고리 - 사이드바 순서와 동일하게 표시 -->
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">생산성 도구</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=productivity">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%83%9D%EC%82%B0%EC%84%B1_0%22,%20name=%22Notion%22,%20tagline=%22%EC%83%9D%EC%82%B0%EC%84%B1%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fnotion.com%22,%20vote_count=168,%20comment_count=23,%20created_at=2025-09-16%2005:04:36.503151289%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Notion" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/notion.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Notion</h3>
+                <p class="product-tagline">생산성 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%83%9D%EC%82%B0%EC%84%B1_1%22,%20name=%22Trello%22,%20tagline=%22%EC%83%9D%EC%82%B0%EC%84%B1%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Ftrello.com%22,%20vote_count=383,%20comment_count=40,%20created_at=2025-09-09%2004:44:51.505570469%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Trello" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/trello.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Trello</h3>
+                <p class="product-tagline">생산성 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%83%9D%EC%82%B0%EC%84%B1_2%22,%20name=%22Asana%22,%20tagline=%22%EC%83%9D%EC%82%B0%EC%84%B1%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fasana.com%22,%20vote_count=447,%20comment_count=49,%20created_at=2025-09-06%2010:34:07.505903144%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Asana" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/asana.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Asana</h3>
+                <p class="product-tagline">생산성 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%83%9D%EC%82%B0%EC%84%B1_3%22,%20name=%22Monday.com%22,%20tagline=%22%EC%83%9D%EC%82%B0%EC%84%B1%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmondaycom.com%22,%20vote_count=216,%20comment_count=41,%20created_at=2025-09-04%2012:24:48.506117465%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Monday.com" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/mondaycom.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Monday.com</h3>
+                <p class="product-tagline">생산성 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%83%9D%EC%82%B0%EC%84%B1_4%22,%20name=%22ClickUp%22,%20tagline=%22%EC%83%9D%EC%82%B0%EC%84%B1%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fclickup.com%22,%20vote_count=105,%20comment_count=46,%20created_at=2025-09-05%2012:10:21.506399691%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="ClickUp" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/clickup.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">ClickUp</h3>
+                <p class="product-tagline">생산성 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">개발 도구</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=engineering">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B0%9C%EB%B0%9C_0%22,%20name=%22GitHub%22,%20tagline=%22%EA%B0%9C%EB%B0%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgithub.com%22,%20vote_count=184,%20comment_count=30,%20created_at=2025-09-15%2005:59:31.506615999%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="GitHub" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/github.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">GitHub</h3>
+                <p class="product-tagline">개발 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B0%9C%EB%B0%9C_1%22,%20name=%22GitLab%22,%20tagline=%22%EA%B0%9C%EB%B0%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgitlab.com%22,%20vote_count=162,%20comment_count=16,%20created_at=2025-09-01%2008:05:33.506835876%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="GitLab" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/gitlab.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">GitLab</h3>
+                <p class="product-tagline">개발 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B0%9C%EB%B0%9C_2%22,%20name=%22VS%20Code%22,%20tagline=%22%EA%B0%9C%EB%B0%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fvscode.com%22,%20vote_count=161,%20comment_count=28,%20created_at=2025-09-14%2018:44:56.507109668%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="VS Code" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/vscode.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">VS Code</h3>
+                <p class="product-tagline">개발 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B0%9C%EB%B0%9C_3%22,%20name=%22Docker%22,%20tagline=%22%EA%B0%9C%EB%B0%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fdocker.com%22,%20vote_count=225,%20comment_count=31,%20created_at=2025-09-05%2009:45:57.507272159%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Docker" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/docker.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Docker</h3>
+                <p class="product-tagline">개발 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B0%9C%EB%B0%9C_4%22,%20name=%22Vercel%22,%20tagline=%22%EA%B0%9C%EB%B0%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fvercel.com%22,%20vote_count=159,%20comment_count=49,%20created_at=2025-09-12%2009:01:43.507506255%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Vercel" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/vercel.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Vercel</h3>
+                <p class="product-tagline">개발 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">디자인 &amp; 창작</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=design">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%94%94%EC%9E%90%EC%9D%B8_0%22,%20name=%22Figma%22,%20tagline=%22%EB%94%94%EC%9E%90%EC%9D%B8%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Ffigma.com%22,%20vote_count=307,%20comment_count=18,%20created_at=2025-08-24%2001:00:24.508128341%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Figma" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/figma.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Figma</h3>
+                <p class="product-tagline">디자인 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%94%94%EC%9E%90%EC%9D%B8_1%22,%20name=%22Canva%22,%20tagline=%22%EB%94%94%EC%9E%90%EC%9D%B8%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fcanva.com%22,%20vote_count=164,%20comment_count=47,%20created_at=2025-09-17%2004:42:46.508877287%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Canva" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/canva.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Canva</h3>
+                <p class="product-tagline">디자인 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%94%94%EC%9E%90%EC%9D%B8_2%22,%20name=%22Adobe%20XD%22,%20tagline=%22%EB%94%94%EC%9E%90%EC%9D%B8%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fadobexd.com%22,%20vote_count=58,%20comment_count=28,%20created_at=2025-09-08%2011:27:24.509169610%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Adobe XD" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/adobexd.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Adobe XD</h3>
+                <p class="product-tagline">디자인 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%94%94%EC%9E%90%EC%9D%B8_3%22,%20name=%22Sketch%22,%20tagline=%22%EB%94%94%EC%9E%90%EC%9D%B8%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fsketch.com%22,%20vote_count=253,%20comment_count=23,%20created_at=2025-08-22%2016:17:39.509307031%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Sketch" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/sketch.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Sketch</h3>
+                <p class="product-tagline">디자인 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%94%94%EC%9E%90%EC%9D%B8_4%22,%20name=%22Framer%22,%20tagline=%22%EB%94%94%EC%9E%90%EC%9D%B8%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fframer.com%22,%20vote_count=485,%20comment_count=11,%20created_at=2025-08-20%2015:29:48.509526740%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Framer" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/framer.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Framer</h3>
+                <p class="product-tagline">디자인 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">금융 서비스</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=finance">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B8%88%EC%9C%B5_0%22,%20name=%22Stripe%22,%20tagline=%22%EA%B8%88%EC%9C%B5%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fstripe.com%22,%20vote_count=317,%20comment_count=45,%20created_at=2025-09-10%2010:44:59.509691607%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Stripe" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/stripe.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Stripe</h3>
+                <p class="product-tagline">금융 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B8%88%EC%9C%B5_1%22,%20name=%22PayPal%22,%20tagline=%22%EA%B8%88%EC%9C%B5%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fpaypal.com%22,%20vote_count=265,%20comment_count=33,%20created_at=2025-09-01%2005:45:39.509856558%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="PayPal" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/paypal.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">PayPal</h3>
+                <p class="product-tagline">금융 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B8%88%EC%9C%B5_2%22,%20name=%22Wise%22,%20tagline=%22%EA%B8%88%EC%9C%B5%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fwise.com%22,%20vote_count=85,%20comment_count=44,%20created_at=2025-09-02%2003:54:35.510084136%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Wise" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/wise.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Wise</h3>
+                <p class="product-tagline">금융 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B8%88%EC%9C%B5_3%22,%20name=%22Revolut%22,%20tagline=%22%EA%B8%88%EC%9C%B5%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Frevolut.com%22,%20vote_count=139,%20comment_count=40,%20created_at=2025-08-31%2014:27:08.510241699%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Revolut" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/revolut.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Revolut</h3>
+                <p class="product-tagline">금융 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EA%B8%88%EC%9C%B5_4%22,%20name=%22Klarna%22,%20tagline=%22%EA%B8%88%EC%9C%B5%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fklarna.com%22,%20vote_count=500,%20comment_count=17,%20created_at=2025-09-01%2002:47:54.510365971%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Klarna" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/klarna.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Klarna</h3>
+                <p class="product-tagline">금융 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">소셜 &amp; 커뮤니티</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=social">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%86%8C%EC%85%9C_0%22,%20name=%22Discord%22,%20tagline=%22%EC%86%8C%EC%85%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fdiscord.com%22,%20vote_count=444,%20comment_count=41,%20created_at=2025-09-07%2013:49:50.510512561%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Discord" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/discord.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Discord</h3>
+                <p class="product-tagline">소셜 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%86%8C%EC%85%9C_1%22,%20name=%22Slack%22,%20tagline=%22%EC%86%8C%EC%85%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fslack.com%22,%20vote_count=353,%20comment_count=18,%20created_at=2025-09-09%2011:51:45.510611929%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Slack" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/slack.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Slack</h3>
+                <p class="product-tagline">소셜 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%86%8C%EC%85%9C_2%22,%20name=%22Telegram%22,%20tagline=%22%EC%86%8C%EC%85%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Ftelegram.com%22,%20vote_count=180,%20comment_count=36,%20created_at=2025-08-31%2020:57:15.510702337%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Telegram" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/telegram.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Telegram</h3>
+                <p class="product-tagline">소셜 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%86%8C%EC%85%9C_3%22,%20name=%22WhatsApp%22,%20tagline=%22%EC%86%8C%EC%85%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fwhatsapp.com%22,%20vote_count=106,%20comment_count=32,%20created_at=2025-09-08%2003:18:23.510785146%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="WhatsApp" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/whatsapp.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">WhatsApp</h3>
+                <p class="product-tagline">소셜 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%86%8C%EC%85%9C_4%22,%20name=%22Signal%22,%20tagline=%22%EC%86%8C%EC%85%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fsignal.com%22,%20vote_count=468,%20comment_count=12,%20created_at=2025-08-27%2014:52:34.510864956%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Signal" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/signal.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Signal</h3>
+                <p class="product-tagline">소셜 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">마케팅 &amp; 세일즈</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=marketing">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%A7%88%EC%BC%80%ED%8C%85_0%22,%20name=%22Mailchimp%22,%20tagline=%22%EB%A7%88%EC%BC%80%ED%8C%85%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmailchimp.com%22,%20vote_count=435,%20comment_count=46,%20created_at=2025-09-16%2023:40:30.510952187%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Mailchimp" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/mailchimp.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Mailchimp</h3>
+                <p class="product-tagline">마케팅 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%A7%88%EC%BC%80%ED%8C%85_1%22,%20name=%22HubSpot%22,%20tagline=%22%EB%A7%88%EC%BC%80%ED%8C%85%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fhubspot.com%22,%20vote_count=209,%20comment_count=5,%20created_at=2025-09-01%2005:29:16.511091990%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="HubSpot" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/hubspot.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">HubSpot</h3>
+                <p class="product-tagline">마케팅 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%A7%88%EC%BC%80%ED%8C%85_2%22,%20name=%22ConvertKit%22,%20tagline=%22%EB%A7%88%EC%BC%80%ED%8C%85%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fconvertkit.com%22,%20vote_count=329,%20comment_count=9,%20created_at=2025-09-01%2018:31:10.511252371%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="ConvertKit" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/convertkit.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">ConvertKit</h3>
+                <p class="product-tagline">마케팅 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%A7%88%EC%BC%80%ED%8C%85_3%22,%20name=%22Buffer%22,%20tagline=%22%EB%A7%88%EC%BC%80%ED%8C%85%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbuffer.com%22,%20vote_count=178,%20comment_count=50,%20created_at=2025-09-07%2002:21:03.511346567%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Buffer" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/buffer.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Buffer</h3>
+                <p class="product-tagline">마케팅 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%A7%88%EC%BC%80%ED%8C%85_4%22,%20name=%22Hootsuite%22,%20tagline=%22%EB%A7%88%EC%BC%80%ED%8C%85%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fhootsuite.com%22,%20vote_count=59,%20comment_count=45,%20created_at=2025-08-25%2009:32:37.511425348%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Hootsuite" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/hootsuite.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Hootsuite</h3>
+                <p class="product-tagline">마케팅 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">헬스 &amp; 피트니스</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=health">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%97%AC%EC%8A%A4_0%22,%20name=%22MyFitnessPal%22,%20tagline=%22%ED%97%AC%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmyfitnesspal.com%22,%20vote_count=295,%20comment_count=14,%20created_at=2025-08-29%2002:14:18.511614293%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="MyFitnessPal" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/myfitnesspal.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">MyFitnessPal</h3>
+                <p class="product-tagline">헬스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%97%AC%EC%8A%A4_1%22,%20name=%22Strava%22,%20tagline=%22%ED%97%AC%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fstrava.com%22,%20vote_count=336,%20comment_count=34,%20created_at=2025-08-25%2016:20:38.511743354%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Strava" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/strava.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Strava</h3>
+                <p class="product-tagline">헬스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%97%AC%EC%8A%A4_2%22,%20name=%22Headspace%22,%20tagline=%22%ED%97%AC%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fheadspace.com%22,%20vote_count=423,%20comment_count=17,%20created_at=2025-09-11%2020:08:41.511855516%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Headspace" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/headspace.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Headspace</h3>
+                <p class="product-tagline">헬스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%97%AC%EC%8A%A4_3%22,%20name=%22Calm%22,%20tagline=%22%ED%97%AC%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fcalm.com%22,%20vote_count=191,%20comment_count=29,%20created_at=2025-09-08%2008:13:15.511938654%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Calm" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/calm.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Calm</h3>
+                <p class="product-tagline">헬스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%97%AC%EC%8A%A4_4%22,%20name=%22Nike%20Training%22,%20tagline=%22%ED%97%AC%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fniketraining.com%22,%20vote_count=249,%20comment_count=13,%20created_at=2025-09-05%2001:41:41.512050544%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Nike Training" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/niketraining.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Nike Training</h3>
+                <p class="product-tagline">헬스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">여행</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=travel">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%97%AC%ED%96%89_0%22,%20name=%22Airbnb%22,%20tagline=%22%EC%97%AC%ED%96%89%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fairbnb.com%22,%20vote_count=443,%20comment_count=49,%20created_at=2025-08-25%2006:25:58.512156093%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Airbnb" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/airbnb.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Airbnb</h3>
+                <p class="product-tagline">여행 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%97%AC%ED%96%89_1%22,%20name=%22Booking.com%22,%20tagline=%22%EC%97%AC%ED%96%89%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbookingcom.com%22,%20vote_count=217,%20comment_count=48,%20created_at=2025-08-29%2023:56:29.512247639%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Booking.com" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/bookingcom.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Booking.com</h3>
+                <p class="product-tagline">여행 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%97%AC%ED%96%89_2%22,%20name=%22Expedia%22,%20tagline=%22%EC%97%AC%ED%96%89%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fexpedia.com%22,%20vote_count=420,%20comment_count=45,%20created_at=2025-08-25%2013:05:23.512332570%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Expedia" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/expedia.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Expedia</h3>
+                <p class="product-tagline">여행 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%97%AC%ED%96%89_3%22,%20name=%22TripAdvisor%22,%20tagline=%22%EC%97%AC%ED%96%89%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Ftripadvisor.com%22,%20vote_count=98,%20comment_count=9,%20created_at=2025-09-18%2007:48:07.512420493%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="TripAdvisor" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/tripadvisor.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">TripAdvisor</h3>
+                <p class="product-tagline">여행 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%97%AC%ED%96%89_4%22,%20name=%22Skyscanner%22,%20tagline=%22%EC%97%AC%ED%96%89%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fskyscanner.com%22,%20vote_count=481,%20comment_count=38,%20created_at=2025-08-21%2020:12:28.512508180%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Skyscanner" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/skyscanner.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Skyscanner</h3>
+                <p class="product-tagline">여행 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">플랫폼</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=platforms">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%94%8C%EB%9E%AB%ED%8F%BC_0%22,%20name=%22AWS%22,%20tagline=%22%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Faws.com%22,%20vote_count=100,%20comment_count=30,%20created_at=2025-08-31%2002:22:10.512592081%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="AWS" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/aws.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">AWS</h3>
+                <p class="product-tagline">플랫폼 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%94%8C%EB%9E%AB%ED%8F%BC_1%22,%20name=%22Google%20Cloud%22,%20tagline=%22%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgooglecloud.com%22,%20vote_count=231,%20comment_count=31,%20created_at=2025-09-15%2014:51:08.512686567%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Google Cloud" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/googlecloud.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Google Cloud</h3>
+                <p class="product-tagline">플랫폼 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%94%8C%EB%9E%AB%ED%8F%BC_2%22,%20name=%22Microsoft%20Azure%22,%20tagline=%22%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmicrosoftazure.com%22,%20vote_count=111,%20comment_count=22,%20created_at=2025-09-03%2022:25:15.512883254%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Microsoft Azure" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/microsoftazure.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Microsoft Azure</h3>
+                <p class="product-tagline">플랫폼 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%94%8C%EB%9E%AB%ED%8F%BC_3%22,%20name=%22Heroku%22,%20tagline=%22%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fheroku.com%22,%20vote_count=179,%20comment_count=8,%20created_at=2025-08-30%2002:13:00.512985992%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Heroku" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/heroku.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Heroku</h3>
+                <p class="product-tagline">플랫폼 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%94%8C%EB%9E%AB%ED%8F%BC_4%22,%20name=%22Netlify%22,%20tagline=%22%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fnetlify.com%22,%20vote_count=224,%20comment_count=30,%20created_at=2025-08-29%2016:58:28.513108411%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Netlify" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/netlify.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Netlify</h3>
+                <p class="product-tagline">플랫폼 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">제품 확장 도구</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=addons">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC_0%22,%20name=%22Chrome%20Extension%22,%20tagline=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fchromeextension.com%22,%20vote_count=237,%20comment_count=18,%20created_at=2025-08-28%2019:00:50.513317086%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Chrome Extension" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/chromeextension.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Chrome Extension</h3>
+                <p class="product-tagline">확장도구 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC_1%22,%20name=%22Zapier%22,%20tagline=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fzapier.com%22,%20vote_count=88,%20comment_count=45,%20created_at=2025-08-28%2012:36:18.514168908%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Zapier" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/zapier.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Zapier</h3>
+                <p class="product-tagline">확장도구 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC_2%22,%20name=%22IFTTT%22,%20tagline=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fifttt.com%22,%20vote_count=325,%20comment_count=29,%20created_at=2025-08-20%2016:21:52.514473516%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="IFTTT" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/ifttt.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">IFTTT</h3>
+                <p class="product-tagline">확장도구 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC_3%22,%20name=%22Browser%20Plugin%22,%20tagline=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbrowserplugin.com%22,%20vote_count=176,%20comment_count=11,%20created_at=2025-08-21%2017:47:28.514592833%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Browser Plugin" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/browserplugin.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Browser Plugin</h3>
+                <p class="product-tagline">확장도구 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC_4%22,%20name=%22API%20Tools%22,%20tagline=%22%ED%99%95%EC%9E%A5%EB%8F%84%EA%B5%AC%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fapitools.com%22,%20vote_count=69,%20comment_count=18,%20created_at=2025-09-14%2019:05:47.514733404%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="API Tools" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/apitools.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">API Tools</h3>
+                <p class="product-tagline">확장도구 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">Web3 &amp; 블록체인</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=web3">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22Web3_0%22,%20name=%22MetaMask%22,%20tagline=%22Web3%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmetamask.com%22,%20vote_count=398,%20comment_count=50,%20created_at=2025-09-13%2004:59:24.514917079%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="MetaMask" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/metamask.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">MetaMask</h3>
+                <p class="product-tagline">Web3 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22Web3_1%22,%20name=%22OpenSea%22,%20tagline=%22Web3%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fopensea.com%22,%20vote_count=254,%20comment_count=40,%20created_at=2025-09-13%2002:07:50.515037292%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="OpenSea" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/opensea.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">OpenSea</h3>
+                <p class="product-tagline">Web3 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22Web3_2%22,%20name=%22Uniswap%22,%20tagline=%22Web3%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Funiswap.com%22,%20vote_count=496,%20comment_count=41,%20created_at=2025-09-01%2020:16:21.515125558%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Uniswap" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/uniswap.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Uniswap</h3>
+                <p class="product-tagline">Web3 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22Web3_3%22,%20name=%22Coinbase%22,%20tagline=%22Web3%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fcoinbase.com%22,%20vote_count=155,%20comment_count=22,%20created_at=2025-08-23%2014:42:33.515208533%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Coinbase" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/coinbase.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Coinbase</h3>
+                <p class="product-tagline">Web3 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22Web3_4%22,%20name=%22Binance%22,%20tagline=%22Web3%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbinance.com%22,%20vote_count=244,%20comment_count=30,%20created_at=2025-09-03%2022:12:01.515367608%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Binance" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/binance.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Binance</h3>
+                <p class="product-tagline">Web3 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">AI 에이전트</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=ai-agents">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22AI_0%22,%20name=%22ChatGPT%22,%20tagline=%22AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fchatgpt.com%22,%20vote_count=260,%20comment_count=10,%20created_at=2025-09-13%2011:29:11.515464812%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="ChatGPT" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/chatgpt.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">ChatGPT</h3>
+                <p class="product-tagline">AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22AI_1%22,%20name=%22Claude%22,%20tagline=%22AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fclaude.com%22,%20vote_count=95,%20comment_count=36,%20created_at=2025-09-11%2018:24:15.515624880%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Claude" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/claude.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Claude</h3>
+                <p class="product-tagline">AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22AI_2%22,%20name=%22Gemini%22,%20tagline=%22AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgemini.com%22,%20vote_count=83,%20comment_count=33,%20created_at=2025-09-15%2004:45:24.515721364%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Gemini" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/gemini.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Gemini</h3>
+                <p class="product-tagline">AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22AI_3%22,%20name=%22Midjourney%22,%20tagline=%22AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmidjourney.com%22,%20vote_count=195,%20comment_count=46,%20created_at=2025-09-17%2004:09:27.515846171%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Midjourney" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/midjourney.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Midjourney</h3>
+                <p class="product-tagline">AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22AI_4%22,%20name=%22Jasper%22,%20tagline=%22AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fjasper.com%22,%20vote_count=335,%20comment_count=42,%20created_at=2025-08-19%2012:20:55.515945787%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Jasper" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/jasper.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Jasper</h3>
+                <p class="product-tagline">AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">언어 모델 (LLM)</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=llms">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22LLM_0%22,%20name=%22GPT-4%22,%20tagline=%22LLM%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgpt4.com%22,%20vote_count=312,%20comment_count=22,%20created_at=2025-09-11%2005:15:19.516077984%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="GPT-4" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/gpt4.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">GPT-4</h3>
+                <p class="product-tagline">LLM 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22LLM_1%22,%20name=%22Claude-3%22,%20tagline=%22LLM%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fclaude3.com%22,%20vote_count=63,%20comment_count=48,%20created_at=2025-09-05%2006:18:14.516288882%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Claude-3" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/claude3.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Claude-3</h3>
+                <p class="product-tagline">LLM 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22LLM_2%22,%20name=%22Gemini%20Pro%22,%20tagline=%22LLM%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgeminipro.com%22,%20vote_count=483,%20comment_count=10,%20created_at=2025-09-17%2003:24:17.516419594%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Gemini Pro" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/geminipro.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Gemini Pro</h3>
+                <p class="product-tagline">LLM 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22LLM_3%22,%20name=%22LLaMA%22,%20tagline=%22LLM%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fllama.com%22,%20vote_count=235,%20comment_count=41,%20created_at=2025-08-24%2022:08:44.516555636%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="LLaMA" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/llama.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">LLaMA</h3>
+                <p class="product-tagline">LLM 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22LLM_4%22,%20name=%22PaLM%22,%20tagline=%22LLM%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fpalm.com%22,%20vote_count=480,%20comment_count=36,%20created_at=2025-09-04%2014:09:25.516650681%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="PaLM" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/palm.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">PaLM</h3>
+                <p class="product-tagline">LLM 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">물리적 제품</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=physical">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4_0%22,%20name=%22iPhone%22,%20tagline=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fiphone.com%22,%20vote_count=441,%20comment_count=36,%20created_at=2025-09-08%2013:09:13.516772149%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="iPhone" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/iphone.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">iPhone</h3>
+                <p class="product-tagline">하드웨어 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4_1%22,%20name=%22MacBook%22,%20tagline=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmacbook.com%22,%20vote_count=201,%20comment_count=29,%20created_at=2025-09-07%2008:59:07.516963987%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="MacBook" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/macbook.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">MacBook</h3>
+                <p class="product-tagline">하드웨어 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4_2%22,%20name=%22iPad%22,%20tagline=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fipad.com%22,%20vote_count=340,%20comment_count=12,%20created_at=2025-09-03%2020:36:49.517143666%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="iPad" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/ipad.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">iPad</h3>
+                <p class="product-tagline">하드웨어 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4_3%22,%20name=%22AirPods%22,%20tagline=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fairpods.com%22,%20vote_count=157,%20comment_count=14,%20created_at=2025-08-24%2009:57:45.517263429%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="AirPods" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/airpods.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">AirPods</h3>
+                <p class="product-tagline">하드웨어 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4_4%22,%20name=%22Apple%20Watch%22,%20tagline=%22%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fapplewatch.com%22,%20vote_count=75,%20comment_count=50,%20created_at=2025-09-02%2009:41:41.517440302%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Apple Watch" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/applewatch.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Apple Watch</h3>
+                <p class="product-tagline">하드웨어 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">음성 AI 도구</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=voice-ai">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%8C%EC%84%B1AI_0%22,%20name=%22Siri%22,%20tagline=%22%EC%9D%8C%EC%84%B1AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fsiri.com%22,%20vote_count=439,%20comment_count=15,%20created_at=2025-09-12%2001:37:32.517530646%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Siri" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/siri.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Siri</h3>
+                <p class="product-tagline">음성AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%8C%EC%84%B1AI_1%22,%20name=%22Alexa%22,%20tagline=%22%EC%9D%8C%EC%84%B1AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Falexa.com%22,%20vote_count=337,%20comment_count=38,%20created_at=2025-08-31%2018:50:14.517666621%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Alexa" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/alexa.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Alexa</h3>
+                <p class="product-tagline">음성AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%8C%EC%84%B1AI_2%22,%20name=%22Google%20Assistant%22,%20tagline=%22%EC%9D%8C%EC%84%B1AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgoogleassistant.com%22,%20vote_count=113,%20comment_count=13,%20created_at=2025-09-13%2012:47:43.517759920%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Google Assistant" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/googleassistant.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Google Assistant</h3>
+                <p class="product-tagline">음성AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%8C%EC%84%B1AI_3%22,%20name=%22Bixby%22,%20tagline=%22%EC%9D%8C%EC%84%B1AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbixby.com%22,%20vote_count=113,%20comment_count=41,%20created_at=2025-08-26%2001:57:41.517840691%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Bixby" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/bixby.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Bixby</h3>
+                <p class="product-tagline">음성AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%8C%EC%84%B1AI_4%22,%20name=%22Cortana%22,%20tagline=%22%EC%9D%8C%EC%84%B1AI%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fcortana.com%22,%20vote_count=487,%20comment_count=49,%20created_at=2025-08-25%2016:12:26.517924631%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Cortana" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/cortana.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Cortana</h3>
+                <p class="product-tagline">음성AI 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">이커머스</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=ecommerce">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4_0%22,%20name=%22Shopify%22,%20tagline=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fshopify.com%22,%20vote_count=173,%20comment_count=29,%20created_at=2025-08-26%2006:12:31.518403927%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Shopify" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/shopify.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Shopify</h3>
+                <p class="product-tagline">이커머스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4_1%22,%20name=%22WooCommerce%22,%20tagline=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fwoocommerce.com%22,%20vote_count=178,%20comment_count=10,%20created_at=2025-09-15%2014:13:04.518538379%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="WooCommerce" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/woocommerce.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">WooCommerce</h3>
+                <p class="product-tagline">이커머스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4_2%22,%20name=%22Magento%22,%20tagline=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmagento.com%22,%20vote_count=464,%20comment_count=24,%20created_at=2025-09-02%2021:07:46.518628570%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Magento" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/magento.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Magento</h3>
+                <p class="product-tagline">이커머스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4_3%22,%20name=%22BigCommerce%22,%20tagline=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbigcommerce.com%22,%20vote_count=116,%20comment_count=45,%20created_at=2025-09-09%2009:44:14.518713089%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="BigCommerce" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/bigcommerce.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">BigCommerce</h3>
+                <p class="product-tagline">이커머스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4_4%22,%20name=%22Squarespace%22,%20tagline=%22%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fsquarespace.com%22,%20vote_count=90,%20comment_count=13,%20created_at=2025-09-16%2010:34:49.518797023%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Squarespace" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/squarespace.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Squarespace</h3>
+                <p class="product-tagline">이커머스 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">데이터 분석 도구</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=data-analysis">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D_0%22,%20name=%22Tableau%22,%20tagline=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Ftableau.com%22,%20vote_count=414,%20comment_count=31,%20created_at=2025-09-06%2005:13:13.518891042%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Tableau" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/tableau.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Tableau</h3>
+                <p class="product-tagline">데이터분석 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D_1%22,%20name=%22Power%20BI%22,%20tagline=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fpowerbi.com%22,%20vote_count=92,%20comment_count=16,%20created_at=2025-08-26%2023:27:36.518971103%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Power BI" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/powerbi.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Power BI</h3>
+                <p class="product-tagline">데이터분석 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D_2%22,%20name=%22Google%20Analytics%22,%20tagline=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fgoogleanalytics.com%22,%20vote_count=482,%20comment_count=13,%20created_at=2025-09-14%2009:12:55.519212878%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Google Analytics" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/googleanalytics.com.다운로드" style="display: none;">
+                    <div class="logo-fallback" style="display: flex;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Google Analytics</h3>
+                <p class="product-tagline">데이터분석 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D_3%22,%20name=%22Mixpanel%22,%20tagline=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fmixpanel.com%22,%20vote_count=79,%20comment_count=8,%20created_at=2025-08-29%2022:41:41.519304220%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Mixpanel" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/mixpanel.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Mixpanel</h3>
+                <p class="product-tagline">데이터분석 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D_4%22,%20name=%22Amplitude%22,%20tagline=%22%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Famplitude.com%22,%20vote_count=499,%20comment_count=35,%20created_at=2025-08-28%2000:16:06.519389302%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Amplitude" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/amplitude.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Amplitude</h3>
+                <p class="product-tagline">데이터분석 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                        <section class="products-category-section">
+                            <div class="products-category-header">
+                                <h2 class="products-category-title">노코드 플랫폼</h2>
+                                <a class="products-view-more" href="http://localhost:3002/products?category=nocode">
+                                    더보기 <i class="fas fa-chevron-right"></i>
+</a>                            </div>
+                            <div class="products-grid">
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%85%B8%EC%BD%94%EB%93%9C_0%22,%20name=%22Webflow%22,%20tagline=%22%EB%85%B8%EC%BD%94%EB%93%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fwebflow.com%22,%20vote_count=460,%20comment_count=22,%20created_at=2025-09-14%2005:15:35.519575091%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Webflow" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/webflow.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Webflow</h3>
+                <p class="product-tagline">노코드 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%85%B8%EC%BD%94%EB%93%9C_1%22,%20name=%22Bubble%22,%20tagline=%22%EB%85%B8%EC%BD%94%EB%93%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fbubble.com%22,%20vote_count=84,%20comment_count=44,%20created_at=2025-08-24%2000:27:35.519720896%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Bubble" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/bubble.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Bubble</h3>
+                <p class="product-tagline">노코드 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%85%B8%EC%BD%94%EB%93%9C_2%22,%20name=%22Glide%22,%20tagline=%22%EB%85%B8%EC%BD%94%EB%93%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fglide.com%22,%20vote_count=450,%20comment_count=35,%20created_at=2025-09-11%2012:11:49.519920336%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Glide" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/glide.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Glide</h3>
+                <p class="product-tagline">노코드 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%85%B8%EC%BD%94%EB%93%9C_3%22,%20name=%22Adalo%22,%20tagline=%22%EB%85%B8%EC%BD%94%EB%93%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fadalo.com%22,%20vote_count=485,%20comment_count=23,%20created_at=2025-08-25%2023:53:49.520064020%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="Adalo" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/adalo.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">Adalo</h3>
+                <p class="product-tagline">노코드 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                                    <!-- BEGIN app/views/shared/_product_card.html.erb -->
+    <!-- 제품 탐색 페이지용 카드 -->
+    <div class="product-card">
+        <a class="product-link" href="http://localhost:3002/products/%23%3COpenStruct%20id=%22%EB%85%B8%EC%BD%94%EB%93%9C_4%22,%20name=%22FlutterFlow%22,%20tagline=%22%EB%85%B8%EC%BD%94%EB%93%9C%20%EB%8F%84%EA%B5%AC%EC%9D%98%20%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8%20%EC%86%94%EB%A3%A8%EC%85%98%EC%9C%BC%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EA%B7%B9%EB%8C%80%ED%99%94%ED%95%98%EC%84%B8%EC%9A%94%22,%20logo_url=%22https:%2F%2Flogo.clearbit.com%2Fflutterflow.com%22,%20vote_count=177,%20comment_count=48,%20created_at=2025-08-25%2019:48:20.520219370%20UTC%20+00:00%3E">
+            
+            <div class="product-image">
+                    <img alt="FlutterFlow" onerror="this.style.display=&#39;none&#39;; this.nextElementSibling.style.display=&#39;flex&#39;;" src="./productpage_files/flutterflow.com.다운로드">
+                    <div class="logo-fallback" style="display: none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+                <h3 class="product-name">FlutterFlow</h3>
+                <p class="product-tagline">노코드 도구의 혁신적인 솔루션으로 생산성을 극대화하세요</p>
+            </div>
+</a>    </div>
+<!-- END app/views/shared/_product_card.html.erb -->
+                            </div>
+                        </section>
+                    
+                
+                <!-- 빈 상태 -->
+            </div>
+            
+        </div>
+    </main>
+</div>
+
+
+<script>
+function updateSort(sortValue) {
+    const url = new URL(window.location);
+    url.searchParams.set('sort', sortValue);
+    window.location.href = url.toString();
+}
+</script><!-- END app/views/products/index.html.erb -->
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a class="footer-logo" href="http://localhost:3002/">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="http://localhost:3002/products#">소개</a>
+                    <a href="http://localhost:3002/products#">자주 묻는 질문</a>
+                    <a href="http://localhost:3002/products#">이용약관</a>
+                    <a href="http://localhost:3002/products#">개인정보처리방침</a>
+                    <a href="http://localhost:3002/products#">문의하기</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="http://localhost:3002/products#"><i class="fab fa-twitter"></i></a>
+                    <a href="http://localhost:3002/products#"><i class="fab fa-facebook"></i></a>
+                    <a href="http://localhost:3002/products#"><i class="fab fa-instagram"></i></a>
+                    <a href="http://localhost:3002/products#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

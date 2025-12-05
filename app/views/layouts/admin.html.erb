@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for(:title) || "관리자 페이지 - ProductRank" %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "custom", "admin", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+</head>
+<body>
+    <!-- 기존 헤더 재사용 -->
+    <header>
+        <div class="header-container">
+            <%= link_to root_path, class: "logo" do %>ProductRank<% end %>
+
+            <nav class="nav-links">
+                <%= link_to "대시보드", admin_root_path, class: controller_name == 'dashboard' ? 'active' : '' %>
+                <%= link_to "제품 관리", admin_products_path, class: controller_name == 'products' ? 'active' : '' %>
+                <%= link_to "사용자", admin_users_path, class: controller_name == 'users' ? 'active' : '' %>
+                <%= link_to "출시 일정", admin_launches_path, class: controller_name == 'launches' ? 'active' : '' %>
+                <%= link_to "토픽", admin_topics_path, class: controller_name == 'topics' ? 'active' : '' %>
+                <%= link_to "메인 사이트로", root_path %>
+            </nav>
+
+            <div class="auth-buttons">
+                <% if logged_in? %>
+                    <span style="color: #666; margin-right: 12px;">
+                        <i class="fas fa-user-shield"></i> <%= current_user.name %> (관리자)
+                    </span>
+                    <%= button_to "로그아웃", logout_path, method: :delete, class: "logout-btn", form: { style: "display: inline;" } %>
+                <% end %>
+            </div>
+        </div>
+    </header>
+
+    <!-- 플래시 메시지 -->
+    <% if flash[:notice] || flash[:error] || flash[:success] %>
+        <div class="admin-container" style="padding-top: 20px;">
+            <% if flash[:success] || flash[:notice] %>
+                <div class="flash-message success">
+                    <i class="fas fa-check-circle"></i>
+                    <%= flash[:success] || flash[:notice] %>
+                </div>
+            <% end %>
+            <% if flash[:error] %>
+                <div class="flash-message error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <%= flash[:error] %>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+
+    <!-- 메인 컨텐츠 -->
+    <%= yield %>
+
+    <!-- 기존 푸터 재사용 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <%= link_to root_path, class: "footer-logo" do %>ProductRank Admin<% end %>
+
+                <div class="footer-links">
+                    <%= link_to "대시보드", admin_root_path %>
+                    <%= link_to "제품 관리", admin_products_path %>
+                    <%= link_to "사용자 관리", admin_users_path %>
+                    <%= link_to "메인 사이트", root_path %>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank Admin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

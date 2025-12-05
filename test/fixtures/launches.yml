@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product: one
+  launch_date: 2025-09-16 18:49:16
+  region: MyString
+  status: 1
+  scheduled_at: 2025-09-16 18:49:16
+
+two:
+  product: two
+  launch_date: 2025-09-16 18:49:16
+  region: MyString
+  status: 1
+  scheduled_at: 2025-09-16 18:49:16

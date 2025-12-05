@@ -1,0 +1,156 @@
+<div class="admin-container">
+    <!-- 헤더 -->
+    <div class="admin-header">
+        <h1>사용자 관리</h1>
+        <p>등록된 모든 사용자를 확인하고 관리하세요</p>
+    </div>
+
+    <!-- 통계 카드 -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">전체 사용자</span>
+                <div class="stat-card-icon blue">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= User.count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">관리자</span>
+                <div class="stat-card-icon purple">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= User.where(role: :admin).count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">제작자</span>
+                <div class="stat-card-icon orange">
+                    <i class="fas fa-crown"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= User.where(role: :maker).count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">일반 회원</span>
+                <div class="stat-card-icon green">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= User.where(role: :member).count %></div>
+        </div>
+    </div>
+
+    <!-- 사용자 목록 -->
+    <div class="admin-section">
+        <div class="admin-section-header">
+            <h3 class="admin-section-title">사용자 목록</h3>
+        </div>
+
+        <!-- 검색 및 필터 -->
+        <div class="search-filter-bar">
+            <%= form_with url: admin_users_path, method: :get, local: true, style: "display: flex; gap: 12px; width: 100%;" do |f| %>
+                <%= f.text_field :search,
+                    placeholder: "이름, 이메일 또는 사용자명으로 검색...",
+                    class: "search-input",
+                    value: params[:search] %>
+
+                <%= f.select :role,
+                    options_for_select([
+                        ['모든 역할', ''],
+                        ['관리자', 'admin'],
+                        ['제작자', 'maker'],
+                        ['모더레이터', 'moderator'],
+                        ['회원', 'member']
+                    ], params[:role]),
+                    {},
+                    class: "filter-select" %>
+
+                <%= f.submit "검색", class: "btn btn-primary" %>
+                <%= link_to "초기화", admin_users_path, class: "btn btn-secondary" %>
+            <% end %>
+        </div>
+
+        <!-- 사용자 테이블 -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>사용자</th>
+                    <th>이메일</th>
+                    <th>역할</th>
+                    <th>가입일</th>
+                    <th>제품 수</th>
+                    <th>평판</th>
+                    <th style="text-align: center;">액션</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @users.each do |user| %>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span class="user-avatar"><%= user.name.first.upcase %></span>
+                                <div>
+                                    <%= link_to user.name, admin_user_path(user), class: "product-name" %>
+                                    <div style="font-size: 12px; color: #999;">@<%= user.username %></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= user.email %>
+                        </td>
+                        <td>
+                            <span class="status-badge <%= user.role %>">
+                                <%= user.role.titleize %>
+                            </span>
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= time_ago_in_words(user.created_at) %> 전
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= user.products.count %>개
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= user.reputation %>
+                        </td>
+                        <td>
+                            <div class="action-buttons" style="justify-content: center;">
+                                <%= link_to admin_user_path(user), class: "btn btn-secondary btn-small", title: "상세" do %>
+                                    <i class="fas fa-eye"></i>
+                                <% end %>
+                                <%= link_to edit_admin_user_path(user), class: "btn btn-primary btn-small", title: "수정" do %>
+                                    <i class="fas fa-edit"></i>
+                                <% end %>
+                                <% unless user == current_user %>
+                                    <%= button_to admin_user_path(user), method: :delete, class: "btn btn-danger btn-small", title: "삭제", form: { data: { turbo_confirm: "정말 삭제하시겠습니까?" } } do %>
+                                        <i class="fas fa-trash"></i>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <% if @users.respond_to?(:total_pages) && @users.total_pages > 1 %>
+            <div class="pagination">
+                <%= link_to_unless @users.first_page?, "‹ 이전", admin_users_path(page: @users.prev_page, search: params[:search], role: params[:role]), class: "page-link" %>
+
+                <% (1..@users.total_pages).each do |page| %>
+                    <%= link_to page, admin_users_path(page: page, search: params[:search], role: params[:role]), class: "page-link #{page == @users.current_page ? 'active' : ''}" %>
+                <% end %>
+
+                <%= link_to_unless @users.last_page?, "다음 ›", admin_users_path(page: @users.next_page, search: params[:search], role: params[:role]), class: "page-link" %>
+            </div>
+        <% end %>
+    </div>
+</div>

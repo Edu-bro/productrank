@@ -1,0 +1,2681 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://localhost:3000/products -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.turbo-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 2147483647;
+  transition:
+    width 300ms ease-out,
+    opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/all.min.css">
+    <link href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/remixicon.css" rel="stylesheet">
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="h4W416wDzQhZP7iKuw0PNayzWNwVl2TMaIu-VKmb07BlmkngysONV-prIXYlRnTpfHQaziwvVNG_SPtm2AcBnw">
+    
+    <link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/application-8b441ae0.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/custom-b801443e.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/modern_products-b19e2900.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/product_detail-550f44e8.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/tailwind-cb445571.css" data-turbo-track="reload">
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "application": "/assets/application-bfcdf840.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-3a2e143f.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-4b1e420e.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc53fe7.js",
+    "controllers/application": "/assets/controllers/application-3affb389.js",
+    "controllers/hello_controller": "/assets/controllers/hello_controller-708796bd.js",
+    "controllers": "/assets/controllers/index-ee64e1f1.js"
+  }
+}</script>
+<link rel="modulepreload" href="http://localhost:3000/assets/application-bfcdf840.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/turbo.min-3a2e143f.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/stimulus.min-4b1e420e.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/stimulus-loading-1fc53fe7.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/application-3affb389.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/hello_controller-708796bd.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/index-ee64e1f1.js">
+<script type="module">import "application"</script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a class="logo" href="http://localhost:3000/">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="http://localhost:3000/products">제품</a>
+                <a href="http://localhost:3000/rankboard">랭크보드</a>
+                <a href="http://localhost:3000/community">커뮤니티</a>
+                <a href="http://localhost:3000/collections">컬렉션</a>
+            </nav>
+            
+            <div class="search-bar">
+                <form class="search-form" action="http://localhost:3000/search" accept-charset="UTF-8" method="get">
+                    <i class="fas fa-search"></i>
+                    <input placeholder="다음으로 좋아할 만한 것을 발견하세요..." class="search-input" type="text" name="q" id="q">
+</form>            </div>
+            
+            <div class="auth-buttons">
+                    <a class="login-btn" href="http://localhost:3000/login">로그인</a>
+                    <a class="signup-btn" href="http://localhost:3000/login">가입하기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BEGIN app/views/products/index.html.erb --><!-- 제품 목록 페이지 (참조 디자인 기반) -->
+<style>
+/* 참조 디자인을 기반으로 한 정확한 구조 */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.space-y-12 > * + * {
+  margin-top: 3rem;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-gray-900 {
+  color: #111827;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.hover\:text-blue-700:hover {
+  color: #1d4ed8;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
+}
+
+.hover\:bg-blue-50:hover {
+  background-color: #eff6ff;
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* 그리드 시스템 */
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+/* 제품 카드 스타일 */
+.relative {
+  position: relative;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-gray-100 {
+  border-color: #f3f4f6;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.h-fit {
+  height: fit-content;
+}
+
+/* 이미지 갤러리 */
+.h-32 {
+  height: 8rem;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.object-top {
+  object-position: top !important;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+.absolute {
+  position: absolute;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.bg-gradient-to-t {
+  background-image: linear-gradient(to top, var(--tw-gradient-stops));
+}
+
+.from-black\/20 {
+  --tw-gradient-from: rgba(0, 0, 0, 0.2);
+  --tw-gradient-to: rgba(0, 0, 0, 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-transparent {
+  --tw-gradient-to: transparent;
+}
+
+.left-2 {
+  left: 0.5rem;
+}
+
+.top-1\/2 {
+  top: 50%;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-1\/2 {
+  --tw-translate-y: -50%;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
+.bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hover\:bg-black\/70:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.right-2 {
+  right: 0.5rem;
+}
+
+.bottom-2 {
+  bottom: 0.5rem;
+}
+
+.left-1\/2 {
+  left: 50%;
+}
+
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
+}
+
+.space-x-1 > * + * {
+  margin-left: 0.25rem;
+}
+
+.w-1\.5 {
+  width: 0.375rem;
+}
+
+.h-1\.5 {
+  height: 0.375rem;
+}
+
+.bg-white\/50 {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 제품 정보 */
+.p-4 {
+  padding: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.text-gray-600 {
+  color: #4b5563;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.space-x-3 > * + * {
+  margin-left: 0.75rem;
+}
+
+.text-orange-500 {
+  color: #f97316;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
+.text-gray-500 {
+  color: #6b7280;
+}
+
+.text-blue-500 {
+  color: #3b82f6;
+}
+
+.w-4 {
+  width: 1rem;
+}
+
+.h-4 {
+  height: 1rem;
+}
+
+.text-gray-400 {
+  color: #9ca3af;
+}
+
+
+</style>
+
+<div class="min-h-screen bg-gray-50">
+  <!-- 상단 카테고리 드롭다운 -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">제품 탐색</h1>
+        <div class="relative">
+          <select class="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700 transition-colors border-none outline-none cursor-pointer" onchange="window.location.href = this.value === &#39;all&#39; ? &#39;/products&#39; : &#39;/products?category=&#39; + this.value">
+              <option value="all" selected="">
+                전체
+              </option>
+              <option value="ai">
+                인공지능
+              </option>
+              <option value="productivity">
+                생산성
+              </option>
+              <option value="design">
+                디자인
+              </option>
+              <option value="development">
+                개발
+              </option>
+              <option value="health">
+                건강
+              </option>
+              <option value="finance">
+                금융
+              </option>
+              <option value="education">
+                교육
+              </option>
+              <option value="ecommerce">
+                이커머스
+              </option>
+              <option value="social-media">
+                소셜미디어
+              </option>
+              <option value="marketing">
+                마케팅
+              </option>
+              <option value="sales">
+                세일즈
+              </option>
+              <option value="customer-support">
+                고객지원
+              </option>
+              <option value="analytics">
+                분석도구
+              </option>
+              <option value="security">
+                보안
+              </option>
+              <option value="database">
+                데이터베이스
+              </option>
+              <option value="api-tools">
+                API도구
+              </option>
+              <option value="mobile-app">
+                모바일앱
+              </option>
+              <option value="web-development">
+                웹개발
+              </option>
+              <option value="gaming">
+                게임
+              </option>
+              <option value="music">
+                음악
+              </option>
+              <option value="video-editing">
+                영상편집
+              </option>
+              <option value="photo-editing">
+                사진편집
+              </option>
+              <option value="travel">
+                여행
+              </option>
+              <option value="real-estate">
+                부동산
+              </option>
+              <option value="legal">
+                법률
+              </option>
+              <option value="hr">
+                HR
+              </option>
+              <option value="accounting">
+                회계
+              </option>
+              <option value="project-management">
+                프로젝트관리
+              </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div class="space-y-12">
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">인공지능</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=ai">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/59">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="InvestmentBot" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/InvestmentBot_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💰</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">InvestmentBot</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">AI 투자 자문사와 상담하기</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/56">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="WellnessTracker" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/WellnessTracker_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💪</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">WellnessTracker</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">전인적 웰빙 관리 솔루션</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/54">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="LearningPath" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/LearningPath_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">LearningPath</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">개인화된 학습 로드맵 생성기</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/52">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="VideoEditor AI" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/VideoEditor_AI_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎨</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">VideoEditor AI</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">AI가 편집하는 프로급 영상</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/50">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="HealthMonitor" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/HealthMonitor_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🤖</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">HealthMonitor</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">웨어러블과 연동하는 건강 모니터링</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">생산성</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=productivity">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/60">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="CourseCreator" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/CourseCreator_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">CourseCreator</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">온라인 강의 제작 올인원 툴</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/57">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="CodeSnippet" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/CodeSnippet_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💻</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">CodeSnippet</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">개발자를 위한 코드 조각 라이브러리</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/55">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="StoreBuilder" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/StoreBuilder_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🛒</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">StoreBuilder</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">5분만에 완성하는 온라인 스토어</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/53">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="DatabaseManager" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/DatabaseManager_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💻</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">DatabaseManager</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">데이터베이스 관리의 새로운 기준</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/51">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="TeamChat Pro" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/TeamChat_Pro_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">📝</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">TeamChat Pro</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">팀 소통을 위한 차세대 메신저</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">디자인</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=design">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/58">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="UIComponents" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/UIComponents_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎨</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">UIComponents</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">재사용 가능한 UI 컴포넌트 키트</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/52">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="VideoEditor AI" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/VideoEditor_AI_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎨</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">VideoEditor AI</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">AI가 편집하는 프로급 영상</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/50">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="HealthMonitor" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/HealthMonitor_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🤖</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">HealthMonitor</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">웨어러블과 연동하는 건강 모니터링</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/49">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="IconLibrary" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/IconLibrary_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎨</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">IconLibrary</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">무한한 아이콘 라이브러리</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/43">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="DesignSystem" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/DesignSystem_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎨</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">DesignSystem</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">일관된 디자인을 위한 시스템</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">개발</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=development">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/58">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="UIComponents" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/UIComponents_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎨</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">UIComponents</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">재사용 가능한 UI 컴포넌트 키트</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/57">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="CodeSnippet" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/CodeSnippet_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💻</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">CodeSnippet</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">개발자를 위한 코드 조각 라이브러리</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/53">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="DatabaseManager" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/DatabaseManager_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💻</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">DatabaseManager</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">데이터베이스 관리의 새로운 기준</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/51">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="TeamChat Pro" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/TeamChat_Pro_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">📝</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">TeamChat Pro</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">팀 소통을 위한 차세대 메신저</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/48">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="GitFlow Pro" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/GitFlow_Pro_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💻</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">GitFlow Pro</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">Git 워크플로우 관리의 혁신</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">건강</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=health">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/56">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="WellnessTracker" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/WellnessTracker_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💪</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">WellnessTracker</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">전인적 웰빙 관리 솔루션</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/50">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="HealthMonitor" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/HealthMonitor_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🤖</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">HealthMonitor</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">웨어러블과 연동하는 건강 모니터링</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/47">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="FitnessCoach AI" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/FitnessCoach_AI_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💪</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">FitnessCoach AI</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">개인 맞춤형 AI 피트니스 코치</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/36">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="MeditationSpace" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/MeditationSpace_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💪</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">MeditationSpace</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">마음의 평화를 찾는 명상 여정</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/30">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="NutritionAI" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/NutritionAI_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💪</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">NutritionAI</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">개인 맞춤 영양 관리 앱</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">금융</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=finance">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/59">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="InvestmentBot" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/InvestmentBot_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💰</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">InvestmentBot</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">AI 투자 자문사와 상담하기</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/44">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="CryptoTrader AI" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/CryptoTrader_AI_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💰</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">CryptoTrader AI</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">AI 기반 암호화폐 자동 거래</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/39">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="BudgetTracker" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/BudgetTracker_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💰</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">BudgetTracker</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">가계부 작성의 새로운 방식</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/24">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="InvestSmart" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/InvestSmart_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💰</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">InvestSmart</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">똑똑한 투자를 위한 AI 어드바이저</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/12">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="CryptoWallet+" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/CryptoWallet__cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">💰</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">CryptoWallet+</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">안전하고 직관적인 암호화폐 지갑</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">교육</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=education">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/60">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="CourseCreator" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/CourseCreator_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">CourseCreator</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">온라인 강의 제작 올인원 툴</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/54">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="LearningPath" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/LearningPath_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">LearningPath</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">개인화된 학습 로드맵 생성기</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/45">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="OnlineClass" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/OnlineClass_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">OnlineClass</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">인터랙티브 온라인 교육 플랫폼</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/40">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="SkillShare Pro" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/SkillShare_Pro_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">SkillShare Pro</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">전문가와 1:1로 배우는 실무 스킬</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/34">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="StudyBuddy" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/StudyBuddy_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🎓</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">StudyBuddy</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">AI 튜터와 함께하는 개인화된 학습</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">이커머스</h2>
+            <a class="text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" href="http://localhost:3000/products?category=ecommerce">
+              모두 보기 →
+</a>          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/55">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="StoreBuilder" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/StoreBuilder_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🛒</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">StoreBuilder</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">5분만에 완성하는 온라인 스토어</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/46">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="ShopBot" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/ShopBot_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🛒</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">ShopBot</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">온라인 쇼핑을 도와주는 AI 어시스턴트</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/35">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="MarketPlace Pro" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/MarketPlace_Pro_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🛒</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">MarketPlace Pro</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">중소기업을 위한 온라인 마켓플레이스</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/26">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="ShopAnalytics" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/ShopAnalytics_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🛒</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">ShopAnalytics</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">이커머스 매출 최적화 도구</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>              <a class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" style="text-decoration: none; color: inherit;" href="http://localhost:3000/products/18">
+                
+                <!-- 이미지 갤러리 -->
+                <div class="relative h-32 overflow-hidden group">
+                    <img alt="MenuMaster" class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105" src="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_notbad_files/MenuMaster_cover.jpg">
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  
+                  <!-- 이미지 네비게이션 -->
+                  <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-left-s-line text-sm"></i>
+                  </button>
+                  <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="event.preventDefault(); event.stopPropagation();">
+                    <i class="ri-arrow-right-s-line text-sm"></i>
+                  </button>
+                  
+                  <!-- 도트 인디케이터 -->
+                  <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                    <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white/50"></div>
+                  </div>
+                </div>
+                
+                <!-- 제품 정보 -->
+                <div class="relative p-4 bg-white">
+                  <div class="flex items-center mb-2">
+                      <span class="text-lg mr-2">🛒</span>
+                    <h3 class="font-semibold text-gray-900 text-sm truncate">MenuMaster</h3>
+                  </div>
+                  
+                  <p class="text-xs text-gray-600 mb-3 line-clamp-2">레스토랑을 위한 디지털 메뉴 솔루션</p>
+                  
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="flex items-center">
+                        <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+                        <span class="text-xs text-gray-500">5</span>
+                      </div>
+                    </div>
+                    <div class="w-4 h-4 flex items-center justify-center">
+                      <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+</a>          </div>
+        </div>
+    </div>
+  </main>
+</div>
+
+<!-- END app/views/products/index.html.erb -->
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a class="footer-logo" href="http://localhost:3000/">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="http://localhost:3000/products#">소개</a>
+                    <a href="http://localhost:3000/products#">자주 묻는 질문</a>
+                    <a href="http://localhost:3000/products#">이용약관</a>
+                    <a href="http://localhost:3000/products#">개인정보처리방침</a>
+                    <a href="http://localhost:3000/products#">문의하기</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="http://localhost:3000/products#"><i class="fab fa-twitter"></i></a>
+                    <a href="http://localhost:3000/products#"><i class="fab fa-facebook"></i></a>
+                    <a href="http://localhost:3000/products#"><i class="fab fa-instagram"></i></a>
+                    <a href="http://localhost:3000/products#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

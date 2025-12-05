@@ -1,0 +1,134 @@
+<!-- Cached product card partial for performance -->
+<% cache ['product_card_v1', product, product.updated_at] do %>
+  <div class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" data-product-id="<%= product.id %>">
+    
+    <!-- 이미지 갤러리 -->
+    <div class="relative h-32 overflow-hidden group" data-gallery="<%= product.id %>">
+      <%
+        # 단순화: 커버 이미지만 사용 (성능 최적화)
+        gallery_images = []
+
+        # 커버 이미지 우선, 없으면 로고 이미지 사용
+        if product.cover_url.present?
+          gallery_images << { type: 'url', data: product.cover_url }
+        elsif product.logo_url.present?
+          gallery_images << { type: 'url', data: product.logo_url }
+        elsif product.logo_image.attached?
+          gallery_images << { type: 'url', data: product.logo_thumb_1x }
+        end
+
+        # 이미지가 없으면 placeholder
+        gallery_images << { type: 'placeholder' } if gallery_images.empty?
+      %>
+      
+      <!-- 이미지 슬라이드들 (극한 성능 최적화) -->
+      <% gallery_images.each_with_index do |image, img_index| %>
+        <div class="gallery-slide" style="<%= 'display: none;' unless img_index == 0 %>" data-slide="<%= img_index %>">
+          <% if image[:type] == 'url' %>
+            <img src="<%= image[:data] %>" 
+                 alt="<%= product.name %>"
+                 width="320" 
+                 height="200"
+                 loading="<%= img_index == 0 && card_index < 4 ? 'eager' : 'lazy' %>"
+                 decoding="async"
+                 fetchpriority="<%= img_index == 0 && card_index < 4 ? 'high' : 'low' %>"
+                 crossorigin="anonymous" 
+                 class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105">
+          <% else %>
+            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);">
+              <span style="color: white; font-weight: bold; font-size: 2rem;"><%= product.name[0].upcase %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+      
+      <!-- 이미지 네비게이션 -->
+      <% if gallery_images.length > 1 %>
+        <button class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="ProductGallery.prev(event, <%= product.id %>)">
+          <i class="ri-arrow-left-s-line text-sm"></i>
+        </button>
+        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" onclick="ProductGallery.next(event, <%= product.id %>)">
+          <i class="ri-arrow-right-s-line text-sm"></i>
+        </button>
+        
+        <!-- 도트 인디케이터 -->
+        <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+          <% gallery_images.each_with_index do |_, dot_index| %>
+            <div class="gallery-dot w-1.5 h-1.5 rounded-full transition-all duration-200 <%= dot_index == 0 ? 'bg-white' : 'bg-white/50' %>" onclick="ProductGallery.goTo(event, <%= product.id %>, <%= dot_index %>)" data-dot="<%= dot_index %>"></div>
+          <% end %>
+        </div>
+      <% else %>
+        <!-- 단일 이미지 -->
+        <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+          <div class="w-1.5 h-1.5 rounded-full transition-all duration-200 bg-white"></div>
+        </div>
+      <% end %>
+    </div>
+    
+    <!-- 제품 정보 -->
+    <div class="relative p-4 bg-white product-card-content" 
+         onclick="window.location.href='<%= product_path(product) %>'" 
+         onmouseenter="ProductModal.show(<%= product.id %>)" 
+         onmouseleave="ProductModal.hide(<%= product.id %>)"
+         data-product-card="<%= product.id %>">
+      <div class="flex items-center mb-2">
+        <% # PERFORMANCE: Use preloaded topic slug to avoid N+1 queries %>
+        <% first_topic_slug = get_product_first_topic_slug(product) %>
+        <span class="text-lg mr-2"><%= get_topic_emoji(first_topic_slug) %></span>
+        <h3 class="font-semibold text-gray-900 text-base truncate"><%= product.name %></h3>
+      </div>
+      
+      <p class="text-sm text-gray-600 mb-3 line-clamp-2"><%= truncate(product.description || product.tagline, length: 100) %></p>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="flex items-center">
+            <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+            <!-- Use counter cache for performance -->
+            <span class="text-sm text-gray-500"><%= product.votes_count || 0 %></span>
+          </div>
+          <div class="flex items-center">
+            <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+            <span class="text-sm text-gray-500"><%= product.likes_count || 0 %></span>
+          </div>
+          <div class="flex items-center">
+            <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+            <span class="text-sm text-gray-500"><%= product.comments_count || 0 %></span>
+          </div>
+        </div>
+        <div class="w-4 h-4 flex items-center justify-center">
+          <i class="ri-arrow-right-line text-gray-400 text-sm"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 간단한 모달 -->
+    <div class="product-modal" id="modal-<%= product.id %>">
+      <h4 class="modal-title"><%= product.name %></h4>
+      
+      <p class="modal-description">
+        <%= truncate(product.description.present? ? product.description : product.tagline, length: 120) %>
+      </p>
+      
+      <div class="modal-features">
+        <h5>주요 기능</h5>
+        <ul>
+          <% 
+            features = product.key_features_list.present? ? 
+              product.key_features_list.first(3) : 
+              ["사용자 친화적 인터페이스", "실시간 데이터 처리", "다중 플랫폼 지원"]
+          %>
+          <% features.each do |feature| %>
+            <li><%= feature %></li>
+          <% end %>
+        </ul>
+      </div>
+      
+      <%= link_to product_path(product), class: "modal-button" do %>
+        자세히 보기
+      <% end %>
+    </div>
+  </div>
+<% end %>

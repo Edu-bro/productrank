@@ -1,0 +1,15 @@
+<!-- 기간 선택 탭 -->
+<div class="period-tabs">
+  <%= link_to "/rankboard/daily", class: "tab-btn #{current_page?('/rankboard/daily') || current_page?('/rankboard') ? 'active' : ''}" do %>
+    <span>일간</span>
+  <% end %>
+  <%= link_to "/rankboard/weekly", class: "tab-btn #{current_page?('/rankboard/weekly') ? 'active' : ''}" do %>
+    <span>주간</span>
+  <% end %>
+  <%= link_to "/rankboard/monthly", class: "tab-btn #{current_page?('/rankboard/monthly') ? 'active' : ''}" do %>
+    <span>월간</span>
+  <% end %>
+  <%= link_to "/rankboard/yearly", class: "tab-btn #{current_page?('/rankboard/yearly') ? 'active' : ''}" do %>
+    <span>연간</span>
+  <% end %>
+</div>

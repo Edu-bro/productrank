@@ -1,0 +1,581 @@
+<!-- 제품 편집 페이지 스타일시트 -->
+<style>
+.product-form-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.form-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.form-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-icon {
+  width: 20px;
+  height: 20px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.required {
+  color: #ff6b35;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  background: #fafafa;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: #ff6b35;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.form-help {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.topic-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+
+.topic-checkbox:hover {
+  border-color: #ff6b35;
+  background: white;
+}
+
+.topic-checkbox input:checked + .topic-label {
+  color: #ff6b35;
+  font-weight: 600;
+}
+
+.topic-checkbox input:checked {
+  accent-color: #ff6b35;
+}
+
+.topic-label {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #f0f0f0;
+}
+
+.btn {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: #ff6b35;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #e55a2b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.btn-secondary {
+  background: #f8f9fa;
+  color: #666;
+  border: 2px solid #e5e5e5;
+}
+
+.btn-secondary:hover {
+  background: #e9ecef;
+  border-color: #ccc;
+}
+
+.error-list {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.error-title {
+  color: #dc2626;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.error-item {
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+/* 파일 업로드 스타일 */
+.upload-area {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.upload-area:hover, .upload-area.dragover {
+  border-color: #ff6b35;
+  background: #fff8f5;
+}
+
+.upload-icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  color: #9ca3af;
+}
+
+.upload-text {
+  font-size: 1.1rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.upload-subtext {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.preview-item {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #e5e5e5;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .product-form-container {
+    padding: 1rem;
+  }
+  
+  .form-section {
+    padding: 1.5rem;
+  }
+  
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+
+<div class="product-form-container">
+  <div class="form-header">
+    <h1 class="form-title"><%= @product.name %> 편집</h1>
+    <p class="form-subtitle">제품 정보를 수정해보세요</p>
+  </div>
+
+  <% if @product.errors.any? %>
+    <div class="error-list">
+      <div class="error-title">⚠️ 입력 오류가 있습니다</div>
+      <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li class="error-item"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @product, local: true, multipart: true do |form| %>
+    <!-- 기본 정보 섹션 -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <svg class="section-icon" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        기본 정보
+      </h2>
+
+      <div class="form-group">
+        <%= form.label :name, class: "form-label" do %>
+          제품명 <span class="required">*</span>
+        <% end %>
+        <%= form.text_field :name, class: "form-input", placeholder: "예: Notion" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :tagline, class: "form-label" do %>
+          제품 한줄소개 <span class="required">*</span>
+        <% end %>
+        <%= form.text_field :tagline, class: "form-input", placeholder: "예: 올인원 워크스페이스로 노트, 작업, 데이터베이스를 하나로" %>
+        <p class="form-help">최대 60자</p>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :description, class: "form-label" do %>
+          제품 설명 <span class="required">*</span>
+        <% end %>
+        <%= form.text_area :description, rows: 4, class: "form-textarea", placeholder: "제품의 주요 기능과 특징을 자세히 설명해주세요..." %>
+        <p class="form-help">최대 500자</p>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :website_url, "웹사이트 URL", class: "form-label" %>
+        <%= form.text_field :website_url, class: "form-input", placeholder: "naver.com 또는 https://notion.so" %>
+        <p class="form-help">웹사이트 주소를 자유롭게 입력하세요 (http://는 자동으로 추가됩니다)</p>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :launch_date, class: "form-label" do %>
+          ProductRank 공개 예정일 <span class="required">*</span>
+        <% end %>
+        <%= form.date_field :launch_date, 
+              class: "form-input",
+              min: Date.current.strftime("%Y-%m-%d") %>
+        <p class="form-help">제품이 ProductRank에 공개될 날짜를 설정하세요.</p>
+      </div>
+    </div>
+
+    <!-- 이미지 업로드 섹션 -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <svg class="section-icon" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
+        </svg>
+        이미지 업로드
+      </h2>
+
+      <!-- 로고 업로드 -->
+      <div class="form-group">
+        <%= form.label :logo_image, "제품 로고", class: "form-label" %>
+        <p class="form-help" style="margin-bottom: 1rem;">파일을 업로드하거나 아래 URL 필드에 이미지 링크를 입력하세요</p>
+        <div class="upload-area" id="logo-upload">
+          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+          <div class="upload-text">로고 이미지를 드래그하거나 클릭하여 선택</div>
+          <div class="upload-subtext">PNG, JPG 권장 (최대 5MB)</div>
+          <%= form.file_field :logo_image, class: "file-input", accept: "image/*" %>
+        </div>
+        <div id="logo-preview" class="image-preview"></div>
+        
+        <!-- 로고 URL 입력 -->
+        <div style="margin-top: 1rem;">
+          <%= form.label :logo_url, "또는 로고 이미지 URL", class: "form-label" %>
+          <%= form.url_field :logo_url, class: "form-input", placeholder: "https://example.com/logo.png" %>
+        </div>
+      </div>
+
+      <!-- 커버 이미지 업로드 -->
+      <div class="form-group">
+        <%= form.label :cover_image, "커버 이미지", class: "form-label" %>
+        <p class="form-help" style="margin-bottom: 1rem;">파일을 업로드하거나 아래 URL 필드에 이미지 링크를 입력하세요</p>
+        <div class="upload-area" id="cover-upload">
+          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+          <div class="upload-text">커버 이미지를 드래그하거나 클릭하여 선택</div>
+          <div class="upload-subtext">16:9 비율 권장 (최대 10MB)</div>
+          <%= form.file_field :cover_image, class: "file-input", accept: "image/*" %>
+        </div>
+        <div id="cover-preview" class="image-preview"></div>
+        
+        <!-- 커버 URL 입력 -->
+        <div style="margin-top: 1rem;">
+          <%= form.label :cover_url, "또는 커버 이미지 URL", class: "form-label" %>
+          <%= form.url_field :cover_url, class: "form-input", placeholder: "https://example.com/cover.jpg" %>
+        </div>
+      </div>
+
+      <!-- 갤러리 이미지 업로드 -->
+      <div class="form-group">
+        <%= form.label :gallery_images_files, "갤러리 이미지", class: "form-label" %>
+        <p class="form-help">제품의 스크린샷이나 상세 이미지를 여러 장 업로드하거나 URL로 입력하세요</p>
+        <div class="upload-area" id="gallery-upload">
+          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+          <div class="upload-text">갤러리 이미지들을 드래그하거나 클릭하여 선택</div>
+          <div class="upload-subtext">여러 파일 선택 가능 (각각 최대 5MB)</div>
+          <%= form.file_field :gallery_images_files, multiple: true, class: "file-input", accept: "image/*" %>
+        </div>
+        <div id="gallery-preview" class="image-preview"></div>
+        
+        <!-- 갤러리 URL 입력 -->
+        <div style="margin-top: 1rem;">
+          <%= form.label :gallery_urls, "또는 갤러리 이미지 URL (쉼표로 구분)", class: "form-label" %>
+          <%= form.text_area :gallery_urls, rows: 3, class: "form-textarea", 
+                placeholder: "https://example.com/image1.jpg,https://example.com/image2.jpg,https://example.com/image3.jpg" %>
+          <p class="form-help">여러 이미지 URL을 쉼표(,)로 구분하여 입력하세요</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 카테고리 섹션 -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <svg class="section-icon" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+        </svg>
+        카테고리 선택 (중복선택 최대 3개)
+      </h2>
+      
+      <div class="topics-grid" id="topics-grid">
+        <% @topics.each do |topic| %>
+          <label class="topic-checkbox">
+            <%= check_box_tag 'topic_ids[]', topic.id, @product.topics.include?(topic), class: "" %>
+            <span class="topic-label"><%= topic.name %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- 추가 정보 섹션 -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <svg class="section-icon" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+        </svg>
+        추가 정보
+      </h2>
+
+      <div class="form-group">
+        <%= form.label :pricing_info, "주요 혜택 및 특징", class: "form-label" %>
+        <%= form.text_area :pricing_info, rows: 4, class: "form-textarea", 
+              placeholder: "• 무료 체험 14일 제공\n• 무제한 워크스페이스\n• 24/7 고객 지원\n• API 연동 지원" %>
+        <p class="form-help">ProductRank 참여자에게 제공 가능한 제품의 주요 혜택이나 특별한 특징들을 입력하세요</p>
+      </div>
+
+      <% if current_user&.admin? %>
+        <div class="form-group">
+          <label class="topic-checkbox">
+            <%= form.check_box :featured, class: "" %>
+            <span class="topic-label">추천 제품으로 설정</span>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 버튼 -->
+    <div class="form-actions">
+      <%= link_to "취소", @product, class: "btn btn-secondary" %>
+      <%= form.submit "수정 완료", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- JavaScript for file upload preview and category selection -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 파일 업로드 미리보기 기능
+  function setupFileUpload(uploadId, previewId, multiple = false) {
+    const uploadArea = document.getElementById(uploadId);
+    const fileInput = uploadArea.querySelector('input[type="file"]');
+    const preview = document.getElementById(previewId);
+
+    // 드래그 앤 드롭 이벤트
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+    });
+
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const files = e.dataTransfer.files;
+      if (multiple) {
+        fileInput.files = files;
+      } else {
+        if (files.length > 0) {
+          const dt = new DataTransfer();
+          dt.items.add(files[0]);
+          fileInput.files = dt.files;
+        }
+      }
+      handleFiles(fileInput.files);
+    }
+
+    // 파일 선택 이벤트
+    fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+    function handleFiles(files) {
+      preview.innerHTML = '';
+      [...files].forEach(file => {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const div = document.createElement('div');
+            div.className = 'preview-item';
+            div.innerHTML = `
+              <img src="${e.target.result}" alt="미리보기" class="preview-image">
+              <button type="button" class="remove-image" onclick="this.parentElement.remove()">×</button>
+            `;
+            preview.appendChild(div);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  }
+
+  // 각 파일 업로드 영역 설정
+  setupFileUpload('logo-upload', 'logo-preview');
+  setupFileUpload('cover-upload', 'cover-preview');
+  setupFileUpload('gallery-upload', 'gallery-preview', true);
+
+  // 카테고리 선택 제한 (최대 3개)
+  const topicsGrid = document.getElementById('topics-grid');
+  const checkboxes = topicsGrid.querySelectorAll('input[type="checkbox"]');
+  
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const checkedBoxes = topicsGrid.querySelectorAll('input[type="checkbox"]:checked');
+      if (checkedBoxes.length > 3) {
+        this.checked = false;
+        alert('최대 3개의 카테고리만 선택할 수 있습니다.');
+      }
+    });
+  });
+});
+</script>

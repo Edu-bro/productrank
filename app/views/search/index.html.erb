@@ -1,0 +1,813 @@
+<!-- 검색 결과 페이지 CSS -->
+<style>
+.search-results-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+.search-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.search-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.search-form-container {
+  max-width: 600px;
+  margin: 0 auto 1.5rem auto;
+  position: relative;
+}
+
+.search-input-large {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.search-input-large:focus {
+  outline: none;
+  border-color: #ff6b35;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.search-icon-large {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1.2rem;
+}
+
+.search-stats {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.search-filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-dropdown {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-dropdown:hover {
+  border-color: #ff6b35;
+}
+
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.search-result-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 2px solid #f0f0f0;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-result-card:hover {
+  border-color: #ff6b35;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.result-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.result-logo-placeholder {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.result-info {
+  flex: 1;
+}
+
+.result-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.result-tagline {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.result-description {
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.result-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-topics {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.topic-tag-small {
+  padding: 0.25rem 0.5rem;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.result-stats {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.stat-item i {
+  font-size: 0.75rem;
+}
+
+/* 배지 스타일 */
+.status-badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-신규 {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.status-급상승 {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+}
+
+.status-인기 {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: white;
+}
+
+.status-론칭예정 {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: #333;
+}
+
+.rank-badge {
+  padding: 0.2rem 0.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 랭크보드 컨테이너 */
+.leaderboards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* 랭크보드 카드 */
+.leaderboard-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 2px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.leaderboard-card:hover {
+  border-color: #ff6b35;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.leaderboard-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.leaderboard-title i {
+  color: #ff6b35;
+}
+
+.leaderboard-period {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.leaderboard-period.daily {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.leaderboard-period.weekly {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+}
+
+.leaderboard-period.category {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: #fafbfc;
+  transition: all 0.2s ease;
+}
+
+.leaderboard-item:hover {
+  background: #f0f2f5;
+}
+
+.rank-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.rank-1 {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #8b5a00;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.rank-2 {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+  color: #5a5a5a;
+  box-shadow: 0 2px 8px rgba(192, 192, 192, 0.3);
+}
+
+.rank-3 {
+  background: linear-gradient(135deg, #cd7f32 0%, #e6a85c 100%);
+  color: #6b4423;
+  box-shadow: 0 2px 8px rgba(205, 127, 50, 0.3);
+}
+
+.rank-number:not(.rank-1):not(.rank-2):not(.rank-3) {
+  background: linear-gradient(135deg, #6c7b7f 0%, #99a3a8 100%);
+  color: white;
+}
+
+.leaderboard-product {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.leaderboard-product:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.leaderboard-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leaderboard-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-placeholder {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.leaderboard-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-product-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-tagline {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-stats {
+  flex-shrink: 0;
+}
+
+.leaderboard-stats .stat {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #888;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.leaderboard-footer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f0f0f0;
+  text-align: center;
+}
+
+.view-full-ranking {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8660 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.view-full-ranking:hover {
+  background: linear-gradient(135deg, #e55a2b 0%, #e67a56 100%);
+  text-decoration: none;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.no-results-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.no-results-text {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.suggested-searches {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.suggested-search {
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #666;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.suggested-search:hover {
+  background: #ff6b35;
+  color: white;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .search-results-page {
+    padding: 1rem;
+  }
+  
+  .search-results-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .search-filters {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .result-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+</style>
+
+<div class="search-results-page">
+  <!-- 검색 헤더 -->
+  <div class="search-header">
+    <h1 class="search-title">제품 검색</h1>
+    
+    <!-- 검색 폼 -->
+    <%= form_with url: search_path, method: :get, local: true, class: "search-form-container" do |form| %>
+      <div style="position: relative;">
+        <i class="fas fa-search search-icon-large"></i>
+        <%= form.text_field :q, 
+            value: @query, 
+            placeholder: "제품, 기능, 카테고리를 검색해보세요...", 
+            class: "search-input-large",
+            autocomplete: "off" %>
+      </div>
+      
+      <!-- 검색 통계 -->
+      <% if @query.present? %>
+        <div class="search-stats">
+          "<strong><%= @query %></strong>" 검색 결과 총 <strong><%= @total_count %>개</strong>
+        </div>
+      <% end %>
+      
+      <!-- 숨겨진 필드들 -->
+      <%= form.hidden_field :category, value: @category %>
+      <%= form.hidden_field :sort, value: @sort_by %>
+      <%= form.hidden_field :type, value: @search_type %>
+    <% end %>
+    
+    <!-- 검색 타입 및 필터 옵션 -->
+    <div class="search-filters">
+      <select class="filter-dropdown" onchange="updateSearchType(this.value)">
+        <option value="all" <%= 'selected' if @search_type == 'all' %>>전체</option>
+        <option value="products" <%= 'selected' if @search_type == 'products' %>>제품</option>
+        <option value="users" <%= 'selected' if @search_type == 'users' %>>사용자</option>
+        <option value="community" <%= 'selected' if @search_type == 'community' %>>커뮤니티</option>
+      </select>
+      
+      <% if @search_type == 'products' || @search_type == 'all' %>
+        <select class="filter-dropdown" onchange="updateCategory(this.value)">
+          <option value="">전체 카테고리</option>
+          <% @categories[1..-1].each do |category| %>
+            <option value="<%= category[:slug] %>" <%= 'selected' if @category == category[:slug] %>>
+              <%= category[:name] %>
+            </option>
+          <% end %>
+        </select>
+        
+        <select class="filter-dropdown" onchange="updateSort(this.value)">
+          <option value="relevance" <%= 'selected' if @sort_by == 'relevance' %>>관련도순</option>
+          <option value="newest" <%= 'selected' if @sort_by == 'newest' %>>최신순</option>
+          <option value="popular" <%= 'selected' if @sort_by == 'popular' %>>인기순</option>
+          <option value="trending" <%= 'selected' if @sort_by == 'trending' %>>급상승</option>
+        </select>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 검색 결과 -->
+  <% if @query.present? %>
+    <% if @total_count > 0 %>
+      <% if @search_type == 'all' %>
+        <!-- 전체 검색 결과 -->
+        <% if @results.any? %>
+          <h3 style="margin-bottom: 1rem; color: #333;">제품 (<%= @results.count %>개)</h3>
+          <div class="search-results-grid">
+            <% @results.first(6).each do |product| %>
+              <%= render 'product_card', product: product %>
+            <% end %>
+          </div>
+          <% if @results.count > 6 %>
+            <div style="text-align: center; margin: 1rem 0;">
+              <%= link_to "제품 더 보기", search_path(q: @query, type: 'products'), class: "suggested-search" %>
+            </div>
+          <% end %>
+        <% end %>
+        
+        <% if @users.any? %>
+          <h3 style="margin: 2rem 0 1rem 0; color: #333;">사용자 (<%= @users.count %>개)</h3>
+          <div class="search-results-grid">
+            <% @users.each do |user| %>
+              <%= render 'user_card', user: user %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <% if @comments.any? %>
+          <h3 style="margin: 2rem 0 1rem 0; color: #333;">커뮤니티 (<%= @comments.count %>개)</h3>
+          <div class="search-results-grid">
+            <% @comments.each do |comment| %>
+              <%= render 'comment_card', comment: comment %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <% if @leaderboards&.any? %>
+          <h3 style="margin: 2rem 0 1rem 0; color: #333;">관련 랭킹 (<%= @leaderboards.count %>개)</h3>
+          <div class="leaderboards-container">
+            <% @leaderboards.each do |leaderboard| %>
+              <%= render 'leaderboard_card', leaderboard: leaderboard %>
+            <% end %>
+          </div>
+        <% end %>
+      <% elsif @search_type == 'products' && @results.any? %>
+        <!-- 제품 검색 결과 -->
+        <div class="search-results-grid">
+          <% @results.each do |product| %>
+            <%= render 'product_card', product: product %>
+          <% end %>
+        </div>
+      <% elsif @search_type == 'users' && @users.any? %>
+        <!-- 사용자 검색 결과 -->
+        <div class="search-results-grid">
+          <% @users.each do |user| %>
+            <%= render 'user_card', user: user %>
+          <% end %>
+        </div>
+      <% elsif @search_type == 'community' && @comments.any? %>
+        <!-- 커뮤니티 검색 결과 -->
+        <div class="search-results-grid">
+          <% @comments.each do |comment| %>
+            <%= render 'comment_card', comment: comment %>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <!-- 검색 결과 없음 -->
+      <div class="no-results">
+        <i class="fas fa-search no-results-icon"></i>
+        <h3 class="no-results-title">검색 결과가 없습니다</h3>
+        <p class="no-results-text">다른 검색어를 시도해보세요.</p>
+        
+        <!-- 추천 검색어 -->
+        <div class="suggested-searches">
+          <% ['Notion', 'AI', '생산성', '디자인', '개발', '마케팅'].each do |suggestion| %>
+            <%= link_to search_path(q: suggestion), class: "suggested-search" do %>
+              <%= suggestion %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- 검색어가 없을 때 -->
+    <div class="no-results">
+      <i class="fas fa-search no-results-icon"></i>
+      <h2 class="no-results-title">제품을 검색해보세요</h2>
+      <p class="no-results-text">찾고 있는 제품의 이름이나 카테고리를 입력해주세요.</p>
+      
+      <!-- 인기 검색어 -->
+      <div class="suggested-searches">
+        <% ['Notion', 'ChatGPT', 'Figma', '생산성 도구', 'AI 도구', '디자인 툴'].each do |popular| %>
+          <%= link_to search_path(q: popular), class: "suggested-search" do %>
+            <%= popular %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- 검색 필터 및 자동완성 JavaScript -->
+<script>
+// 필터 업데이트 함수들
+function updateSearchType(value) {
+  const url = new URL(window.location);
+  url.searchParams.set('type', value);
+  // 타입이 변경되면 카테고리와 정렬을 초기화
+  if (value !== 'products' && value !== 'all') {
+    url.searchParams.delete('category');
+    url.searchParams.delete('sort');
+  }
+  window.location = url;
+}
+
+function updateCategory(value) {
+  const url = new URL(window.location);
+  if (value) {
+    url.searchParams.set('category', value);
+  } else {
+    url.searchParams.delete('category');
+  }
+  window.location = url;
+}
+
+function updateSort(value) {
+  const url = new URL(window.location);
+  url.searchParams.set('sort', value);
+  window.location = url;
+}
+
+// 자동완성 기능
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const suggestionsContainer = document.getElementById('search-suggestions');
+  let debounceTimeout;
+  
+  if (searchInput && suggestionsContainer) {
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      
+      clearTimeout(debounceTimeout);
+      
+      if (query.length >= 2) {
+        debounceTimeout = setTimeout(() => {
+          fetchSuggestions(query);
+        }, 300);
+      } else {
+        hideSuggestions();
+      }
+    });
+    
+    searchInput.addEventListener('blur', function() {
+      // 클릭 이벤트를 위해 약간의 지연
+      setTimeout(() => {
+        hideSuggestions();
+      }, 200);
+    });
+    
+    function fetchSuggestions(query) {
+      fetch(`/search/suggestions?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          displaySuggestions(data.suggestions);
+        })
+        .catch(error => {
+          console.error('Error fetching suggestions:', error);
+          hideSuggestions();
+        });
+    }
+    
+    function displaySuggestions(suggestions) {
+      if (suggestions.length === 0) {
+        hideSuggestions();
+        return;
+      }
+      
+      const suggestionItems = suggestions.map(suggestion => `
+        <div class="suggestion-item px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="${suggestion}">
+          ${suggestion}
+        </div>
+      `).join('');
+      
+      suggestionsContainer.innerHTML = suggestionItems;
+      suggestionsContainer.classList.remove('hidden');
+      
+      // 클릭 이벤트 추가
+      suggestionsContainer.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const value = this.getAttribute('data-value');
+          searchInput.value = value;
+          hideSuggestions();
+          // 검색 실행
+          window.location.href = `/search?q=${encodeURIComponent(value)}`;
+        });
+      });
+    }
+    
+    function hideSuggestions() {
+      suggestionsContainer.classList.add('hidden');
+    }
+  }
+});
+</script>

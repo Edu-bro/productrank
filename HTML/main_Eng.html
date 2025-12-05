@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #da552f;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            background-color: #f8f8f8;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e6e6e6;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f8f8f8;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .login-btn, .signup-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .login-btn {
+            color: #333;
+        }
+        
+        .signup-btn {
+            background-color: #da552f;
+            color: white;
+        }
+        
+        /* 메인 콘텐츠 */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 30px;
+        }
+        
+        /* 탭 메뉴 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e6e6e6;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #999;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            color: #da552f;
+            border-bottom-color: #da552f;
+        }
+        
+        /* 제품 목록 */
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+        }
+        
+        .product-content {
+            flex-grow: 1;
+        }
+        
+        .product-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .product-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .product-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .upvote-btn {
+            width: 40px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .upvote-btn i {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .upvote-btn span {
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        /* 사이드바 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar-widget {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .widget-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag {
+            padding: 5px 10px;
+            background-color: #f8f8f8;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tag:hover {
+            background-color: #eee;
+        }
+        
+        .upcoming-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .upcoming-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .upcoming-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: #f0f0f0;
+        }
+        
+        .upcoming-item-content {
+            flex-grow: 1;
+        }
+        
+        .upcoming-item-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .upcoming-item-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 푸터 */
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #e6e6e6;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #da552f;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .footer-links a:hover {
+            color: #da552f;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #e6e6e6;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                margin: 15px 0 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-top, .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="#">Products</a>
+                <a href="#">Discussions</a>
+                <a href="#">Collections</a>
+                <a href="#">Events</a>
+            </nav>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Discover your next favorite thing...">
+            </div>
+            
+            <div class="auth-buttons">
+                <a href="#" class="login-btn">Log in</a>
+                <a href="#" class="signup-btn">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <div class="main-container">
+        <main>
+            <div class="tabs">
+                <a href="#" class="tab active">Today</a>
+                <a href="#" class="tab">Week</a>
+                <a href="#" class="tab">Month</a>
+                <a href="#" class="tab">Year</a>
+                <a href="#" class="tab">All Time</a>
+            </div>
+            
+            <div class="product-list">
+                <!-- 제품 1 -->
+                <div class="product-card">
+                    <div class="upvote-btn">
+                        <i class="fas fa-caret-up"></i>
+                        <span>342</span>
+                    </div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">AI Assistant Pro</h3>
+                        <p class="product-description">Revolutionary AI assistant that helps you with daily tasks, scheduling, and productivity.</p>
+                        <div class="product-meta">
+                            <span>AI Tool</span>
+                            <span><i class="fas fa-comment"></i> 84</span>
+                            <span><i class="fas fa-user"></i> John Doe</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 제품 2 -->
+                <div class="product-card">
+                    <div class="upvote-btn">
+                        <i class="fas fa-caret-up"></i>
+                        <span>289</span>
+                    </div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">FlowSpace</h3>
+                        <p class="product-description">Collaborative workspace designed for remote teams to communicate and manage projects.</p>
+                        <div class="product-meta">
+                            <span>Productivity</span>
+                            <span><i class="fas fa-comment"></i> 67</span>
+                            <span><i class="fas fa-user"></i> Sarah Kim</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 제품 3 -->
+                <div class="product-card">
+                    <div class="upvote-btn">
+                        <i class="fas fa-caret-up"></i>
+                        <span>256</span>
+                    </div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ZenSync</h3>
+                        <p class="product-description">Meditation and mindfulness app that adapts to your stress levels and daily routine.</p>
+                        <div class="product-meta">
+                            <span>Health & Fitness</span>
+                            <span><i class="fas fa-comment"></i> 42</span>
+                            <span><i class="fas fa-user"></i> Mindful Tech</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 제품 4 -->
+                <div class="product-card">
+                    <div class="upvote-btn">
+                        <i class="fas fa-caret-up"></i>
+                        <span>231</span>
+                    </div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Nexus Browser</h3>
+                        <p class="product-description">Privacy-focused browser with built-in ad blocker and VPN for secure browsing.</p>
+                        <div class="product-meta">
+                            <span>Web App</span>
+                            <span><i class="fas fa-comment"></i> 58</span>
+                            <span><i class="fas fa-user"></i> Privacy Labs</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 제품 5 -->
+                <div class="product-card">
+                    <div class="upvote-btn">
+                        <i class="fas fa-caret-up"></i>
+                        <span>198</span>
+                    </div>
+                    <div class="product-image">
+                        <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">SoundSphere</h3>
+                        <p class="product-description">AI-powered music creation tool that helps you compose original music in minutes.</p>
+                        <div class="product-meta">
+                            <span>Music</span>
+                            <span><i class="fas fa-comment"></i> 36</span>
+                            <span><i class="fas fa-user"></i> AudioTech</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Popular Tags</h3>
+                <div class="tag-list">
+                    <a href="#" class="tag">AI</a>
+                    <a href="#" class="tag">Productivity</a>
+                    <a href="#" class="tag">Tech</a>
+                    <a href="#" class="tag">Design</a>
+                    <a href="#" class="tag">Marketing</a>
+                    <a href="#" class="tag">Development</a>
+                    <a href="#" class="tag">Health</a>
+                    <a href="#" class="tag">Finance</a>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Upcoming Products</h3>
+                <div class="upcoming-list">
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">TaskMaster 2.0</h4>
+                            <div class="upcoming-item-meta">Productivity · Coming soon</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">FitTrack Pro</h4>
+                            <div class="upcoming-item-meta">Health & Fitness · Coming next week</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">CodeSync</h4>
+                            <div class="upcoming-item-meta">Development · Launching tomorrow</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Make ProductRank</h3>
+                <p style="font-size: 14px; margin-bottom: 15px;">ProductRank is a community of product lovers sharing the best new products every day.</p>
+                <a href="#" class="signup-btn" style="display: inline-block; text-align: center;">Sign up</a>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a href="#" class="footer-logo">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="#">About</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

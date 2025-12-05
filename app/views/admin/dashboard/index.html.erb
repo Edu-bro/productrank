@@ -1,0 +1,207 @@
+<div class="admin-container">
+    <!-- 헤더 -->
+    <div class="admin-header">
+        <h1>관리자 대시보드</h1>
+        <p>ProductRank 전체 통계 및 현황을 확인하세요</p>
+    </div>
+
+    <!-- 통계 카드 -->
+    <div class="stats-grid">
+        <!-- 제품 통계 -->
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">전체 제품</span>
+                <div class="stat-card-icon blue">
+                    <i class="fas fa-box"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= @stats[:products][:total] %></div>
+            <div class="stat-card-detail">
+                <i class="fas fa-check-circle" style="color: #4caf50;"></i> <%= @stats[:products][:live] %> 출시됨
+            </div>
+        </div>
+
+        <!-- 사용자 통계 -->
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">전체 사용자</span>
+                <div class="stat-card-icon purple">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= @stats[:users][:total] %></div>
+            <div class="stat-card-detail">
+                <i class="fas fa-crown" style="color: #9c27b0;"></i> <%= @stats[:users][:makers] %> 제작자
+            </div>
+        </div>
+
+        <!-- 출시 통계 -->
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">오늘 출시</span>
+                <div class="stat-card-icon orange">
+                    <i class="fas fa-rocket"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= @stats[:launches][:today] %></div>
+            <div class="stat-card-detail">
+                <i class="fas fa-calendar" style="color: #ff9800;"></i> <%= @stats[:launches][:this_week] %> 이번주
+            </div>
+        </div>
+
+        <!-- 상호작용 통계 -->
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">총 투표</span>
+                <div class="stat-card-icon green">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= @stats[:interactions][:votes] %></div>
+            <div class="stat-card-detail">
+                <i class="fas fa-heart" style="color: #e91e63;"></i> <%= @stats[:interactions][:likes] %> 좋아요
+            </div>
+        </div>
+    </div>
+
+    <!-- 2열 그리드 -->
+    <div class="two-column-grid">
+        <!-- 최근 등록 제품 -->
+        <div class="admin-section">
+            <div class="admin-section-header">
+                <h3 class="admin-section-title">최근 등록 제품</h3>
+                <%= link_to "모두 보기 →", admin_products_path, class: "btn btn-secondary btn-small" %>
+            </div>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>제품</th>
+                        <th>상태</th>
+                        <th>등록일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @recent_products.first(10).each do |product| %>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <% if product.logo_url.present? %>
+                                        <img src="<%= product.logo_url %>" alt="<%= product.name %>" class="product-thumbnail">
+                                    <% else %>
+                                        <div class="product-thumbnail" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-image" style="color: #ccc;"></i>
+                                        </div>
+                                    <% end %>
+                                    <div>
+                                        <%= link_to product.name, admin_product_path(product), class: "product-name" %>
+                                        <div style="font-size: 12px; color: #999;"><%= product.user.name %></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge <%= product.status %>"><%= product.status.titleize %></span>
+                            </td>
+                            <td style="color: #666; font-size: 13px;">
+                                <%= time_ago_in_words(product.created_at) %> 전
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 인기 제품 TOP 10 -->
+        <div class="admin-section">
+            <div class="admin-section-header">
+                <h3 class="admin-section-title">인기 제품 TOP 10</h3>
+            </div>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">#</th>
+                        <th>제품</th>
+                        <th>통계</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @top_products.first(10).each_with_index do |product, index| %>
+                        <tr>
+                            <td>
+                                <span style="font-weight: 600; color: <%= index < 3 ? '#ff9800' : '#999' %>;">
+                                    #<%= index + 1 %>
+                                </span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <% if product.logo_url.present? %>
+                                        <img src="<%= product.logo_url %>" alt="<%= product.name %>" class="product-thumbnail">
+                                    <% else %>
+                                        <div class="product-thumbnail" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-image" style="color: #ccc;"></i>
+                                        </div>
+                                    <% end %>
+                                    <%= link_to product.name, admin_product_path(product), class: "product-name" %>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="stats-number">
+                                    <i class="fas fa-arrow-up" style="color: #ff6b35;"></i> <%= product.votes_count %>
+                                    <i class="fas fa-heart" style="color: #e91e63; margin-left: 12px;"></i> <%= product.likes_count %>
+                                </span>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 최근 가입 사용자 -->
+    <div class="admin-section">
+        <div class="admin-section-header">
+            <h3 class="admin-section-title">최근 가입 사용자</h3>
+            <%= link_to "모두 보기 →", admin_users_path, class: "btn btn-secondary btn-small" %>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>사용자</th>
+                    <th>이메일</th>
+                    <th>역할</th>
+                    <th>가입일</th>
+                    <th>제품 수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @recent_users.first(10).each do |user| %>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span class="user-avatar"><%= user.name.first.upcase %></span>
+                                <div>
+                                    <div style="font-weight: 500; color: #333;"><%= user.name %></div>
+                                    <div style="font-size: 12px; color: #999;">@<%= user.username %></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="color: #666; font-size: 13px;"><%= user.email %></td>
+                        <td>
+                            <span class="status-badge <%= user.role %>">
+                                <%= user.role.titleize %>
+                            </span>
+                        </td>
+                        <td style="color: #666; font-size: 13px;">
+                            <%= time_ago_in_words(user.created_at) %> 전
+                        </td>
+                        <td style="color: #666; font-size: 13px;">
+                            <%= user.products.count %>개
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

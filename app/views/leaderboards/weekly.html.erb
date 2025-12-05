@@ -1,0 +1,359 @@
+<div class="rankboard-container">
+  <!-- 통합 제어판 -->
+  <div class="control-panel">
+    <div class="control-panel-flex">
+      <%= render 'leaderboards/shared/period_tabs' %>
+
+      <!-- 주간 네비게이션 -->
+      <div class="date-navigation">
+        <div class="date-controls">
+          <%= link_to "/rankboard/weekly?date=#{(@date - 1.week).strftime('%Y-%m-%d')}", class: "nav-arrow prev" do %>
+            <i class="fas fa-chevron-left"></i>
+          <% end %>
+
+          <div class="current-period" onclick="toggleDatePicker()">
+            <span class="period-text"><%= @date.strftime('%Y년 %m월') %> <%= (@date.cweek) %>주차</span>
+            <span class="period-label">(<%= @date.beginning_of_week.strftime('%m/%d') %> - <%= @date.end_of_week.strftime('%m/%d') %>)</span>
+          </div>
+
+          <%= link_to "/rankboard/weekly?date=#{(@date + 1.week).strftime('%Y-%m-%d')}", class: "nav-arrow next" do %>
+            <i class="fas fa-chevron-right"></i>
+          <% end %>
+
+          <button class="calendar-btn" onclick="toggleDatePicker()">
+            <i class="fas fa-calendar-alt"></i>
+          </button>
+        </div>
+
+        <!-- 주간 선택기 -->
+        <div id="datePicker" class="date-picker-dropdown" style="display: none;">
+          <div class="calendar-header">
+            <button type="button" onclick="changeMonth(-1)" class="calendar-nav">‹</button>
+            <span id="calendarMonth"></span>
+            <button type="button" onclick="changeMonth(1)" class="calendar-nav">›</button>
+          </div>
+          <div class="week-grid" id="weekGrid">
+            <!-- 주간 선택기가 여기에 동적으로 생성됩니다 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'leaderboards/shared/ranking_list' %>
+</div>
+
+<%= render 'leaderboards/shared/styles' %>
+
+<style>
+.calendar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.calendar-btn:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.date-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  z-index: 20;
+  border: 1px solid #e2e8f0;
+  margin-top: 0.5rem;
+  min-width: 280px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+.calendar-nav {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.calendar-nav:hover {
+  background: #f1f5f9;
+  color: #1a202c;
+}
+
+#calendarMonth {
+  font-weight: 700;
+  color: #1a202c;
+  font-size: 1rem;
+}
+
+.week-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.week-item {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: #f8fafc;
+  color: #475569;
+}
+
+.week-item:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.week-item.current {
+  background: #3b82f6;
+  color: white;
+}
+
+.week-item.selected {
+  background: #1e40af;
+  color: white;
+}
+
+.week-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.week-range {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // 스코프 내 변수
+  let rankboardCurrentDate = new Date('<%= @date.strftime('%Y-%m-%d') %>');
+  let rankboardYear = rankboardCurrentDate.getFullYear();
+  let rankboardMonth = rankboardCurrentDate.getMonth();
+  let rankboardPickerOpen = false;
+  let rankboardClickHandler = null;
+
+  // 기존 이벤트 리스너 정리
+  function cleanup() {
+    if (rankboardClickHandler) {
+      document.removeEventListener('click', rankboardClickHandler);
+      rankboardClickHandler = null;
+    }
+  }
+
+  // 페이지 로드/전환 시 초기화
+  function initialize() {
+    cleanup();
+    setupEventListeners();
+  }
+
+  // 주간 선택기 토글
+  window.toggleDatePicker = function() {
+    const picker = document.getElementById('datePicker');
+    if (!picker) return;
+
+    rankboardPickerOpen = !rankboardPickerOpen;
+
+    if (rankboardPickerOpen) {
+      picker.style.display = 'block';
+      renderWeekPicker();
+    } else {
+      picker.style.display = 'none';
+    }
+  };
+
+  // 주간 선택기 렌더링
+  function renderWeekPicker() {
+    const monthElement = document.getElementById('calendarMonth');
+    const grid = document.getElementById('weekGrid');
+
+    if (!monthElement || !grid) return;
+
+    // 월 표시
+    monthElement.textContent = `${rankboardYear}년 ${rankboardMonth + 1}월`;
+
+    // 기존 주 제거
+    grid.innerHTML = '';
+
+    // 해당 월의 주차 생성
+    const firstDay = new Date(rankboardYear, rankboardMonth, 1);
+    const lastDay = new Date(rankboardYear, rankboardMonth + 1, 0);
+
+    // 첫 번째 월요일 찾기
+    let currentDate = new Date(firstDay);
+    currentDate.setDate(1);
+
+    // 해당 월의 모든 주 수집
+    const weeks = [];
+    let weekStart = new Date(currentDate);
+
+    // 첫 주의 월요일 찾기 (이전 달로 갈 수 있음)
+    while (weekStart.getDay() !== 1) {
+      weekStart.setDate(weekStart.getDate() - 1);
+    }
+
+    while (weekStart <= lastDay || weekStart.getMonth() === rankboardMonth) {
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekEnd.getDate() + 6);
+
+      // 해당 주가 이 달과 관련이 있는지 확인
+      if (weekStart.getMonth() === rankboardMonth || weekEnd.getMonth() === rankboardMonth) {
+        weeks.push({
+          start: new Date(weekStart),
+          end: new Date(weekEnd)
+        });
+      }
+
+      weekStart.setDate(weekStart.getDate() + 7);
+
+      // 무한루프 방지
+      if (weeks.length > 6) break;
+    }
+
+    // 현재 주 찾기
+    const today = new Date();
+    const currentWeekStart = new Date(today);
+    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay() + 1);
+    const currentWeekEnd = new Date(currentWeekStart);
+    currentWeekEnd.setDate(currentWeekEnd.getDate() + 6);
+
+    // 선택된 주 찾기
+    const selectedWeekStart = new Date(rankboardCurrentDate);
+    selectedWeekStart.setDate(selectedWeekStart.getDate() - selectedWeekStart.getDay() + 1);
+    const selectedWeekEnd = new Date(selectedWeekStart);
+    selectedWeekEnd.setDate(selectedWeekEnd.getDate() + 6);
+
+    // 주차 렌더링
+    weeks.forEach((week, index) => {
+      const weekElement = document.createElement('button');
+      weekElement.className = 'week-item';
+
+      const weekNumber = document.createElement('div');
+      weekNumber.className = 'week-number';
+      weekNumber.textContent = `${index + 1}주차`;
+
+      const weekRange = document.createElement('div');
+      weekRange.className = 'week-range';
+      weekRange.textContent = `${formatDate(week.start)} - ${formatDate(week.end)}`;
+
+      weekElement.appendChild(weekNumber);
+      weekElement.appendChild(weekRange);
+
+      // 현재 주 표시
+      if (isSameWeek(week.start, currentWeekStart)) {
+        weekElement.classList.add('current');
+      }
+
+      // 선택된 주 표시
+      if (isSameWeek(week.start, selectedWeekStart)) {
+        weekElement.classList.add('selected');
+      }
+
+      // 클릭 이벤트
+      weekElement.addEventListener('click', () => {
+        const year = week.start.getFullYear();
+        const month = week.start.getMonth() + 1;
+        const day = week.start.getDate();
+        window.location.href = `/rankboard/weekly?date=${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      });
+
+      grid.appendChild(weekElement);
+    });
+  }
+
+  // 월 변경
+  window.changeMonth = function(direction) {
+    rankboardMonth += direction;
+
+    if (rankboardMonth > 11) {
+      rankboardMonth = 0;
+      rankboardYear++;
+    } else if (rankboardMonth < 0) {
+      rankboardMonth = 11;
+      rankboardYear--;
+    }
+
+    renderWeekPicker();
+  };
+
+  // 날짜 포맷 (MM/DD)
+  function formatDate(date) {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${month}/${day}`;
+  }
+
+  // 같은 주인지 확인
+  function isSameWeek(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  }
+
+  // 이벤트 리스너 설정
+  function setupEventListeners() {
+    cleanup();
+
+    rankboardClickHandler = function(event) {
+      const datePicker = document.getElementById('datePicker');
+      const calendarBtn = document.querySelector('.calendar-btn');
+      const currentPeriodElement = document.querySelector('.current-period');
+
+      if (datePicker && calendarBtn && currentPeriodElement &&
+          !datePicker.contains(event.target) &&
+          !calendarBtn.contains(event.target) &&
+          !currentPeriodElement.contains(event.target)) {
+        if (rankboardPickerOpen) {
+          window.toggleDatePicker();
+        }
+      }
+    };
+
+    document.addEventListener('click', rankboardClickHandler);
+  }
+
+  // Turbo 이벤트 처리
+  document.addEventListener('turbo:load', initialize);
+  document.addEventListener('DOMContentLoaded', initialize);
+
+  // 페이지 떠날 때 정리
+  document.addEventListener('turbo:before-render', cleanup);
+  window.addEventListener('beforeunload', cleanup);
+})();
+</script>

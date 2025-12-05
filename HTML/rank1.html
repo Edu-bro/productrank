@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://localhost:3002/products -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 제품 랭킹</title>
+    <link rel="stylesheet" href="./rank1_files/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-right: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            color: #444;
+            font-size: 18px;
+        }
+        
+        .categories {
+            list-style: none;
+        }
+        
+        .categories li {
+            margin-bottom: 8px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .categories li i {
+            margin-right: 8px;
+            width: 16px;
+        }
+        
+        .categories li:hover {
+            background-color: #f0f3ff;
+            transform: translateX(2px);
+        }
+        
+        .categories li.active {
+            background-color: #667eea;
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* 메인 콘텐츠 스타일 */
+        .main-content {
+            flex-grow: 1;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .sort-options select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .category-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #444;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-title i {
+            margin-right: 8px;
+            color: #667eea;
+        }
+        
+        .view-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        
+        .view-more:hover {
+            background-color: #f0f3ff;
+        }
+        
+        .view-more i {
+            margin-left: 5px;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: #667eea;
+        }
+        
+        .product-image {
+            height: 160px;
+            background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .product-rank {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .product-info {
+            padding: 16px;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 15px;
+            color: #333;
+        }
+        
+        .product-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .product-category {
+            background: #f0f3ff;
+            color: #667eea;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .product-rating {
+            color: #ffa500;
+            font-weight: 600;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 992px) {
+            .products {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                position: static;
+            }
+            
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: none;
+                margin: 15px 0;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="http://localhost:3002/products#" class="logo">
+                <i class="fas fa-chart-line"></i>
+                ProductRank
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="제품이나 카테고리를 검색해보세요...">
+            </div>
+            <div class="user-actions">
+                <a href="http://localhost:3002/products#">로그인</a>
+                <a href="http://localhost:3002/products#">회원가입</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 사이드바 - 카테고리 목록 -->
+        <aside class="sidebar">
+            <h3>카테고리</h3>
+            <ul class="categories">
+                <li class="" data-category="all">
+                    <i class="fas fa-layer-group"></i>전체
+                </li>
+                <li data-category="productivity" class="">
+                    <i class="fas fa-rocket"></i>생산성 도구
+                </li>
+                <li data-category="engineering">
+                    <i class="fas fa-code"></i>개발 도구
+                </li>
+                <li data-category="design">
+                    <i class="fas fa-palette"></i>디자인 &amp; 크리에이티브
+                </li>
+                <li data-category="finance" class="active">
+                    <i class="fas fa-dollar-sign"></i>금융 서비스
+                </li>
+                <li data-category="social">
+                    <i class="fas fa-users"></i>소셜 &amp; 커뮤니티
+                </li>
+                <li data-category="marketing">
+                    <i class="fas fa-bullhorn"></i>마케팅 &amp; 세일즈
+                </li>
+                <li data-category="health">
+                    <i class="fas fa-heartbeat"></i>헬스 &amp; 피트니스
+                </li>
+                <li data-category="travel">
+                    <i class="fas fa-plane"></i>여행
+                </li>
+                <li data-category="platforms">
+                    <i class="fas fa-server"></i>플랫폼
+                </li>
+                <li data-category="addons">
+                    <i class="fas fa-puzzle-piece"></i>제품 확장 도구
+                </li>
+                <li data-category="web3">
+                    <i class="fas fa-cubes"></i>Web3 &amp; 블록체인
+                </li>
+                <li data-category="ai-agents">
+                    <i class="fas fa-robot"></i>AI 에이전트
+                </li>
+                <li data-category="llms">
+                    <i class="fas fa-brain"></i>언어 모델 (LLM)
+                </li>
+                <li data-category="physical">
+                    <i class="fas fa-box"></i>물리적 제품
+                </li>
+                <li data-category="voice-ai">
+                    <i class="fas fa-microphone"></i>음성 AI 도구
+                </li>
+                <li data-category="ecommerce">
+                    <i class="fas fa-shopping-cart"></i>이커머스
+                </li>
+                <li data-category="data-analysis">
+                    <i class="fas fa-chart-bar"></i>데이터 분석 도구
+                </li>
+                <li data-category="nocode">
+                    <i class="fas fa-magic"></i>노코드 플랫폼
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- 헤더 및 정렬 옵션 -->
+            <div class="content-header">
+                <h1 class="page-title">금융 서비스</h1>
+                <div class="sort-options">
+                    <select>
+                        <option>랭킹순</option>
+                        <option>댓글순</option>
+                        <option>출시순</option>
+                        <option>인기순</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 전체 카테고리 섹션 -->
+            <section class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">
+                        <i class="fas fa-fire"></i>인기 제품 TOP 5
+                    </h2>
+                    <a href="http://localhost:3002/products#" class="view-more">더보기 <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="products">
+                    <!-- 제품 카드 5개 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="product-rank">1</div>
+                            제품 이미지
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">노션 (Notion)</div>
+                            <div class="product-description">올인원 워크스페이스로 노트, 작업, 데이터베이스를 하나로 통합한 생산성 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">생산성</span>
+                                <span class="product-rating">4.8★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="product-rank">2</div>
+                            제품 이미지
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">피그마 (Figma)</div>
+                            <div class="product-description">팀 협업을 위한 온라인 디자인 및 프로토타이핑 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">디자인</span>
+                                <span class="product-rating">4.7★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="product-rank">3</div>
+                            제품 이미지
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">GitHub</div>
+                            <div class="product-description">세계 최대 코드 호스팅 및 개발자 협업 플랫폼</div>
+                            <div class="product-meta">
+                                <span class="product-category">개발</span>
+                                <span class="product-rating">4.9★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="product-rank">4</div>
+                            제품 이미지
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Stripe</div>
+                            <div class="product-description">온라인 결제 처리를 위한 개발자 친화적 솔루션</div>
+                            <div class="product-meta">
+                                <span class="product-category">금융</span>
+                                <span class="product-rating">4.6★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div class="product-rank">5</div>
+                            제품 이미지
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Slack</div>
+                            <div class="product-description">팀 커뮤니케이션과 협업을 위한 워크스페이스 플랫폼</div>
+                            <div class="product-meta">
+                                <span class="product-category">커뮤니케이션</span>
+                                <span class="product-rating">4.5★</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 생산성 도구 섹션 -->
+            <section class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">
+                        <i class="fas fa-rocket"></i>생산성 도구
+                    </h2>
+                    <a href="http://localhost:3002/products#" class="view-more">더보기 <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="products">
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Trello</div>
+                            <div class="product-description">칸반 보드 방식의 프로젝트 관리 및 작업 조직화 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">생산성</span>
+                                <span class="product-rating">4.6★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Asana</div>
+                            <div class="product-description">팀 작업 관리 및 프로젝트 추적 애플리케이션</div>
+                            <div class="product-meta">
+                                <span class="product-category">생산성</span>
+                                <span class="product-rating">4.5★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Evernote</div>
+                            <div class="product-description">노트 작성, 문서 정리 및 정보 관리 앱</div>
+                            <div class="product-meta">
+                                <span class="product-category">생산성</span>
+                                <span class="product-rating">4.3★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Monday.com</div>
+                            <div class="product-description">팀 업무 관리 및 협업 플랫폼</div>
+                            <div class="product-meta">
+                                <span class="product-category">생산성</span>
+                                <span class="product-rating">4.4★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Todoist</div>
+                            <div class="product-description">할 일 목록 관리 및 개인 작업 관리자</div>
+                            <div class="product-meta">
+                                <span class="product-category">생산성</span>
+                                <span class="product-rating">4.4★</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI 에이전트 섹션 -->
+            <section class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">
+                        <i class="fas fa-robot"></i>AI 에이전트
+                    </h2>
+                    <a href="http://localhost:3002/products#" class="view-more">더보기 <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="products">
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">ChatGPT</div>
+                            <div class="product-description">OpenAI의 대화형 AI 챗봇 및 어시스턴트</div>
+                            <div class="product-meta">
+                                <span class="product-category">AI</span>
+                                <span class="product-rating">4.9★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Claude</div>
+                            <div class="product-description">Anthropic의 안전하고 유용한 AI 어시스턴트</div>
+                            <div class="product-meta">
+                                <span class="product-category">AI</span>
+                                <span class="product-rating">4.7★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Bard</div>
+                            <div class="product-description">Google의 실험적 대화형 AI 서비스</div>
+                            <div class="product-meta">
+                                <span class="product-category">AI</span>
+                                <span class="product-rating">4.6★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Midjourney</div>
+                            <div class="product-description">AI 기반 고품질 이미지 생성 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">AI</span>
+                                <span class="product-rating">4.8★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Jasper</div>
+                            <div class="product-description">마케팅 및 콘텐츠를 위한 AI 작성 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">AI</span>
+                                <span class="product-rating">4.5★</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 디자인 & 크리에이티브 섹션 -->
+            <section class="category-section">
+                <div class="category-header">
+                    <h2 class="category-title">
+                        <i class="fas fa-palette"></i>디자인 &amp; 크리에이티브
+                    </h2>
+                    <a href="http://localhost:3002/products#" class="view-more">더보기 <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="products">
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Adobe Creative Suite</div>
+                            <div class="product-description">포토샵, 일러스트레이터 등 크리에이티브 도구 모음</div>
+                            <div class="product-meta">
+                                <span class="product-category">디자인</span>
+                                <span class="product-rating">4.8★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Canva</div>
+                            <div class="product-description">쉬운 그래픽 디자인 및 비주얼 콘텐츠 제작 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">디자인</span>
+                                <span class="product-rating">4.7★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Sketch</div>
+                            <div class="product-description">UI/UX 디자인을 위한 벡터 그래픽 에디터</div>
+                            <div class="product-meta">
+                                <span class="product-category">디자인</span>
+                                <span class="product-rating">4.6★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">Framer</div>
+                            <div class="product-description">인터랙티브 프로토타이핑 및 디자인 도구</div>
+                            <div class="product-meta">
+                                <span class="product-category">디자인</span>
+                                <span class="product-rating">4.5★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">제품 이미지</div>
+                        <div class="product-info">
+                            <div class="product-name">InVision</div>
+                            <div class="product-description">디지털 제품 디자인 플랫폼</div>
+                            <div class="product-meta">
+                                <span class="product-category">디자인</span>
+                                <span class="product-rating">4.4★</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2023 ProductRank. All rights reserved.</p>
+            <p>제품 랭킹 및 리뷰 플랫폼</p>
+        </div>
+    </footer>
+
+    <script>
+        // 카테고리 선택 기능
+        document.querySelectorAll('.categories li').forEach(item => {
+            item.addEventListener('click', function() {
+                // 모든 카테고리에서 active 클래스 제거
+                document.querySelectorAll('.categories li').forEach(li => {
+                    li.classList.remove('active');
+                });
+                
+                // 클릭한 카테고리에 active 클래스 추가
+                this.classList.add('active');
+                
+                // 페이지 제목 업데이트
+                const pageTitle = document.querySelector('.page-title');
+                const categoryName = this.textContent.trim();
+                pageTitle.textContent = categoryName === '전체' ? '전체 제품' : categoryName;
+                
+                console.log(`"${categoryName}" 카테고리를 선택하셨습니다.`);
+            });
+        });
+        
+        // 정렬 옵션 변경 시
+        document.querySelector('.sort-options select').addEventListener('change', function() {
+            console.log(`"${this.value}"으로 정렬합니다.`);
+        });
+
+        // 더보기 버튼 클릭 시
+        document.querySelectorAll('.view-more').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const categoryTitle = this.previousElementSibling.textContent.trim();
+                console.log(`"${categoryTitle}" 카테고리의 전체 제품을 봅니다.`);
+            });
+        });
+
+        // 제품 카드 클릭 시
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const productName = this.querySelector('.product-name').textContent;
+                console.log(`"${productName}" 제품 상세 페이지로 이동합니다.`);
+            });
+        });
+    </script>
+
+</body></html>

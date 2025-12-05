@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://localhost:3000/community -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.turbo-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 2147483647;
+  transition:
+    width 300ms ease-out,
+    opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_files/all.min.css">
+    <meta name="csrf-param" content="authenticity_token">
+
+    
+    <link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_files/application-8b441ae0.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_files/custom-27e46ae8.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_files/modern_products-b19e2900.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_files/product_detail-550f44e8.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./ProductRank - 새로운 제품을 발견하고 순위를 매기세요_files/tailwind-cb445571.css" data-turbo-track="reload">
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "application": "/assets/application-bfcdf840.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-3a2e143f.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-4b1e420e.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc53fe7.js",
+    "controllers/application": "/assets/controllers/application-3affb389.js",
+    "controllers/hello_controller": "/assets/controllers/hello_controller-708796bd.js",
+    "controllers": "/assets/controllers/index-ee64e1f1.js"
+  }
+}</script>
+<link rel="modulepreload" href="http://localhost:3000/assets/application-bfcdf840.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/turbo.min-3a2e143f.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/stimulus.min-4b1e420e.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/stimulus-loading-1fc53fe7.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/application-3affb389.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/hello_controller-708796bd.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/index-ee64e1f1.js">
+<script type="module">import "application"</script>
+<meta name="csrf-token" content="wC5o2xHUrHq2A8W9Zc3CNhK-hEruN4H1VhrgdP4h3rdlU-D5r5Bo5klzoVFxeAImieHcn8zOuIqfjc2jQ2YHsA"></head>
+<div class="turbo-progress-bar" style="width: 100.663%; opacity: 0;"></div><body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a class="logo" href="http://localhost:3000/">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="http://localhost:3000/products">제품</a>
+                <a href="http://localhost:3000/search">검색</a>
+                <a href="http://localhost:3000/rankboard">랭크보드</a>
+                <a href="http://localhost:3000/community">커뮤니티</a>
+                <a href="http://localhost:3000/collections">컬렉션</a>
+            </nav>
+            
+            <div class="search-bar">
+                <form class="search-form" action="http://localhost:3000/search" accept-charset="UTF-8" method="get">
+                    <i class="fas fa-search"></i>
+                    <input placeholder="다음으로 좋아할 만한 것을 발견하세요..." class="search-input" type="text" name="q" id="q">
+</form>            </div>
+            
+            <div class="auth-buttons">
+                    <a class="login-btn" href="http://localhost:3000/login">로그인</a>
+                    <a class="signup-btn" href="http://localhost:3000/login">가입하기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BEGIN app/views/community/index.html.erb --><!-- 커뮤니티 헤더 -->
+<div class="community-header">
+    <div class="community-header-content">
+        <h1>커뮤니티</h1>
+        <p class="community-subtitle">제품에 대한 토론과 피드백을 나누는 공간입니다</p>
+        <button class="btn-primary new-post-btn">새 글 작성</button>
+    </div>
+</div>
+
+<!-- 커뮤니티 네비게이션 -->
+<div class="community-nav">
+    <div class="nav-tabs">
+        <a href="http://localhost:3000/community" class="nav-tab active">전체</a>
+        <a href="http://localhost:3000/community?category=discussion" class="nav-tab ">토론</a>
+        <a href="http://localhost:3000/community?category=question" class="nav-tab ">질문</a>
+        <a href="http://localhost:3000/community?category=feedback" class="nav-tab ">피드백</a>
+        <a href="http://localhost:3000/community?category=review" class="nav-tab ">리뷰</a>
+        <a href="http://localhost:3000/community?category=showcase" class="nav-tab ">쇼케이스</a>
+        <a href="http://localhost:3000/community?category=announcement" class="nav-tab ">공지</a>
+    </div>
+    <div class="community-search">
+        <input type="text" placeholder="글 검색..." class="search-input">
+        <button class="search-btn">🔍</button>
+    </div>
+</div>
+
+<!-- 메인 콘텐츠 -->
+<div class="community-container">
+    <main class="community-main">
+        <!-- 인기 토픽 섹션 -->
+        <div class="featured-topics">
+            <h3>🔥 이번 주 인기 토픽</h3>
+            <div class="topic-cards">
+                <div class="topic-card">
+                    <h4>AI 도구들의 생산성 비교</h4>
+                    <p>ChatGPT vs Claude vs Gemini 실제 사용 후기</p>
+                    <div class="topic-stats">💬 24 · 👍 89</div>
+                </div>
+                <div class="topic-card">
+                    <h4>2024년 최고의 디자인 도구</h4>
+                    <p>Figma 대안들을 찾고 있다면</p>
+                    <div class="topic-stats">💬 18 · 👍 67</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게시글 리스트 -->
+        <div class="community-posts-section">
+            <div class="posts-header">
+                <div class="posts-title">
+                    <h3>커뮤니티 게시글</h3>
+                    <span class="posts-count">10개의 글</span>
+                </div>
+                <div class="posts-controls">
+                    <select class="sort-dropdown">
+                        <option>최신순</option>
+                        <option>인기순</option>
+                        <option>댓글순</option>
+                        <option>조회순</option>
+                    </select>
+                    <button class="view-toggle" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button class="view-toggle active" data-view="card">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="posts-container" id="posts-container">
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/61">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        익
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">익명</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>4 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            Notion 도입 고민 중인데 조언 구합니다
+                                    </h2>
+                                    <p class="post-preview">
+                                            비슷한 서비스들과 비교해서 Notion의 차별점이 무엇인지 궁금합니다. 사용비도 고려해서 추천해주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>12</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>13</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>366</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>4</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/60">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">Jane Smith</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            CourseCreator 사용해보신 분 있나요? 후기 듣고 싶어요
+                                    </h2>
+                                    <p class="post-preview">
+                                            온라인 강의 제작 올인원 툴 이런 기능들이 있는데, 어떤 분들이 사용하면 좋을까요? 업무 효율성이 정말 올라가나요?
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">교육</span>
+                                            <span class="topic-tag">생산성</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>27</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>10</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>242</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>4</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/59">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">John Doe</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            InvestmentBot에 대한 생각이 궤금합니다
+                                    </h2>
+                                    <p class="post-preview">
+                                            업무에서 AI 투자 자문사와 상담하기 기능을 사용해보려고 하는데, 실제로 사용해보신 분들의 솔직한 후기가 궁금합니다. 장단점이나 사용성에 대해 알려주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">금융</span>
+                                            <span class="topic-tag">인공지능</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>27</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>10</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>480</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>3</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/58">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">Jane Smith</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            UIComponents 사용법 궁금한 점들
+                                    </h2>
+                                    <p class="post-preview">
+                                            재사용 가능한 UI 컴포넌트 키트 이런 특징들이 매력적인데, 실제 사용해보면 어떨까요? 도입 전에 미리 알아두면 좋을 팁들이 있다면 알려주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">디자인</span>
+                                            <span class="topic-tag">개발</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>16</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>14</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>331</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>2</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/57">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">Jane Smith</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            CodeSnippet 사용법 궁금한 점들
+                                    </h2>
+                                    <p class="post-preview">
+                                            비슷한 서비스들과 비교해서 CodeSnippet의 차별점이 무엇인지 궁금합니다. 사용비도 고려해서 추천해주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">개발</span>
+                                            <span class="topic-tag">생산성</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>24</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>13</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>366</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>9</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/56">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">John Doe</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            WellnessTracker 사용법 궁금한 점들
+                                    </h2>
+                                    <p class="post-preview">
+                                            비슷한 서비스들과 비교해서 WellnessTracker의 차별점이 무엇인지 궁금합니다. 사용비도 고려해서 추천해주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">건강</span>
+                                            <span class="topic-tag">인공지능</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>13</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>19</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>391</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>9</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/55">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">John Doe</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            StoreBuilder vs 다른 대안들 비교 분석
+                                    </h2>
+                                    <p class="post-preview">
+                                            비슷한 서비스들과 비교해서 StoreBuilder의 차별점이 무엇인지 궁금합니다. 사용비도 고려해서 추천해주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">이커머스</span>
+                                            <span class="topic-tag">생산성</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>11</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>16</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>288</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>10</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/54">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">Jane Smith</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            LearningPath 사용법 궁금한 점들
+                                    </h2>
+                                    <p class="post-preview">
+                                            업무에서 개인화된 학습 로드맵 생성기 기능을 사용해보려고 하는데, 실제로 사용해보신 분들의 솔직한 후기가 궁금합니다. 장단점이나 사용성에 대해 알려주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">교육</span>
+                                            <span class="topic-tag">인공지능</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>11</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>19</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>385</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>4</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/53">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">John Doe</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            DatabaseManager 사용법 궁금한 점들
+                                    </h2>
+                                    <p class="post-preview">
+                                            데이터베이스 관리의 새로운 기준 이런 특징들이 매력적인데, 실제 사용해보면 어떨까요? 도입 전에 미리 알아두면 좋을 팁들이 있다면 알려주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">개발</span>
+                                            <span class="topic-tag">생산성</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>26</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>8</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>355</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>2</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+                        <article class="community-post-card">
+                            <a class="post-link" href="http://localhost:3000/products/52">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <div class="author-section">
+                                            <div class="author-avatar">
+                                                    <div class="avatar-placeholder">
+                                                        J
+                                                    </div>
+                                            </div>
+                                            <div class="author-info">
+                                                <span class="author-name">John Doe</span>
+                                                <div class="post-badges">
+                                                    <span class="author-badge">인증</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-time">
+                                            <span>6 days 전</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body">
+                                    <h2 class="post-title">
+                                            VideoEditor AI vs 다른 대안들 비교 분석
+                                    </h2>
+                                    <p class="post-preview">
+                                            비슷한 서비스들과 비교해서 VideoEditor AI의 차별점이 무엇인지 궁금합니다. 사용비도 고려해서 추천해주세요.
+                                    </p>
+                                    
+                                    <div class="post-tags-section">
+                                            <span class="topic-tag">디자인</span>
+                                            <span class="topic-tag">인공지능</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="engagement-stats">
+                                        <div class="stat-item primary">
+                                            <i class="fas fa-heart"></i>
+                                            <span>25</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-comment"></i>
+                                            <span>16</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-eye"></i>
+                                            <span>408</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>6</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="post-actions">
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+</a>                        </article>
+            </div>
+            
+            <!-- 더 보기 버튼 -->
+                <div class="load-more-section">
+                    <button class="load-more-btn">
+                        <span>더 많은 글 보기</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+        </div>
+    </main>
+    
+    <aside class="community-sidebar">
+        <div class="sidebar-card">
+            <h3>📊 커뮤니티 통계</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">1,234</div>
+                    <div class="stat-label">전체 게시글</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">567</div>
+                    <div class="stat-label">활성 회원</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">89</div>
+                    <div class="stat-label">오늘 새 글</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">234</div>
+                    <div class="stat-label">답변 대기</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>🏷️ 인기 태그</h3>
+            <div class="popular-tags">
+                    <a class="popular-tag" href="http://localhost:3000/topics/productivity">생산성</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/ai">인공지능</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/development">개발</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/design">디자인</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/health">건강</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/education">교육</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/finance">금융</a>
+                    <a class="popular-tag" href="http://localhost:3000/topics/ecommerce">이커머스</a>
+                
+            </div>
+        </div>
+
+        <div class="sidebar-card">
+            <h3>🚀 이번 주 최고의 글</h3>
+            <div class="top-posts">
+                <div class="top-post-item">
+                    <div class="top-post-rank">1</div>
+                    <div class="top-post-content">
+                        <h5>노코드 도구 비교 완벽 가이드</h5>
+                        <div class="top-post-stats">👍 156 · 💬 43</div>
+                    </div>
+                </div>
+                <div class="top-post-item">
+                    <div class="top-post-rank">2</div>
+                    <div class="top-post-content">
+                        <h5>스타트업 초기 필수 도구들</h5>
+                        <div class="top-post-stats">👍 134 · 💬 28</div>
+                    </div>
+                </div>
+                <div class="top-post-item">
+                    <div class="top-post-rank">3</div>
+                    <div class="top-post-content">
+                        <h5>개발자를 위한 생산성 앱 추천</h5>
+                        <div class="top-post-stats">👍 98 · 💬 31</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card community-rules">
+            <h3>📋 커뮤니티 가이드</h3>
+            <ul class="rules-list">
+                <li>✅ 건설적인 피드백을 남겨주세요</li>
+                <li>✅ 구체적인 사용 경험을 공유해주세요</li>
+                <li>❌ 스팸이나 광고성 글은 금지</li>
+                <li>❌ 개인정보 공유 금지</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
+<script>
+// 뷰 토글 기능
+document.querySelectorAll('.view-toggle').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // 모든 버튼에서 active 클래스 제거
+        document.querySelectorAll('.view-toggle').forEach(b => b.classList.remove('active'));
+        // 클릭된 버튼에 active 클래스 추가
+        this.classList.add('active');
+        
+        const view = this.dataset.view;
+        const postsContainer = document.getElementById('posts-container');
+        
+        if (view === 'list') {
+            postsContainer.classList.add('list-view');
+        } else {
+            postsContainer.classList.remove('list-view');
+        }
+    });
+});
+
+// 정렬 드롭다운 기능
+document.querySelector('.sort-dropdown').addEventListener('change', function() {
+    // 실제 구현에서는 AJAX로 데이터를 다시 로드하거나 페이지를 새로고침
+    console.log('정렬 기준 변경:', this.value);
+});
+
+// 검색 기능
+document.querySelector('.search-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const query = this.value;
+        console.log('검색어:', query);
+        // 실제 구현에서는 검색 기능 추가
+    }
+});
+
+document.querySelector('.search-btn').addEventListener('click', function() {
+    const query = document.querySelector('.search-input').value;
+    console.log('검색어:', query);
+    // 실제 구현에서는 검색 기능 추가
+});
+
+// 새 글 작성 버튼
+document.querySelector('.new-post-btn').addEventListener('click', function() {
+    console.log('새 글 작성 페이지로 이동');
+    // 실제 구현에서는 글 작성 페이지로 이동
+});
+
+// 더 보기 버튼
+document.querySelector('.load-more-btn')?.addEventListener('click', function() {
+    console.log('더 많은 글 로드');
+    // 실제 구현에서는 AJAX로 추가 글 로드
+});
+</script>
+<!-- END app/views/community/index.html.erb -->
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a class="footer-logo" href="http://localhost:3000/">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="http://localhost:3000/community#">소개</a>
+                    <a href="http://localhost:3000/community#">자주 묻는 질문</a>
+                    <a href="http://localhost:3000/community#">이용약관</a>
+                    <a href="http://localhost:3000/community#">개인정보처리방침</a>
+                    <a href="http://localhost:3000/community#">문의하기</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="http://localhost:3000/community#"><i class="fab fa-twitter"></i></a>
+                    <a href="http://localhost:3000/community#"><i class="fab fa-facebook"></i></a>
+                    <a href="http://localhost:3000/community#"><i class="fab fa-instagram"></i></a>
+                    <a href="http://localhost:3000/community#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

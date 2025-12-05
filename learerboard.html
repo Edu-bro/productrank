@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:3000/ -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.turbo-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 2147483647;
+  transition:
+    width 300ms ease-out,
+    opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank - 새로운 제품을 발견하고 순위를 매기세요</title>
+    <link rel="stylesheet" href="./learerboard_files/all.min.css">
+    <meta name="csrf-param" content="authenticity_token">
+
+    
+    <link rel="stylesheet" href="./learerboard_files/application-8b441ae0.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./learerboard_files/custom-4db83cd5.css" data-turbo-track="reload">
+<link rel="stylesheet" href="./learerboard_files/tailwind-cb445571.css" data-turbo-track="reload">
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "application": "/assets/application-bfcdf840.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-3a2e143f.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-4b1e420e.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc53fe7.js",
+    "controllers/application": "/assets/controllers/application-3affb389.js",
+    "controllers/hello_controller": "/assets/controllers/hello_controller-708796bd.js",
+    "controllers": "/assets/controllers/index-ee64e1f1.js"
+  }
+}</script>
+<link rel="modulepreload" href="http://localhost:3000/assets/application-bfcdf840.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/turbo.min-3a2e143f.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/stimulus.min-4b1e420e.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/stimulus-loading-1fc53fe7.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/application-3affb389.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/hello_controller-708796bd.js">
+<link rel="modulepreload" href="http://localhost:3000/assets/controllers/index-ee64e1f1.js">
+<script type="module">import "application"</script>
+<meta name="csrf-token" content="HQirunVflRX-iSUqdK66tUvcXqM_3mVk-CNFr-g4cxF4Mhk8LumqYoiRbOJI7nmyMWONR9GveMyei2reyAueXQ"></head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <a class="logo" href="http://localhost:3000/">ProductRank</a>
+            
+            <nav class="nav-links">
+                <a href="http://localhost:3000/products">제품</a>
+                <a href="http://localhost:3000/leaderboard">리더보드</a>
+                <a href="http://localhost:3000/#">토론</a>
+                <a href="http://localhost:3000/collections">컬렉션</a>
+            </nav>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="다음으로 좋아할 만한 것을 발견하세요...">
+            </div>
+            
+            <div class="auth-buttons">
+                <a class="login-btn" href="http://localhost:3000/#">로그인</a>
+                <a class="signup-btn" href="http://localhost:3000/#">가입하기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BEGIN app/views/home/index.html.erb --><!-- 메인 콘텐츠 -->
+<div class="main-container">
+    <main>
+        <div class="tabs">
+            <a href="http://localhost:3000/leaderboard/daily" class="tab active">오늘</a>
+            <a href="http://localhost:3000/leaderboard/weekly" class="tab">이번 주</a>
+            <a href="http://localhost:3000/leaderboard/monthly" class="tab">이번 달</a>
+            <a href="http://localhost:3000/leaderboard/yearly" class="tab">올해</a>
+            <a href="http://localhost:3000/leaderboard/all" class="tab">전체</a>
+        </div>
+        
+        <div class="product-list">
+                <!-- 제품 1 -->
+                <div class="product-card">
+                    <div class="product-rank">1</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/20">
+                            <h3 class="product-title">TimeTracker Pro</h3>
+                            <p class="product-description">시간 관리의 새로운 기준</p>
+</a>                        <div class="product-meta">
+                                <span>생산성</span>
+                                <span>개발</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>16</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 2 -->
+                <div class="product-card">
+                    <div class="product-rank">2</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/19">
+                            <h3 class="product-title">PhotoMagic AI</h3>
+                            <p class="product-description">AI로 완성하는 완벽한 사진 편집</p>
+</a>                        <div class="product-meta">
+                                <span>디자인</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 3 -->
+                <div class="product-card">
+                    <div class="product-rank">3</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/18">
+                            <h3 class="product-title">MenuMaster</h3>
+                            <p class="product-description">레스토랑을 위한 디지털 메뉴 솔루션</p>
+</a>                        <div class="product-meta">
+                                <span>이커머스</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 4 -->
+                <div class="product-card">
+                    <div class="product-rank">4</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/17">
+                            <h3 class="product-title">VoiceNote AI</h3>
+                            <p class="product-description">음성을 텍스트로 변환하는 스마트 노트</p>
+</a>                        <div class="product-meta">
+                                <span>생산성</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 5 -->
+                <div class="product-card">
+                    <div class="product-rank">5</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/16">
+                            <h3 class="product-title">CloudSync Pro</h3>
+                            <p class="product-description">멀티 클라우드 파일 동기화 솔루션</p>
+</a>                        <div class="product-meta">
+                                <span>생산성</span>
+                                <span>개발</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 6 -->
+                <div class="product-card">
+                    <div class="product-rank">6</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/15">
+                            <h3 class="product-title">SocialBoost</h3>
+                            <p class="product-description">소셜미디어 마케팅 자동화 도구</p>
+</a>                        <div class="product-meta">
+                                <span>생산성</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 7 -->
+                <div class="product-card">
+                    <div class="product-rank">7</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/14">
+                            <h3 class="product-title">LearnCode</h3>
+                            <p class="product-description">코딩을 재미있게 배우는 인터랙티브 플랫폼</p>
+</a>                        <div class="product-meta">
+                                <span>교육</span>
+                                <span>개발</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 8 -->
+                <div class="product-card">
+                    <div class="product-rank">8</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/13">
+                            <h3 class="product-title">FitnessPal AI</h3>
+                            <p class="product-description">AI 개인 트레이너와 함께하는 맞춤 운동</p>
+</a>                        <div class="product-meta">
+                                <span>건강</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 9 -->
+                <div class="product-card">
+                    <div class="product-rank">9</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/12">
+                            <h3 class="product-title">CryptoWallet+</h3>
+                            <p class="product-description">안전하고 직관적인 암호화폐 지갑</p>
+</a>                        <div class="product-meta">
+                                <span>금융</span>
+                                <span>개발</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 10 -->
+                <div class="product-card">
+                    <div class="product-rank">10</div>
+                    <div class="product-image">
+                            <i class="fas fa-image fa-2x"></i>
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/11">
+                            <h3 class="product-title">CreativeStudio</h3>
+                            <p class="product-description">창작자를 위한 올인원 콘텐츠 제작 도구</p>
+</a>                        <div class="product-meta">
+                                <span>디자인</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 11 -->
+                <div class="product-card">
+                    <div class="product-rank">11</div>
+                    <div class="product-image">
+                            <img alt="DevTools Pro" src="./learerboard_files/jetbrains.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/10">
+                            <h3 class="product-title">DevTools Pro</h3>
+                            <p class="product-description">개발자 생산성을 극대화하는 통합 도구</p>
+</a>                        <div class="product-meta">
+                                <span>개발</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 12 -->
+                <div class="product-card">
+                    <div class="product-rank">12</div>
+                    <div class="product-image">
+                            <img alt="MindSpace" src="./learerboard_files/headspace.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/9">
+                            <h3 class="product-title">MindSpace</h3>
+                            <p class="product-description">정신 건강을 위한 디지털 명상 공간</p>
+</a>                        <div class="product-meta">
+                                <span>건강</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 13 -->
+                <div class="product-card">
+                    <div class="product-rank">13</div>
+                    <div class="product-image">
+                            <img alt="ShopEasy" src="./learerboard_files/shopify.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/8">
+                            <h3 class="product-title">ShopEasy</h3>
+                            <p class="product-description">간편하고 안전한 온라인 쇼핑몰 솔루션</p>
+</a>                        <div class="product-meta">
+                                <span>이커머스</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 14 -->
+                <div class="product-card">
+                    <div class="product-rank">14</div>
+                    <div class="product-image">
+                            <img alt="EduMaster" src="./learerboard_files/coursera.org">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/7">
+                            <h3 class="product-title">EduMaster</h3>
+                            <p class="product-description">온라인 학습을 혁신하는 교육 플랫폼</p>
+</a>                        <div class="product-meta">
+                                <span>교육</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 15 -->
+                <div class="product-card">
+                    <div class="product-rank">15</div>
+                    <div class="product-image">
+                            <img alt="SmartBudget" src="./learerboard_files/mint.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/6">
+                            <h3 class="product-title">SmartBudget</h3>
+                            <p class="product-description">개인 재정 관리를 위한 스마트 예산 앱</p>
+</a>                        <div class="product-meta">
+                                <span>금융</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 16 -->
+                <div class="product-card">
+                    <div class="product-rank">16</div>
+                    <div class="product-image">
+                            <img alt="HealthTracker+" src="./learerboard_files/myfitnesspal.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/5">
+                            <h3 class="product-title">HealthTracker+</h3>
+                            <p class="product-description">개인 맞춤형 건강 관리 어시스턴트</p>
+</a>                        <div class="product-meta">
+                                <span>건강</span>
+                                <span>인공지능</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 17 -->
+                <div class="product-card">
+                    <div class="product-rank">17</div>
+                    <div class="product-image">
+                            <img alt="CodeSync" src="./learerboard_files/github.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/4">
+                            <h3 class="product-title">CodeSync</h3>
+                            <p class="product-description">개발자를 위한 실시간 코드 공유 플랫폼</p>
+</a>                        <div class="product-meta">
+                                <span>개발</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 18 -->
+                <div class="product-card">
+                    <div class="product-rank">18</div>
+                    <div class="product-image">
+                            <img alt="DesignKit Pro" src="./learerboard_files/figma.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/3">
+                            <h3 class="product-title">DesignKit Pro</h3>
+                            <p class="product-description">전문 디자이너를 위한 올인원 툴킷</p>
+</a>                        <div class="product-meta">
+                                <span>디자인</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 19 -->
+                <div class="product-card">
+                    <div class="product-rank">19</div>
+                    <div class="product-image">
+                            <img alt="FlowSpace" src="./learerboard_files/slack.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/2">
+                            <h3 class="product-title">FlowSpace</h3>
+                            <p class="product-description">원격 팀을 위한 협업 작업 공간</p>
+</a>                        <div class="product-meta">
+                                <span>생산성</span>
+                                <span>개발</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 제품 20 -->
+                <div class="product-card">
+                    <div class="product-rank">20</div>
+                    <div class="product-image">
+                            <img alt="AI Assistant Pro" src="./learerboard_files/openai.com.다운로드">
+                    </div>
+                    <div class="product-content">
+                        <a class="product-title-link" href="http://localhost:3000/products/1">
+                            <h3 class="product-title">AI Assistant Pro</h3>
+                            <p class="product-description">혁신적인 AI 어시스턴트로 일상 업무를 자동화하세요</p>
+</a>                        <div class="product-meta">
+                                <span>인공지능</span>
+                                <span>생산성</span>
+                        </div>
+                    </div>
+                    <div class="product-stats">
+                        <a href="http://localhost:3000/#" class="stat-button vote">
+                            <i class="fas fa-caret-up"></i>
+                            <span>4</span>
+                        </a>
+                        <a href="http://localhost:3000/#" class="stat-button">
+                            <i class="fas fa-comment"></i>
+                            <span>4</span>
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </main>
+    
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">인기 태그</h3>
+            <div class="tag-list">
+                    <a class="tag" href="http://localhost:3000/topics/productivity">생산성</a>
+                    <a class="tag" href="http://localhost:3000/topics/ai">인공지능</a>
+                    <a class="tag" href="http://localhost:3000/topics/development">개발</a>
+                    <a class="tag" href="http://localhost:3000/topics/design">디자인</a>
+                    <a class="tag" href="http://localhost:3000/topics/health">건강</a>
+                    <a class="tag" href="http://localhost:3000/topics/education">교육</a>
+                    <a class="tag" href="http://localhost:3000/topics/finance">금융</a>
+                    <a class="tag" href="http://localhost:3000/topics/ecommerce">이커머스</a>
+                
+            </div>
+        </div>
+        
+        <div class="sidebar-widget">
+            <h3 class="widget-title">출시 예정 제품</h3>
+            <div class="upcoming-list">
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">TaskMaster 2.0</h4>
+                            <div class="upcoming-item-meta">생산성 · 출시 예정</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">FitTrack Pro</h4>
+                            <div class="upcoming-item-meta">건강 및 피트니스 · 다음 주 출시</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">CodeSync</h4>
+                            <div class="upcoming-item-meta">개발 · 내일 출시</div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        
+        <div class="sidebar-widget">
+            <h3 class="widget-title">ProductRank 만들기</h3>
+            <p style="font-size: 14px; margin-bottom: 15px;">ProductRank는 매일 최고의 새 제품을 공유하는 제품 애호가 커뮤니티입니다.</p>
+            <a href="http://localhost:3000/#" class="signup-btn" style="display: inline-block; text-align: center;">가입하기</a>
+        </div>
+    </aside>
+</div>
+<!-- END app/views/home/index.html.erb -->
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a class="footer-logo" href="http://localhost:3000/">ProductRank</a>
+                
+                <div class="footer-links">
+                    <a href="http://localhost:3000/#">소개</a>
+                    <a href="http://localhost:3000/#">자주 묻는 질문</a>
+                    <a href="http://localhost:3000/#">이용약관</a>
+                    <a href="http://localhost:3000/#">개인정보처리방침</a>
+                    <a href="http://localhost:3000/#">문의하기</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+                
+                <div class="social-links">
+                    <a href="http://localhost:3000/#"><i class="fab fa-twitter"></i></a>
+                    <a href="http://localhost:3000/#"><i class="fab fa-facebook"></i></a>
+                    <a href="http://localhost:3000/#"><i class="fab fa-instagram"></i></a>
+                    <a href="http://localhost:3000/#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

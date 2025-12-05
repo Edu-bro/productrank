@@ -1,0 +1,732 @@
+<!-- Open Graph 메타 태그 -->
+<% content_for :head do %>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <meta property="og:title" content="<%= @product.name %> - ProductRank">
+  <meta property="og:description" content="<%= @product.tagline %>">
+  <% if @product.logo_image.attached? %>
+    <meta property="og:image" content="<%= url_for(@product.logo_image) %>">
+  <% elsif @product.logo_url.present? %>
+    <meta property="og:image" content="<%= @product.logo_url %>">
+  <% end %>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="<%= request.original_url %>">
+  <meta name="twitter:title" content="<%= @product.name %> - ProductRank">
+  <meta name="twitter:description" content="<%= @product.tagline %>">
+  <% if @product.logo_image.attached? %>
+    <meta name="twitter:image" content="<%= url_for(@product.logo_image) %>">
+  <% elsif @product.logo_url.present? %>
+    <meta name="twitter:image" content="<%= @product.logo_url %>">
+  <% end %>
+<% end %>
+
+<!-- 제품 상세 페이지 CSS -->
+<%= stylesheet_link_tag "product_detail", "data-turbo-track": "reload" %>
+
+<div class="product-detail-page">
+  <div class="main-content">
+    <div class="container">
+      <div class="content-layout">
+        <!-- 메인 콘텐츠 -->
+        <div class="main-column">
+          <!-- 제품 정보 -->
+          <section class="product-info-section test-margin">
+            <div class="product-header-content">
+              <div class="product-logo">
+                <% if @product.logo_image.attached? %>
+                  <%= image_tag @product.logo_image, alt: "#{@product.name} 로고" %>
+                <% elsif @product.logo_url.present? %>
+                  <img src="<%= @product.logo_url %>" alt="<%= @product.name %> 로고" onerror="this.style.display='none'">
+                <% else %>
+                  <div class="logo-placeholder">
+                    <%= @product.name[0].upcase %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="product-main-info">
+                <div class="product-topics-tags">
+                  <% @product.topics.each do |topic| %>
+                    <%= link_to topic.name, products_path(category: topic.slug), class: "topic-badge" %>
+                  <% end %>
+                </div>
+                <h1 class="product-name"><%= @product.name %></h1>
+                <p class="product-tagline"><%= @product.tagline %></p>
+              </div>
+              <div class="product-header-vote" style="display: flex; gap: 0.5rem; align-items: center;">
+                <% user_has_voted = @product.voted_by?(current_user) %>
+                <% user_has_commented = @product.commented_by?(current_user) %>
+
+                <% if current_user %>
+                  <button onclick="voteProductDetail(<%= @product.id %>, <%= user_has_voted ? 'true' : 'false' %>)"
+                          id="vote-btn-detail-<%= @product.id %>"
+                          class="vote-button <%= 'voted' if user_has_voted %>"
+                          data-voted="<%= user_has_voted %>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none" id="vote-icon-detail-<%= @product.id %>">
+                      <path d="M8 3.5C8 3.5 8.5 3 9 3.8L11.5 8.5C12 9.3 11.8 10 11 10H5C4.2 10 4 9.3 4.5 8.5L7 3.8C7.5 3 8 3.5 8 3.5Z"
+                            stroke="<%= user_has_voted ? '#FF6154' : '#6B7280' %>"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            fill="<%= user_has_voted ? '#FF6154' : 'none' %>"/>
+                    </svg>
+                    <span class="vote-count" id="vote-count-detail-<%= @product.id %>" style="color: <%= user_has_voted ? '#FF6154' : '#374151' %>;"><%= @product.votes_count || 0 %></span>
+                  </button>
+                <% else %>
+                  <a href="#" onclick="event.preventDefault(); if(confirm('투표하려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) { window.location.href = '<%= login_path %>'; }"
+                     class="vote-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
+                      <path d="M8 3.5C8 3.5 8.5 3 9 3.8L11.5 8.5C12 9.3 11.8 10 11 10H5C4.2 10 4 9.3 4.5 8.5L7 3.8C7.5 3 8 3.5 8 3.5Z"
+                            stroke="#6B7280"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            fill="none"/>
+                    </svg>
+                    <span class="vote-count"><%= @product.votes_count || 0 %></span>
+                  </a>
+                <% end %>
+
+                <%= link_to product_path(@product, anchor: 'comments'), class: "vote-button", style: "text-decoration: none;" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none" style="width: 24px; height: 24px;">
+                    <path d="M14 7.667a5.667 5.667 0 0 1-7.703 5.287 2.286 2.286 0 0 0-.22-.078.571.571 0 0 0-.126-.016c-.06 0-.12.006-.2.014l-3.413.353c-.326.034-.488.05-.584-.008a.343.343 0 0 1-.157-.233c-.017-.111.06-.255.217-.543l1.09-2.018c.09-.167.135-.25.155-.329a.571.571 0 0 0 .018-.217c-.007-.083-.042-.19-.114-.403A5.667 5.667 0 1 1 14 7.667Z"
+                          stroke="<%= user_has_commented ? '#FF6154' : '#6B7280' %>"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          fill="<%= user_has_commented ? '#FF6154' : 'none' %>"/>
+                  </svg>
+                  <span class="vote-count" style="color: <%= user_has_commented ? '#FF6154' : '#374151' %>;"><%= @product.comments_count || 0 %></span>
+                <% end %>
+              </div>
+            </div>
+          </section>
+          <!-- 제품 사진 -->
+          <div class="image-gallery">
+            <div class="gallery-main">
+              <img id="mainImage" src="<%= @gallery_images.first %>" alt="<%= @product.name %> 메인 이미지">
+              <div class="gallery-nav">
+                <button class="nav-btn prev-btn" onclick="changeImage(-1)">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn next-btn" onclick="changeImage(1)">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+            <div class="gallery-thumbnails">
+              <% @gallery_images.each_with_index do |image, index| %>
+                <img src="<%= image %>" alt="갤러리 이미지 <%= index + 1 %>" 
+                     class="thumbnail <%= 'active' if index == 0 %>"
+                     onclick="setMainImage('<%= image %>', <%= index %>)">
+              <% end %>
+            </div>
+          </div>
+
+          <!-- 제품 소개 -->
+          <section class="description-section">
+            <h2>제품 소개</h2>
+            <div class="description-content">
+              <div id="descriptionText" class="description-text">
+                <%= simple_format(@product.description) %>
+              </div>
+              <button id="toggleDescription" class="toggle-btn" onclick="toggleDescription()">
+                더보기
+              </button>
+            </div>
+          </section>
+
+          <!-- 팀원 소개 -->
+          <% if @team_members.any? %>
+            <section class="team-section">
+              <h2>팀원 소개</h2>
+              <div class="team-list">
+                <% @team_members.each do |member| %>
+                  <div class="team-member">
+                    <%= user_avatar_tag(member[:user], size: 32, css_class: 'member-avatar') %>
+                    <div class="member-info">
+                      <div class="member-name-role">
+                        <h3><%= member[:name] %></h3>
+                        <% if member[:user].job_title.present? %>
+                          <span class="role"><%= member[:user].job_title %></span>
+                        <% elsif member[:role].present? %>
+                          <span class="role"><%= member[:role] %></span>
+                        <% end %>
+                      </div>
+                      <% if member[:user].bio.present? %>
+                        <p class="member-description"><%= member[:user].bio %></p>
+                      <% end %>
+                    </div>
+                    <div class="social-links">
+                      <% if member[:user].twitter_url.present? %>
+                        <a href="<%= member[:user].twitter_url %>" target="_blank" title="Twitter">
+                          <i class="fab fa-twitter"></i>
+                        </a>
+                      <% end %>
+                      <% if member[:user].linkedin_url.present? %>
+                        <a href="<%= member[:user].linkedin_url %>" target="_blank" title="LinkedIn">
+                          <i class="fab fa-linkedin"></i>
+                        </a>
+                      <% end %>
+                      <% if member[:user].github_url.present? %>
+                        <a href="<%= member[:user].github_url %>" target="_blank" title="GitHub">
+                          <i class="fab fa-github"></i>
+                        </a>
+                      <% end %>
+                      <% if member[:user].website.present? %>
+                        <a href="<%= member[:user].website %>" target="_blank" title="Website">
+                          <i class="fas fa-globe"></i>
+                        </a>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </section>
+          <% end %>
+
+          <!-- 특별 혜택 섹션 (조건부) -->
+          <% if @product.pricing_info.present? %>
+            <section class="promotion-section">
+              <h2>특별 혜택</h2>
+              <div class="promotion-card">
+                <div class="promotion-icon">
+                  <i class="fas fa-gift"></i>
+                </div>
+                <div class="promotion-content">
+                  <h3>ProductRank 참여자 특별 혜택</h3>
+                  <%= simple_format(@product.pricing_info) %>
+                </div>
+              </div>
+            </section>
+          <% end %>
+
+          <!-- 댓글 섹션 -->
+          <section id="comments" class="comments-section">
+            <h2>댓글 <%= @product.comments_count || 0 %>개</h2>
+
+            <!-- 댓글 작성 폼 -->
+            <% if logged_in? %>
+              <div class="comment-form-section">
+                <%= form_with model: [@product, Comment.new], local: true, data: { turbo: false }, class: "comment-form" do |form| %>
+                  <div class="form-group">
+                    <%= form.text_area :content, placeholder: "댓글 추가...", rows: 1, class: "form-control" %>
+                  </div>
+                  <div class="form-actions">
+                    <%= form.submit "게시", class: "btn btn-primary" %>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="login-prompt">
+                <p><%= link_to "로그인", login_path %>하여 댓글을 작성해보세요.</p>
+              </div>
+            <% end %>
+
+            <!-- 댓글 목록 -->
+            <div class="comments-list">
+              <% if @comments.any? %>
+                <% @comments.each do |comment| %>
+                  <div class="comment-item">
+                    <div class="comment-header">
+                      <%= user_avatar_tag(comment.user, size: 40, css_class: 'comment-avatar') %>
+                      <div class="comment-meta">
+                        <span class="commenter-name"><%= comment.user.name %></span>
+                        <span class="comment-date"><%= time_ago_in_words(comment.created_at) %> 전</span>
+                      </div>
+                      <% if logged_in? && can_edit_comment?(comment) %>
+                        <div class="comment-actions">
+                          <%= link_to "편집", edit_product_comment_path(@product, comment), class: "action-link" %>
+                          <%= link_to "삭제", product_comment_path(@product, comment), data: { turbo_method: :delete, turbo_confirm: "정말 삭제하시겠습니까?" }, class: "action-link delete" %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="comment-content">
+                      <p><%= simple_format(comment.content) %></p>
+                    </div>
+                    <div class="comment-footer">
+                      <button class="comment-action-btn" onclick="toggleCommentLike(<%= comment.id %>)">
+                        <i class="far fa-heart"></i>
+                        좋아요 <% if comment.upvotes && comment.upvotes > 0 %>(<%= comment.upvotes %>)<% end %>
+                      </button>
+                      <% if logged_in? %>
+                        <button class="comment-action-btn" onclick="toggleReplyForm(<%= comment.id %>)">
+                          답글 달기
+                        </button>
+                      <% end %>
+                    </div>
+
+                    <!-- 답글 작성 폼 -->
+                    <% if logged_in? %>
+                      <div id="replyForm_<%= comment.id %>" class="reply-form" style="display: none;">
+                        <%= form_with model: [@product, Comment.new], local: true, data: { turbo: false }, class: "reply-form-inner" do |form| %>
+                          <%= form.hidden_field :parent_id, value: comment.id %>
+                          <div class="form-group">
+                            <%= form.text_area :content, placeholder: "@#{comment.user.name}에게 답글...", rows: 2, class: "form-control" %>
+                          </div>
+                          <div class="form-actions">
+                            <%= form.submit "답글 등록", class: "btn btn-primary btn-sm" %>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="cancelReply(<%= comment.id %>)">취소</button>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+
+                    <!-- 답글 목록 -->
+                    <% if comment.replies.any? %>
+                      <div class="replies-list">
+                        <% comment.replies.each do |reply| %>
+                          <div class="reply-item">
+                            <%= user_avatar_tag(reply.user, size: 32, css_class: 'reply-avatar') %>
+                            <div class="reply-content">
+                              <div class="reply-header">
+                                <span class="replier-name"><%= reply.user.name %></span>
+                                <span class="reply-date"><%= time_ago_in_words(reply.created_at) %> 전</span>
+                                <% if logged_in? && can_edit_comment?(reply) %>
+                                  <div class="reply-actions">
+                                    <%= link_to "편집", edit_product_comment_path(@product, reply), class: "action-link" %>
+                                    <%= link_to "삭제", product_comment_path(@product, reply), data: { turbo_method: :delete, turbo_confirm: "정말 삭제하시겠습니까?" }, class: "action-link delete" %>
+                                  </div>
+                                <% end %>
+                              </div>
+                              <p><%= simple_format(reply.content) %></p>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="no-comments">
+                  <p>아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!</p>
+                </div>
+              <% end %>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- 우측 플로팅 사이드바 -->
+        <div class="sidebar">
+          <div class="sidebar-sticky">
+            <!-- 액션 버튼들 -->
+            <div class="action-buttons">
+              <a href="<%= @product.website_url %>" target="_blank" class="btn btn-outline">
+                <i class="fas fa-external-link-alt"></i>
+                방문하기
+              </a>
+
+
+              <button class="btn btn-light" onclick="shareProduct()">
+                <i class="fas fa-share-alt"></i>
+                공유하기
+              </button>
+
+              <% if logged_in? && can_edit_product?(@product) %>
+                <%= link_to edit_product_path(@product), class: "btn btn-light" do %>
+                  <i class="fas fa-edit"></i>
+                  편집하기
+                <% end %>
+              <% end %>
+            </div>
+
+            <!-- 회사 정보 -->
+            <% if @product.company_name.present? || @product.company_description.present? || @product.founded_year.present? || @product.headquarters.present? || @product.employee_count.present? || @product.website_url.present? %>
+              <div class="info-card">
+                <h3>회사 정보</h3>
+
+                <% if @product.company_name.present? %>
+                  <div class="info-item">
+                    <span class="label">회사명:</span>
+                    <span class="value"><%= @product.company_name %></span>
+                  </div>
+                <% end %>
+
+                <% if @product.company_description.present? %>
+                  <div class="company-description">
+                    <%= @product.company_description %>
+                  </div>
+                <% end %>
+
+                <% if @product.founded_year.present? %>
+                  <div class="info-item">
+                    <span class="label">설립연도:</span>
+                    <span class="value"><%= @product.founded_year %></span>
+                  </div>
+                <% end %>
+
+                <% if @product.headquarters.present? %>
+                  <div class="info-item">
+                    <span class="label">본사:</span>
+                    <span class="value"><%= @product.headquarters %></span>
+                  </div>
+                <% end %>
+
+                <% if @product.employee_count.present? %>
+                  <div class="info-item">
+                    <span class="label">직원 수:</span>
+                    <span class="value"><%= @product.employee_count %></span>
+                  </div>
+                <% end %>
+
+                <% if @product.website_url.present? %>
+                  <div class="info-item">
+                    <span class="label">웹사이트:</span>
+                    <span class="value">
+                      <a href="<%= @product.website_url %>" target="_blank"><%= @product.website_url.gsub(/https?:\/\//, '').gsub(/\/$/, '') %></a>
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <!-- 유사 서비스 추천 -->
+            <div class="info-card">
+              <h3>유사 서비스</h3>
+              <div class="similar-products">
+                <% @similar_products.each do |product| %>
+                  <div class="similar-product">
+                    <img src="<%= product.logo_url %>" alt="<%= product.name %>" class="similar-logo">
+                    <div class="similar-info">
+                      <h4><%= product.name %></h4>
+                      <p><%= product.tagline %></p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 공유 모달 -->
+<div id="shareModal" class="share-modal" style="display: none;">
+  <div class="share-modal-overlay" onclick="closeShareModal()"></div>
+  <div class="share-modal-content">
+    <div class="share-modal-header">
+      <h3>공유하기</h3>
+      <button class="share-modal-close" onclick="closeShareModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="share-modal-body">
+      <!-- 링크 복사 -->
+      <div class="share-link-section">
+        <div class="share-link-input-wrapper">
+          <input type="text" id="shareUrlInput" value="<%= request.original_url %>" readonly>
+          <button class="copy-link-btn" onclick="copyShareLink()">
+            <i class="fas fa-copy"></i>
+            복사
+          </button>
+        </div>
+      </div>
+
+      <!-- SNS 공유 버튼들 -->
+      <div class="share-sns-section">
+        <button class="share-sns-btn facebook" onclick="shareToFacebook()">
+          <i class="fab fa-facebook"></i>
+          <span>Facebook</span>
+        </button>
+        <button class="share-sns-btn twitter" onclick="shareToTwitter()">
+          <i class="fab fa-twitter"></i>
+          <span>Twitter</span>
+        </button>
+        <button class="share-sns-btn kakao" onclick="shareToKakao()">
+          <i class="fas fa-comment"></i>
+          <span>KakaoTalk</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// HTML escape function to prevent XSS
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// 갤러리 이미지 배열 (Turbo 호환을 위해 window 객체 사용)
+window.galleryImages = <%= @gallery_images.to_json.html_safe %>;
+let currentImageIndex = 0;
+
+// 메인 이미지 변경
+function setMainImage(imageSrc, index) {
+  document.getElementById('mainImage').src = imageSrc;
+  currentImageIndex = index;
+  
+  // 썸네일 활성화 상태 업데이트
+  document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+    thumb.classList.toggle('active', i === index);
+  });
+}
+
+// 이미지 네비게이션
+function changeImage(direction) {
+  currentImageIndex += direction;
+
+  if (currentImageIndex < 0) {
+    currentImageIndex = window.galleryImages.length - 1;
+  } else if (currentImageIndex >= window.galleryImages.length) {
+    currentImageIndex = 0;
+  }
+
+  setMainImage(window.galleryImages[currentImageIndex], currentImageIndex);
+}
+
+// 설명 더보기/접기
+function toggleDescription() {
+  const descText = document.getElementById('descriptionText');
+  const toggleBtn = document.getElementById('toggleDescription');
+  
+  if (descText.classList.contains('expanded')) {
+    descText.classList.remove('expanded');
+    toggleBtn.textContent = '더보기';
+  } else {
+    descText.classList.add('expanded');
+    toggleBtn.textContent = '접기';
+  }
+}
+
+// 키보드 네비게이션
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    changeImage(-1);
+  } else if (e.key === 'ArrowRight') {
+    changeImage(1);
+  }
+});
+
+// 제품 공유하기 - 모달 열기
+function shareProduct() {
+  document.getElementById('shareModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+// 공유 모달 닫기
+function closeShareModal() {
+  document.getElementById('shareModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+// 링크 복사
+function copyShareLink() {
+  const input = document.getElementById('shareUrlInput');
+  input.select();
+
+  navigator.clipboard.writeText(input.value).then(() => {
+    const btn = document.querySelector('.copy-link-btn');
+    const originalHTML = btn.innerHTML;
+
+    btn.innerHTML = '<i class="fas fa-check"></i> 복사됨!';
+    btn.style.background = '#10b981';
+
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.background = '';
+    }, 2000);
+  }).catch(err => {
+    alert('복사에 실패했습니다. 다시 시도해주세요.');
+  });
+}
+
+// Facebook 공유
+function shareToFacebook() {
+  const url = encodeURIComponent(window.location.href);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+}
+
+// Twitter 공유
+function shareToTwitter() {
+  const url = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent('<%= @product.name %> - <%= @product.tagline %>');
+  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+}
+
+// KakaoTalk 공유 (기본 URL 스킴 사용)
+function shareToKakao() {
+  const url = window.location.href;
+  const text = '<%= @product.name %> - <%= @product.tagline %>';
+
+  // 모바일에서는 카카오톡 앱 실행
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    window.location.href = `kakaolink://send?msg=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  } else {
+    // PC에서는 안내 메시지
+    alert('카카오톡 공유는 모바일에서 사용 가능합니다.\n링크를 복사하여 공유해주세요.');
+  }
+}
+
+// ESC 키로 모달 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('shareModal');
+    if (modal && modal.style.display === 'flex') {
+      closeShareModal();
+    }
+  }
+});
+
+// 좋아요 토글
+function toggleLike() {
+  const likeBtn = document.querySelector('button[onclick="toggleLike()"]');
+  likeBtn.disabled = true; // 중복 클릭 방지
+
+  fetch(`/products/<%= @product.id %>/likes`, {
+    method: 'POST',
+    headers: {
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.liked !== undefined) {
+      const icon = likeBtn.querySelector('i');
+
+      if (data.liked) {
+        icon.style.color = '#ef4444';
+        likeBtn.classList.add('liked');
+      } else {
+        icon.style.color = '';
+        likeBtn.classList.remove('liked');
+      }
+
+      // 사이드바 좋아요 카운트 업데이트
+      if (data.likes_count !== undefined) {
+        const likesCountElement = document.querySelector('.product-stats .stat:nth-child(2)');
+        if (likesCountElement) {
+          likesCountElement.innerHTML = '<i class="fas fa-arrow-up"></i> ' + data.likes_count;
+        }
+      }
+    }
+
+    likeBtn.disabled = false;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    likeBtn.disabled = false;
+  });
+}
+
+// 댓글 답글 폼 토글
+function toggleReplyForm(commentId) {
+  const replyForm = document.getElementById(`replyForm_${commentId}`);
+  if (replyForm.style.display === 'none') {
+    replyForm.style.display = 'block';
+    replyForm.querySelector('textarea').focus();
+  } else {
+    replyForm.style.display = 'none';
+  }
+}
+
+// 답글 취소
+function cancelReply(commentId) {
+  const replyForm = document.getElementById(`replyForm_${commentId}`);
+  replyForm.style.display = 'none';
+  replyForm.querySelector('textarea').value = '';
+}
+
+// 댓글 좋아요 토글
+function toggleCommentLike(commentId) {
+  // 임시로 alert 표시 (실제 구현은 나중에)
+  alert('댓글 좋아요 기능은 곧 구현됩니다.');
+}
+
+// 상세 페이지 투표 버튼 (헤더)
+window.voteProductDetail = async function(productId, hasVoted) {
+  const btn = document.getElementById(`vote-btn-detail-${productId}`);
+  const icon = document.querySelector(`#vote-icon-detail-${productId} path`);
+  const countSpan = document.getElementById(`vote-count-detail-${productId}`);
+
+  // 상태 초기화
+  if (!window.voteState) window.voteState = {};
+  if (!window.voteState[productId]) {
+    window.voteState[productId] = {
+      isVoted: hasVoted,
+      pendingRequest: null
+    };
+  }
+
+  const state = window.voteState[productId];
+  state.isVoted = !state.isVoted;
+
+  // 현재 투표 수
+  const currentCount = parseInt(countSpan.textContent);
+
+  // 즉시 UI 업데이트
+  if (state.isVoted) {
+    icon.setAttribute('stroke', '#FF6154');
+    icon.setAttribute('fill', '#FF6154');
+    countSpan.textContent = currentCount + 1;
+    countSpan.style.color = '#FF6154';
+    btn.classList.add('voted');
+    btn.setAttribute('onclick', `voteProductDetail(${productId}, true)`);
+  } else {
+    icon.setAttribute('stroke', '#6B7280');
+    icon.setAttribute('fill', 'none');
+    countSpan.textContent = currentCount - 1;
+    countSpan.style.color = '#374151';
+    btn.classList.remove('voted');
+    btn.setAttribute('onclick', `voteProductDetail(${productId}, false)`);
+  }
+
+  // 버튼 펄스 효과
+  btn.style.transform = 'translateY(-4px) scale(1.05)';
+  setTimeout(() => {
+    btn.style.transform = '';
+  }, 200);
+
+  // 이전 요청 취소
+  if (state.pendingRequest) {
+    clearTimeout(state.pendingRequest);
+  }
+
+  // 300ms 후 서버 요청
+  state.pendingRequest = setTimeout(async () => {
+    const finalState = state.isVoted;
+    btn.disabled = true;
+
+    try {
+      const url = finalState ? `/products/${productId}/vote` : `/products/${productId}/unvote`;
+      const method = finalState ? 'POST' : 'DELETE';
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const currentDisplayCount = parseInt(countSpan.textContent);
+
+        if (data.votes_count !== currentDisplayCount) {
+          countSpan.style.opacity = '0.5';
+          setTimeout(() => {
+            countSpan.textContent = data.votes_count;
+            countSpan.style.opacity = '1';
+          }, 100);
+        }
+
+        state.isVoted = data.voted;
+      }
+    } catch (error) {
+      console.error('Vote error:', error);
+    } finally {
+      btn.disabled = false;
+      state.pendingRequest = null;
+    }
+  }, 300);
+};
+</script>

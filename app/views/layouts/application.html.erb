@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for(:title) || "ProductRank - 새로운 제품을 발견하고 순위를 매기세요" %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= yield :head %>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-container">
+            <%= link_to root_path, class: "logo" do %>ProductRank<% end %>
+            
+            <button class="mobile-menu-toggle" aria-label="메뉴 열기" type="button">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links">
+                <%= link_to "제품", products_path %>
+                <%= link_to "신규 제품", launches_today_path %>
+                <%= link_to "랭크보드", "/rankboard" %>
+                <% if logged_in? %>
+                    <%= link_to "제품 등록", new_product_path, class: "submit-product" %>
+                <% end %>
+            </nav>
+            
+            <div class="search-bar">
+                <%= form_with url: search_path, method: :get, local: true, class: "search-form" do |form| %>
+                    <i class="fas fa-search"></i>
+                    <%= form.text_field :q, placeholder: "다음으로 좋아할 만한 것을 발견하세요...", class: "search-input" %>
+                <% end %>
+            </div>
+            
+            <div class="auth-buttons">
+                <% if logged_in? %>
+                    <%= link_to my_path, class: "user-profile-link" do %>
+                        <i class="fas fa-user-circle"></i>
+                        마이페이지
+                    <% end %>
+                    <%= button_to "로그아웃", logout_path, method: :delete, class: "logout-btn", form: { style: "display: inline;" } %>
+                <% else %>
+                    <%= link_to "로그인", login_path, class: "login-btn" %>
+                    <%= link_to "가입하기", login_path, class: "signup-btn" %>
+                <% end %>
+            </div>
+        </div>
+    </header>
+
+    <%= yield %>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <%= link_to root_path, class: "footer-logo" do %>ProductRank<% end %>
+
+                <div class="footer-links">
+                    <%= link_to "소개", "#" %>
+                    <%= link_to "자주 묻는 질문", "#" %>
+                    <%= link_to "이용약관", "#" %>
+                    <%= link_to "개인정보처리방침", "#" %>
+                    <%= link_to "문의하기", "#" %>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2023 ProductRank. All rights reserved.</p>
+
+                <div class="social-links">
+                    <%= link_to "#" do %><i class="fab fa-twitter"></i><% end %>
+                    <%= link_to "#" do %><i class="fab fa-facebook"></i><% end %>
+                    <%= link_to "#" do %><i class="fab fa-instagram"></i><% end %>
+                    <%= link_to "#" do %><i class="fab fa-linkedin"></i><% end %>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Product Modal and Gallery - Global Functions
+    (function() {
+      // 네임스페이스로 변수 충돌 방지
+      window.ProductModal = window.ProductModal || {};
+      window.ProductGallery = window.ProductGallery || {};
+
+      let modalTimeout;
+
+      // 모달 기능
+      window.ProductModal.show = function(productId) {
+        clearTimeout(modalTimeout);
+        // 다른 모든 모달 숨기기
+        document.querySelectorAll('.product-modal.show').forEach(modal => {
+          modal.classList.remove('show');
+        });
+
+        const modal = document.getElementById(`modal-${productId}`);
+        if (modal) {
+          modal.classList.add('show');
+        }
+      };
+
+      window.ProductModal.hide = function(productId) {
+        modalTimeout = setTimeout(() => {
+          const modal = document.getElementById(`modal-${productId}`);
+          if (modal) {
+            modal.classList.remove('show');
+          }
+        }, 100);
+      };
+
+      window.ProductModal.forceHide = function(productId) {
+        clearTimeout(modalTimeout);
+        const modal = document.getElementById(`modal-${productId}`);
+        if (modal) {
+          modal.classList.remove('show');
+        }
+      };
+
+      // 갤러리 기능
+      window.ProductGallery.next = function(event, productId) {
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(productId, 'next');
+      };
+
+      window.ProductGallery.prev = function(event, productId) {
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(productId, 'prev');
+      };
+
+      window.ProductGallery.goTo = function(event, productId, index) {
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(productId, index);
+      };
+
+      function navigate(productId, direction) {
+        const gallery = document.querySelector(`[data-gallery="${productId}"]`);
+        if (!gallery) return;
+
+        const slides = gallery.querySelectorAll('.gallery-slide');
+        const dots = gallery.querySelectorAll('.gallery-dot');
+
+        if (slides.length <= 1) return;
+
+        // 현재 활성 슬라이드 찾기
+        let currentIndex = 0;
+        slides.forEach((slide, index) => {
+          if (slide.style.display !== 'none') {
+            currentIndex = index;
+          }
+        });
+
+        // 다음 인덱스 계산
+        let nextIndex;
+        if (typeof direction === 'number') {
+          nextIndex = direction;
+        } else if (direction === 'next') {
+          nextIndex = (currentIndex + 1) % slides.length;
+        } else if (direction === 'prev') {
+          nextIndex = (currentIndex - 1 + slides.length) % slides.length;
+        }
+
+        // 슬라이드 전환
+        slides.forEach(slide => slide.style.display = 'none');
+        slides[nextIndex].style.display = 'block';
+
+        // 도트 업데이트
+        dots.forEach((dot, index) => {
+          dot.classList.remove('bg-white');
+          dot.classList.add('bg-white/50');
+          if (index === nextIndex) {
+            dot.classList.remove('bg-white/50');
+            dot.classList.add('bg-white');
+          }
+        });
+      }
+
+      // 페이지 로드 시 이벤트 리스너 등록
+      function initComponents() {
+        // 모달 이벤트
+        document.querySelectorAll('.product-modal').forEach(modal => {
+          modal.addEventListener('mouseover', function(e) {
+            e.stopPropagation();
+            clearTimeout(modalTimeout);
+          });
+
+          modal.addEventListener('mouseleave', function(e) {
+            const productId = this.id.replace('modal-', '');
+            window.ProductModal.hide(productId);
+          });
+        });
+
+        // 전체 문서에서 클릭 시 모든 모달 숨기기
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.product-modal') && !e.target.closest('[data-product-id]')) {
+            document.querySelectorAll('.product-modal.show').forEach(modal => {
+              modal.classList.remove('show');
+            });
+          }
+        });
+
+        // ESC 키로 모든 모달 숨기기
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            document.querySelectorAll('.product-modal.show').forEach(modal => {
+              modal.classList.remove('show');
+            });
+          }
+        });
+      }
+
+      // Turbo 호환
+      document.addEventListener('DOMContentLoaded', initComponents);
+      document.addEventListener('turbo:load', initComponents);
+    })();
+
+    // 모바일 메뉴 토글
+    (function() {
+      function initMobileMenu() {
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (menuToggle && navLinks) {
+          menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            
+            // 아이콘 변경
+            const icon = this.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+              icon.classList.remove('fa-bars');
+              icon.classList.add('fa-times');
+              this.setAttribute('aria-label', '메뉴 닫기');
+            } else {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+              this.setAttribute('aria-label', '메뉴 열기');
+            }
+          });
+
+          // 메뉴 외부 클릭 시 닫기
+          document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+              navLinks.classList.remove('active');
+              const icon = menuToggle.querySelector('i');
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+              menuToggle.setAttribute('aria-label', '메뉴 열기');
+            }
+          });
+
+          // 링크 클릭 시 모바일에서 메뉴 닫기
+          navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+              if (window.innerWidth <= 768) {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                menuToggle.setAttribute('aria-label', '메뉴 열기');
+              }
+            });
+          });
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', initMobileMenu);
+      document.addEventListener('turbo:load', initMobileMenu);
+    })();
+
+    // 투표 상태 추적 (제품별)
+    window.voteState = window.voteState || {};
+
+    // 투표 기능 - 개선된 디바운싱과 상태 동기화
+    window.voteProduct = async function(productId, hasVoted) {
+      const btn = document.getElementById(`vote-btn-${productId}`);
+      const icon = document.querySelector(`#vote-icon-${productId} path`);
+      const countSpan = document.getElementById(`vote-count-${productId}`);
+
+      // 상태 초기화
+      if (!window.voteState[productId]) {
+        window.voteState[productId] = {
+          isVoted: hasVoted,
+          pendingRequest: null,
+          clickCount: 0
+        };
+      }
+
+      const state = window.voteState[productId];
+
+      // 현재 UI 상태를 토글
+      state.isVoted = !state.isVoted;
+      state.clickCount++;
+
+      // 즉시 UI 업데이트
+      const currentCount = parseInt(countSpan.textContent);
+      if (state.isVoted) {
+        // 투표
+        icon.setAttribute('stroke', '#FF6154');
+        icon.setAttribute('fill', '#FF6154');
+        countSpan.style.color = '#FF6154';
+        countSpan.textContent = currentCount + 1;
+        btn.setAttribute('onclick', `voteProduct(${productId}, true)`);
+        createFlyingTriangle(btn);
+      } else {
+        // 투표 취소
+        icon.setAttribute('stroke', '#6B7280');
+        icon.setAttribute('fill', 'none');
+        countSpan.style.color = '#374151';
+        countSpan.textContent = currentCount - 1;
+        btn.setAttribute('onclick', `voteProduct(${productId}, false)`);
+      }
+
+      // 버튼 펄스 애니메이션
+      btn.style.transform = 'scale(1.15)';
+      setTimeout(() => {
+        btn.style.transform = 'scale(1)';
+      }, 150);
+
+      // 이전 요청이 있으면 취소 (디바운싱)
+      if (state.pendingRequest) {
+        clearTimeout(state.pendingRequest);
+      }
+
+      // 300ms 후에 실제 서버 요청 (디바운스)
+      state.pendingRequest = setTimeout(async () => {
+        const finalState = state.isVoted;
+        btn.disabled = true;
+
+        try {
+          const url = finalState ? `/products/${productId}/vote` : `/products/${productId}/unvote`;
+          const method = finalState ? 'POST' : 'DELETE';
+
+          const response = await fetch(url, {
+            method: method,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+              'Accept': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+
+            // 서버 응답과 현재 UI가 일치하는지 확인
+            const currentDisplayCount = parseInt(countSpan.textContent);
+            if (data.votes_count !== currentDisplayCount) {
+              countSpan.style.opacity = '0.5';
+              setTimeout(() => {
+                countSpan.textContent = data.votes_count;
+                countSpan.style.opacity = '1';
+              }, 100);
+            }
+
+            // 상태 동기화
+            state.isVoted = data.voted;
+          } else {
+            // 실패 시 전체 페이지 리로드로 동기화
+            if (response.status === 404 || response.status === 422) {
+              console.log('서버 상태 불일치 감지, 동기화 중...');
+              // 서버에서 현재 상태 가져오기
+              const syncResponse = await fetch(`/products/${productId}.json`, {
+                headers: { 'Accept': 'application/json' }
+              });
+
+              if (syncResponse.ok) {
+                const productData = await syncResponse.json();
+                const serverVoted = productData.user_has_voted;
+                const serverCount = productData.votes_count;
+
+                // UI를 서버 상태와 동기화
+                if (serverVoted) {
+                  icon.setAttribute('stroke', '#FF6154');
+                  icon.setAttribute('fill', '#FF6154');
+                  countSpan.style.color = '#FF6154';
+                  btn.setAttribute('onclick', `voteProduct(${productId}, true)`);
+                } else {
+                  icon.setAttribute('stroke', '#6B7280');
+                  icon.setAttribute('fill', 'none');
+                  countSpan.style.color = '#374151';
+                  btn.setAttribute('onclick', `voteProduct(${productId}, false)`);
+                }
+
+                countSpan.style.opacity = '0.5';
+                setTimeout(() => {
+                  countSpan.textContent = serverCount;
+                  countSpan.style.opacity = '1';
+                }, 100);
+
+                state.isVoted = serverVoted;
+              }
+            } else {
+              const error = await response.json();
+              console.error('Vote error:', error);
+            }
+          }
+        } catch (error) {
+          console.error('Vote request failed:', error);
+        } finally {
+          btn.disabled = false;
+          state.pendingRequest = null;
+        }
+      }, 300); // 300ms 디바운스
+    };
+
+    // 날아가는 삼각형 애니메이션
+    function createFlyingTriangle(button) {
+      const btnRect = button.getBoundingClientRect();
+
+      // 여러 개의 삼각형 생성 (더 화려하게)
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          const triangle = document.createElement('div');
+          triangle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="none">
+              <path d="M6.579 3.467c.71-1.067 2.132-1.067 2.842 0L12.975 8.8c.878 1.318.043 3.2-1.422 3.2H4.447c-1.464 0-2.3-1.882-1.422-3.2z"
+                    fill="#FF6154" stroke="#FF6154" stroke-width="1.5"/>
+            </svg>
+          `;
+
+          triangle.style.position = 'fixed';
+          triangle.style.left = btnRect.left + btnRect.width / 2 - 10 + 'px';
+          triangle.style.top = btnRect.top + btnRect.height / 2 - 10 + 'px';
+          triangle.style.pointerEvents = 'none';
+          triangle.style.zIndex = '9999';
+          triangle.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+          document.body.appendChild(triangle);
+
+          // 애니메이션 시작
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              const randomX = (Math.random() - 0.5) * 100;
+              triangle.style.transform = `translate(${randomX}px, -150px) rotate(${Math.random() * 360}deg) scale(0)`;
+              triangle.style.opacity = '0';
+            });
+          });
+
+          // 애니메이션 완료 후 제거
+          setTimeout(() => {
+            triangle.remove();
+          }, 1000);
+        }, i * 100);
+      }
+    }
+    </script>
+</body>
+</html>

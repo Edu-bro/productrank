@@ -1,0 +1,166 @@
+<!-- 메인 콘텐츠 -->
+<div class="main-container">
+    <main>
+        <!-- 오늘 신규 제품 섹션 -->
+        <div class="homepage-section">
+            <div class="section-header">
+                <h2 class="section-title">오늘 신규 제품</h2>
+                <%= link_to "더보기", launches_today_path, class: "more-link" %>
+            </div>
+            <div class="product-list">
+                <% cache ['today_new_products_v2', Date.current, current_user&.id] do %>
+                    <% if @today_new_products.any? %>
+                        <% @today_new_products.each_with_index do |product, index| %>
+                            <%= render 'shared/product_card', product: product, index: index %>
+                        <% end %>
+                    <% else %>
+                        <div class="empty-section">
+                            <p>오늘 출시된 신규 제품이 없습니다.</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+
+        <!-- 어제 랭크보드 상위 섹션 -->
+        <div class="homepage-section">
+            <div class="section-header">
+                <h2 class="section-title">어제 랭크보드 상위</h2>
+                <%= link_to "더보기", leaderboard_daily_path(year: 1.day.ago.year, month: 1.day.ago.month, day: 1.day.ago.day), class: "more-link" %>
+            </div>
+            <div class="product-list">
+                <% cache ['yesterday_top_products_v2', 1.day.ago.to_date, current_user&.id] do %>
+                    <% if @yesterday_top_products.any? %>
+                        <% @yesterday_top_products.each_with_index do |product, index| %>
+                            <%= render 'shared/product_card', product: product, index: index %>
+                        <% end %>
+                    <% else %>
+                        <div class="empty-section">
+                            <p>어제 출시된 제품이 없습니다.</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+
+        <!-- 저번주 랭크보드 상위 섹션 -->
+        <div class="homepage-section">
+            <div class="section-header">
+                <h2 class="section-title">저번주 랭크보드 상위</h2>
+                <%= link_to "더보기", leaderboard_weekly_path, class: "more-link" %>
+            </div>
+            <div class="product-list">
+                <% cache ['last_week_top_products_v2', 1.week.ago.beginning_of_week.to_date, current_user&.id] do %>
+                    <% if @last_week_top_products.any? %>
+                        <% @last_week_top_products.each_with_index do |product, index| %>
+                            <%= render 'shared/product_card', product: product, index: index %>
+                        <% end %>
+                    <% else %>
+                        <div class="empty-section">
+                            <p>저번주 출시된 제품이 없습니다.</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+
+        <!-- 저번달 랭크보드 상위 섹션 -->
+        <div class="homepage-section">
+            <div class="section-header">
+                <h2 class="section-title">저번달 랭크보드 상위</h2>
+                <%= link_to "더보기", leaderboard_monthly_path, class: "more-link" %>
+            </div>
+            <div class="product-list">
+                <% cache ['last_month_top_products_v2', 1.month.ago.beginning_of_month.to_date, current_user&.id] do %>
+                    <% if @last_month_top_products.any? %>
+                        <% @last_month_top_products.each_with_index do |product, index| %>
+                            <%= render 'shared/product_card', product: product, index: index %>
+                        <% end %>
+                    <% else %>
+                        <div class="empty-section">
+                            <p>저번달 출시된 제품이 없습니다.</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </main>
+    
+    <aside class="sidebar">
+        <div class="sidebar-widget">
+            <h3 class="widget-title">인기 태그</h3>
+            <div class="tag-list">
+                <% @popular_topics.each do |topic| %>
+                    <%= link_to topic.name, topic_path(topic), class: "tag" %>
+                <% end %>
+                
+                <% if @popular_topics.empty? %>
+                    <a href="#" class="tag">생산성</a>
+                    <a href="#" class="tag">인공지능</a>
+                    <a href="#" class="tag">개발</a>
+                    <a href="#" class="tag">디자인</a>
+                    <a href="#" class="tag">건강</a>
+                    <a href="#" class="tag">교육</a>
+                    <a href="#" class="tag">금융</a>
+                    <a href="#" class="tag">이커머스</a>
+                <% end %>
+            </div>
+        </div>
+        
+        <div class="sidebar-widget">
+            <h3 class="widget-title">출시 예정 제품</h3>
+            <div class="upcoming-list">
+                <% if @upcoming_products.any? %>
+                    <% @upcoming_products.each do |product| %>
+                        <% launch = product.launches.first %>
+                        <div class="upcoming-item">
+                            <div class="product-image"></div>
+                            <div class="upcoming-item-content">
+                                <h4 class="upcoming-item-title"><%= product.name %></h4>
+                                <div class="upcoming-item-meta">
+                                    <%= product.topics.first&.name || "일반" %> ·
+                                    <% if launch && launch.launch_date %>
+                                        <%= ((launch.launch_date.to_date - Date.current).to_i) %>일 후 출시
+                                    <% else %>
+                                        출시 예정
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                    <%= link_to "모두 보기 →", launches_upcoming_path, style: "display: block; text-align: center; margin-top: 1rem; color: #f97316; font-size: 0.875rem; text-decoration: none;" %>
+                <% else %>
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">TaskMaster 2.0</h4>
+                            <div class="upcoming-item-meta">생산성 · 출시 예정</div>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">FitTrack Pro</h4>
+                            <div class="upcoming-item-meta">건강 및 피트니스 · 다음 주 출시</div>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-item">
+                        <div class="product-image"></div>
+                        <div class="upcoming-item-content">
+                            <h4 class="upcoming-item-title">CodeSync</h4>
+                            <div class="upcoming-item-meta">개발 · 내일 출시</div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+        
+        <div class="sidebar-widget">
+            <h3 class="widget-title">ProductRank 만들기</h3>
+            <p style="font-size: 14px; margin-bottom: 15px;">ProductRank는 매일 최고의 새 제품을 공유하는 제품 애호가 커뮤니티입니다.</p>
+            <%= link_to "등록하기", new_product_path, class: "signup-btn", style: "display: inline-block; text-align: center;" %>
+        </div>
+    </aside>
+</div>

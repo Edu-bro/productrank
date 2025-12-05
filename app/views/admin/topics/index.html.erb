@@ -1,0 +1,152 @@
+<div class="admin-container">
+    <!-- 헤더 -->
+    <div class="admin-header">
+        <h1>토픽 관리</h1>
+        <p>등록된 모든 토픽을 확인하고 관리하세요</p>
+    </div>
+
+    <!-- 통계 카드 -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">전체 토픽</span>
+                <div class="stat-card-icon blue">
+                    <i class="fas fa-tags"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= Topic.count %></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">가장 인기있는 토픽</span>
+                <div class="stat-card-icon green">
+                    <i class="fas fa-fire"></i>
+                </div>
+            </div>
+            <div class="stat-card-value">
+                <% popular_topic = Topic.joins(:product_topics).group('topics.id').order('COUNT(product_topics.id) DESC').first %>
+                <% if popular_topic %>
+                    <%= popular_topic.emoji %> <%= popular_topic.name %>
+                <% else %>
+                    -
+                <% end %>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">평균 제품 수</span>
+                <div class="stat-card-icon orange">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+            </div>
+            <div class="stat-card-value">
+                <%= (Topic.joins(:product_topics).count.to_f / Topic.count).round(1) rescue 0 %>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <span class="stat-card-title">총 연결된 제품</span>
+                <div class="stat-card-icon purple">
+                    <i class="fas fa-link"></i>
+                </div>
+            </div>
+            <div class="stat-card-value"><%= ProductTopic.count %></div>
+        </div>
+    </div>
+
+    <!-- 토픽 목록 -->
+    <div class="admin-section">
+        <div class="admin-section-header">
+            <h3 class="admin-section-title">토픽 목록</h3>
+            <%= link_to new_admin_topic_path, class: "btn btn-primary" do %>
+                <i class="fas fa-plus"></i> 새 토픽 추가
+            <% end %>
+        </div>
+
+        <!-- 검색 -->
+        <div class="search-filter-bar">
+            <%= form_with url: admin_topics_path, method: :get, local: true, style: "display: flex; gap: 12px; width: 100%;" do |f| %>
+                <%= f.text_field :search,
+                    placeholder: "토픽명 또는 설명으로 검색...",
+                    class: "search-input",
+                    value: params[:search] %>
+
+                <%= f.submit "검색", class: "btn btn-primary" %>
+                <%= link_to "초기화", admin_topics_path, class: "btn btn-secondary" %>
+            <% end %>
+        </div>
+
+        <!-- 토픽 테이블 -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>토픽</th>
+                    <th>Slug</th>
+                    <th>설명</th>
+                    <th>제품 수</th>
+                    <th>등록일</th>
+                    <th style="text-align: center;">액션</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @topics.each do |topic| %>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="font-size: 24px;"><%= topic.emoji %></div>
+                                <div>
+                                    <%= link_to topic.name, admin_topic_path(topic), class: "product-name" %>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <code style="background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">
+                                <%= topic.slug %>
+                            </code>
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= truncate(topic.description, length: 60) if topic.description.present? %>
+                        </td>
+                        <td>
+                            <span class="topic-tag" style="background: #e8f5e9; color: #2e7d32;">
+                                <i class="fas fa-box"></i> <%= topic.products.count %>개
+                            </span>
+                        </td>
+                        <td style="font-size: 13px; color: #666;">
+                            <%= time_ago_in_words(topic.created_at) %> 전
+                        </td>
+                        <td>
+                            <div class="action-buttons" style="justify-content: center;">
+                                <%= link_to admin_topic_path(topic), class: "btn btn-secondary btn-small", title: "상세" do %>
+                                    <i class="fas fa-eye"></i>
+                                <% end %>
+                                <%= link_to edit_admin_topic_path(topic), class: "btn btn-primary btn-small", title: "수정" do %>
+                                    <i class="fas fa-edit"></i>
+                                <% end %>
+                                <%= button_to admin_topic_path(topic), method: :delete, class: "btn btn-danger btn-small", title: "삭제", form: { data: { turbo_confirm: "정말 삭제하시겠습니까?" } } do %>
+                                    <i class="fas fa-trash"></i>
+                                <% end %>
+                            </div>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <% if @topics.respond_to?(:total_pages) && @topics.total_pages > 1 %>
+            <div class="pagination">
+                <%= link_to_unless @topics.first_page?, "‹ 이전", admin_topics_path(page: @topics.prev_page, search: params[:search]), class: "page-link" %>
+
+                <% (1..@topics.total_pages).each do |page| %>
+                    <%= link_to page, admin_topics_path(page: page, search: params[:search]), class: "page-link #{page == @topics.current_page ? 'active' : ''}" %>
+                <% end %>
+
+                <%= link_to_unless @topics.last_page?, "다음 ›", admin_topics_path(page: @topics.next_page, search: params[:search]), class: "page-link" %>
+            </div>
+        <% end %>
+    </div>
+</div>

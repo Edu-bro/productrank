@@ -1,0 +1,152 @@
+<!-- 랭킹 리스트 -->
+<div class="rankboard-products-section">
+  <% if @products && @products.any? %>
+    <div class="results-info">
+      <span class="results-count"><%= @products.length %>개 제품</span>
+    </div>
+    
+    <% top_three = @products.first(3) %>
+    <% rest_products = @products.drop(3) %>
+    
+    <!-- 상위 3등 특별 섹션 -->
+    <% if top_three.any? %>
+      <div class="top-three-section">
+        <div class="top-three-grid">
+          <% top_three.each_with_index do |product, index| %>
+            <%= link_to product_path(product), class: "top-product-card rank-#{index + 1}", data: { product_id: product.id } do %>
+              <!-- 메달 배지 -->
+              <div class="medal-badge">
+                <% if index == 0 %>
+                  <div class="medal gold">
+                    <span class="rank-num">1</span>
+                  </div>
+                <% elsif index == 1 %>
+                  <div class="medal silver">
+                    <span class="rank-num">2</span>
+                  </div>
+                <% else %>
+                  <div class="medal bronze">
+                    <span class="rank-num">3</span>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- 큰 제품 이미지 -->
+              <div class="top-card-thumbnail">
+                <% if product.cover_url.present? %>
+                  <img src="<%= product.cover_url %>" alt="<%= product.name %>" loading="lazy">
+                <% else %>
+                  <div class="placeholder-image">
+                    <i class="fas fa-cube"></i>
+                  </div>
+                <% end %>
+              </div>
+              
+              <!-- 제품 정보 -->
+              <div class="top-card-content">
+                <h3 class="top-product-title"><%= product.name %></h3>
+                <p class="top-product-tagline"><%= product.tagline %></p>
+                
+                <!-- 주요 기능 -->
+                <% if product.key_features_list.any? %>
+                  <div class="top-features">
+                    <h4 class="features-title">주요 기능</h4>
+                    <ul class="features-list">
+                      <% product.key_features_list.first(3).each do |feature| %>
+                        <li><i class="fas fa-check-circle"></i> <%= feature %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+                
+                <div class="top-product-stats">
+                  <div class="top-product-logo">
+                    <% if product.logo_url.present? %>
+                      <img src="<%= product.logo_url %>" alt="<%= product.name %> logo">
+                    <% else %>
+                      <i class="fas fa-cube"></i>
+                    <% end %>
+                  </div>
+                  <div class="top-stats-row">
+                    <div class="top-stat">
+                      <i class="fas fa-star"></i>
+                      <span><%= product.average_rating %></span>
+                    </div>
+                    <div class="top-stat">
+                      <i class="fas fa-arrow-up"></i>
+                      <span><%= product.vote_count %></span>
+                    </div>
+                    <div class="top-stat">
+                      <i class="fas fa-comment"></i>
+                      <span><%= product.comment_count %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    
+    <!-- 4등 이하 컴팩트 리스트 -->
+    <% if rest_products.any? %>
+      <div class="rest-products-section">
+        <div class="compact-list">
+          <% rest_products.each_with_index do |product, index| %>
+            <%= link_to product_path(product), class: "compact-item #{'even' if index.even?}", data: { product_id: product.id } do %>
+              <div class="compact-rank">
+                <span class="rank-number"><%= index + 4 %></span>
+              </div>
+              
+              <div class="compact-thumbnail">
+                <% if product.cover_url.present? %>
+                  <img src="<%= product.cover_url %>" alt="<%= product.name %>" loading="lazy">
+                <% else %>
+                  <div class="compact-placeholder">
+                    <i class="fas fa-cube"></i>
+                  </div>
+                <% end %>
+              </div>
+              
+              <div class="compact-info">
+                <h4 class="compact-title"><%= product.name %></h4>
+                <p class="compact-tagline"><%= product.tagline %></p>
+              </div>
+              
+              <div class="compact-logo">
+                <% if product.logo_url.present? %>
+                  <img src="<%= product.logo_url %>" alt="<%= product.name %> logo">
+                <% else %>
+                  <i class="fas fa-cube"></i>
+                <% end %>
+              </div>
+              
+              <div class="compact-stats">
+                <div class="compact-stat">
+                  <i class="fas fa-star"></i>
+                  <span><%= product.average_rating %></span>
+                </div>
+                <div class="compact-stat">
+                  <i class="fas fa-arrow-up"></i>
+                  <span><%= product.vote_count %></span>
+                </div>
+                <div class="compact-stat">
+                  <i class="fas fa-comment"></i>
+                  <span><%= product.comment_count %></span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    
+  <% else %>
+    <div class="empty-state">
+      <i class="fas fa-inbox"></i>
+      <h3><%= @empty_message || "해당 기간에 런칭된 제품이 없습니다" %></h3>
+      <p>다른 기간을 선택해보세요.</p>
+    </div>
+  <% end %>
+</div>
