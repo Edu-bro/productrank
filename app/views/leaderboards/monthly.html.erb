@@ -1,51 +1,139 @@
-<div class="rankboard-container">
-  <!-- 통합 제어판 -->
-  <div class="control-panel">
-    <div class="control-panel-flex">
-      <%= render 'leaderboards/shared/period_tabs' %>
+<div class="challenge-container" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
 
-      <!-- 월간 네비게이션 -->
-      <div class="date-navigation">
-        <div class="date-controls">
-          <%= link_to "/rankboard/monthly?date=#{(@date - 1.month).strftime('%Y-%m-01')}", class: "nav-arrow prev" do %>
-            <i class="fas fa-chevron-left"></i>
-          <% end %>
+  <!-- 헤더 설명 -->
+  <div style="margin-bottom: 2rem;">
+    <h1 style="font-size: 2rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">
+      <%= @date.strftime('%Y년 %m월') %> 랭크보드
+    </h1>
+    <p style="font-size: 1.125rem; color: #6b7280;">
+      <%= @date.strftime('%Y년 %m월') %> 월간 제품 순위입니다. 투표로 순위를 확인하세요.
+    </p>
+  </div>
 
-          <div class="current-period" onclick="toggleDatePicker()">
-            <span class="period-text"><%= @date.strftime('%Y년 %m월') %></span>
-            <span class="period-label">(<%= @date.strftime('%Y년 %m월') %> 전체)</span>
+  <!-- 필터 영역 -->
+  <div style="background: #f9fafb; padding: 1.5rem; border-radius: 0.75rem; margin-bottom: 2rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+
+      <!-- 왼쪽: 기간 토글 & 월간 선택 -->
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <!-- 기간 토글 -->
+        <%= render 'leaderboards/shared/period_tabs' %>
+
+        <!-- 월간 네비게이션 -->
+        <div class="date-navigation">
+          <div class="date-controls">
+            <%= link_to "/rankboard/monthly?date=#{(@date - 1.month).strftime('%Y-%m-01')}", class: "nav-arrow prev" do %>
+              <i class="fas fa-chevron-left"></i>
+            <% end %>
+
+            <div class="current-period" onclick="toggleDatePicker()" style="min-width: 200px;">
+              <span class="period-text"><%= @date.strftime('%Y년 %m월') %></span>
+              <span class="period-label">(<%= @date.beginning_of_month.strftime('%m/%d') %> - <%= @date.end_of_month.strftime('%m/%d') %>)</span>
+            </div>
+
+            <%= link_to "/rankboard/monthly?date=#{(@date + 1.month).strftime('%Y-%m-01')}", class: "nav-arrow next" do %>
+              <i class="fas fa-chevron-right"></i>
+            <% end %>
+
+            <button class="calendar-btn" onclick="toggleDatePicker()">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
           </div>
 
-          <%= link_to "/rankboard/monthly?date=#{(@date + 1.month).strftime('%Y-%m-01')}", class: "nav-arrow next" do %>
-            <i class="fas fa-chevron-right"></i>
-          <% end %>
-
-          <button class="calendar-btn" onclick="toggleDatePicker()">
-            <i class="fas fa-calendar-alt"></i>
-          </button>
+          <!-- 월 선택기 -->
+          <div id="datePicker" class="date-picker-dropdown" style="display: none;">
+            <div class="calendar-header">
+              <button type="button" onclick="changeYear(-1)" class="calendar-nav">‹</button>
+              <span id="calendarMonth"></span>
+              <button type="button" onclick="changeYear(1)" class="calendar-nav">›</button>
+            </div>
+            <div class="month-grid" id="monthGrid">
+              <!-- 월 선택기가 여기에 동적으로 생성됩니다 -->
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- 월 선택기 -->
-        <div id="datePicker" class="date-picker-dropdown" style="display: none;">
-          <div class="calendar-header">
-            <button type="button" onclick="changeYear(-1)" class="calendar-nav">‹</button>
-            <span id="calendarMonth"></span>
-            <button type="button" onclick="changeYear(1)" class="calendar-nav">›</button>
-          </div>
-          <div class="month-grid" id="monthGrid">
-            <!-- 월 선택기가 여기에 동적으로 생성됩니다 -->
-          </div>
-        </div>
+      <!-- 오른쪽: 정렬 (추후 추가 가능) -->
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <!-- 정렬 옵션은 랭크보드에서는 고정 (투표순) -->
       </div>
     </div>
   </div>
 
-  <%= render 'leaderboards/shared/ranking_list_new' %>
+  <!-- 제품 목록 -->
+  <div style="display: grid; gap: 1rem;">
+    <%= render 'leaderboards/shared/ranking_list_new' %>
+  </div>
+
 </div>
 
 <%= render 'leaderboards/shared/styles' %>
 
 <style>
+.date-navigation {
+  position: relative;
+}
+
+.date-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.nav-arrow:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.nav-arrow.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.current-period {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 150px;
+}
+
+.current-period:hover {
+  background: #f8fafc;
+}
+
+.period-text {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9375rem;
+}
+
+.period-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.125rem;
+}
+
 .calendar-btn {
   display: flex;
   align-items: center;

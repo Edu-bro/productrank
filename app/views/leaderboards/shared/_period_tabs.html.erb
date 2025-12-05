@@ -1,15 +1,11 @@
-<!-- 기간 선택 탭 -->
-<div class="period-tabs">
-  <%= link_to "/rankboard/daily", class: "tab-btn #{current_page?('/rankboard/daily') || current_page?('/rankboard') ? 'active' : ''}" do %>
-    <span>일간</span>
+<!-- 기간 선택 탭 (챌린지 스타일, 주간/월간만) -->
+<div style="display: flex; background: #e5e7eb; border-radius: 9999px; padding: 2px;">
+  <%= link_to "/rankboard/weekly",
+      style: "flex: 1; padding: 0.5rem 1rem; border-radius: 9999px; text-align: center; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; text-decoration: none; #{(current_page?('/rankboard/weekly') || current_page?('/rankboard')) ? 'background: white; color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,0.1);' : 'color: #6b7280;'}" do %>
+    주간
   <% end %>
-  <%= link_to "/rankboard/weekly", class: "tab-btn #{current_page?('/rankboard/weekly') ? 'active' : ''}" do %>
-    <span>주간</span>
-  <% end %>
-  <%= link_to "/rankboard/monthly", class: "tab-btn #{current_page?('/rankboard/monthly') ? 'active' : ''}" do %>
-    <span>월간</span>
-  <% end %>
-  <%= link_to "/rankboard/yearly", class: "tab-btn #{current_page?('/rankboard/yearly') ? 'active' : ''}" do %>
-    <span>연간</span>
+  <%= link_to "/rankboard/monthly",
+      style: "flex: 1; padding: 0.5rem 1rem; border-radius: 9999px; text-align: center; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; text-decoration: none; #{current_page?('/rankboard/monthly') ? 'background: white; color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,0.1);' : 'color: #6b7280;'}" do %>
+    월간
   <% end %>
 </div>

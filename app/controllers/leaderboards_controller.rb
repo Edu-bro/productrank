@@ -2,7 +2,7 @@ class LeaderboardsController < ApplicationController
   before_action :set_date_params, only: [:daily_date]
   
   def index
-    redirect_to "/leaderboard/daily"
+    redirect_to "/rankboard/weekly"
   end
 
   def daily
