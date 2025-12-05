@@ -6,7 +6,7 @@ class ChallengesController < ApplicationController
 
   def weekly
     @period_type = 'weekly'
-    @challenge = Challenge.current_weekly
+    @challenge = Challenge.current_weekly # 자동 생성됨
     @products = get_products
     @period_title = "이번 주 챌린지"
 
@@ -15,7 +15,7 @@ class ChallengesController < ApplicationController
 
   def monthly
     @period_type = 'monthly'
-    @challenge = Challenge.current_monthly
+    @challenge = Challenge.current_monthly # 자동 생성됨
     @products = get_products
     @period_title = "이번 달 챌린지"
 
