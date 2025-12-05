@@ -5,7 +5,7 @@
         <div class="homepage-section">
             <div class="section-header">
                 <h2 class="section-title">오늘 신규 제품</h2>
-                <%= link_to "더보기", launches_today_path, class: "more-link" %>
+                <%= link_to "더보기", rankboard_daily_path(year: Date.current.year, month: Date.current.month, day: Date.current.day), class: "more-link" %>
             </div>
             <div class="product-list">
                 <% cache ['today_new_products_v2', Date.current, current_user&.id] do %>
@@ -26,7 +26,7 @@
         <div class="homepage-section">
             <div class="section-header">
                 <h2 class="section-title">어제 랭크보드 상위</h2>
-                <%= link_to "더보기", leaderboard_daily_path(year: 1.day.ago.year, month: 1.day.ago.month, day: 1.day.ago.day), class: "more-link" %>
+                <%= link_to "더보기", rankboard_daily_path(year: 1.day.ago.year, month: 1.day.ago.month, day: 1.day.ago.day), class: "more-link" %>
             </div>
             <div class="product-list">
                 <% cache ['yesterday_top_products_v2', 1.day.ago.to_date, current_user&.id] do %>
@@ -47,7 +47,7 @@
         <div class="homepage-section">
             <div class="section-header">
                 <h2 class="section-title">저번주 랭크보드 상위</h2>
-                <%= link_to "더보기", leaderboard_weekly_path, class: "more-link" %>
+                <%= link_to "더보기", rankboard_weekly_path, class: "more-link" %>
             </div>
             <div class="product-list">
                 <% cache ['last_week_top_products_v2', 1.week.ago.beginning_of_week.to_date, current_user&.id] do %>
@@ -68,7 +68,7 @@
         <div class="homepage-section">
             <div class="section-header">
                 <h2 class="section-title">저번달 랭크보드 상위</h2>
-                <%= link_to "더보기", leaderboard_monthly_path, class: "more-link" %>
+                <%= link_to "더보기", rankboard_monthly_path, class: "more-link" %>
             </div>
             <div class="product-list">
                 <% cache ['last_month_top_products_v2', 1.month.ago.beginning_of_month.to_date, current_user&.id] do %>
@@ -108,27 +108,9 @@
         </div>
         
         <div class="sidebar-widget">
-            <h3 class="widget-title">출시 예정 제품</h3>
+            <h3 class="widget-title">인기 제품</h3>
             <div class="upcoming-list">
-                <% if @upcoming_products.any? %>
-                    <% @upcoming_products.each do |product| %>
-                        <% launch = product.launches.first %>
-                        <div class="upcoming-item">
-                            <div class="product-image"></div>
-                            <div class="upcoming-item-content">
-                                <h4 class="upcoming-item-title"><%= product.name %></h4>
-                                <div class="upcoming-item-meta">
-                                    <%= product.topics.first&.name || "일반" %> ·
-                                    <% if launch && launch.launch_date %>
-                                        <%= ((launch.launch_date.to_date - Date.current).to_i) %>일 후 출시
-                                    <% else %>
-                                        출시 예정
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div>
-                    <% end %>
-                    <%= link_to "모두 보기 →", launches_upcoming_path, style: "display: block; text-align: center; margin-top: 1rem; color: #f97316; font-size: 0.875rem; text-decoration: none;" %>
+                <% if false # upcoming_products 제거됨 %>
                 <% else %>
                     <div class="upcoming-item">
                         <div class="product-image"></div>
