@@ -9,7 +9,6 @@ class Product < ApplicationRecord
   belongs_to :user
   has_many :maker_roles, dependent: :destroy
   has_many :makers, through: :maker_roles, source: :user
-  has_many :launches, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -26,9 +25,6 @@ class Product < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: { maximum: 100 }
   validates :tagline, presence: true, length: { maximum: 60 }
   validates :description, presence: true, length: { maximum: 500 }
-  validates :launch_date, presence: true
-  validate :launch_date_must_be_future, on: :create
-  validate :launch_date_must_be_at_least_one_day_away, on: :create
 
   # 회사 정보 (선택 사항)
   validates :company_name, length: { maximum: 100 }, allow_blank: true
@@ -37,20 +33,6 @@ class Product < ApplicationRecord
   validates :employee_count, length: { maximum: 50 }, allow_blank: true
   validates :company_description, length: { maximum: 200 }, allow_blank: true
 
-  # Virtual attribute: launch_date를 Launch 모델에서 가져옴
-  # 이렇게 하면 product.launch_date 호출 시 Launch 테이블에서 조회
-  def launch_date
-    @launch_date_from_launch ||= launches.first&.launch_date
-  end
-
-  # launch_date 설정 시 Launch 레코드 생성/업데이트 준비
-  def launch_date=(value)
-    @pending_launch_date = value
-  end
-
-  # Product 생성 후 Launch 자동 생성/업데이트
-  after_save :sync_launch_date_to_launches
-
   # Prewarm thumbnails after create/update - fixed callback method
   after_commit -> { ThumbPrewarmJob.perform_later(id) }, on: [:create, :update], if: -> { logo_image.attached? }
 
@@ -58,9 +40,6 @@ class Product < ApplicationRecord
   scope :by_status, ->(status) { where(status: status) }
   scope :recent, -> { order(created_at: :desc) }
   scope :published, -> { where(status: [:live, :archived]) }
-  scope :ready_to_publish, -> {
-    joins(:launches).where(status: :scheduled).where('DATE(launches.launch_date) <= ?', Date.current)
-  }
   
   # Performance optimization: preload topics for cards
   scope :with_minimal_data, -> { includes(:user).select(:id, :name, :tagline, :description, :status, :created_at, :votes_count, :likes_count, :comments_count, :user_id, :cover_url, :logo_url) }
@@ -254,35 +233,4 @@ class Product < ApplicationRecord
     comments.exists?(user_id: user.id)
   end
 
-  private
-
-  def sync_launch_date_to_launches
-    return unless @pending_launch_date.present?
-
-    if launches.any?
-      # 기존 Launch 업데이트
-      launches.first.update(launch_date: @pending_launch_date)
-    else
-      # 새 Launch 생성 (region 기본값 추가)
-      launches.create!(
-        launch_date: @pending_launch_date,
-        status: status,
-        region: 'kr'
-      )
-    end
-
-    @pending_launch_date = nil
-  end
-
-  def launch_date_must_be_future
-    if launch_date.present? && launch_date <= Time.current
-      errors.add(:launch_date, "는 현재 시간 이후여야 합니다")
-    end
-  end
-
-  def launch_date_must_be_at_least_one_day_away
-    if launch_date.present? && launch_date.to_date <= Date.current
-      errors.add(:launch_date, "는 최소 1일 이후로 설정해야 합니다 (검수 기간 필요)")
-    end
-  end
 end

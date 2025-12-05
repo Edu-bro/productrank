@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_24_074023) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_05_083528) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,17 +79,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_24_074023) do
     t.datetime "updated_at", null: false
     t.index ["followable_type", "followable_id"], name: "index_follows_on_followable"
     t.index ["follower_id"], name: "index_follows_on_follower_id"
-  end
-
-  create_table "launches", force: :cascade do |t|
-    t.integer "product_id", null: false
-    t.datetime "launch_date"
-    t.string "region"
-    t.integer "status"
-    t.datetime "scheduled_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_launches_on_product_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -235,7 +224,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_24_074023) do
   add_foreign_key "comments", "products"
   add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "follower_id"
-  add_foreign_key "launches", "products"
   add_foreign_key "likes", "products"
   add_foreign_key "likes", "users"
   add_foreign_key "maker_roles", "products"

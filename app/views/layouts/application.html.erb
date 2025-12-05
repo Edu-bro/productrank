@@ -24,7 +24,6 @@
             
             <nav class="nav-links">
                 <%= link_to "제품", products_path %>
-                <%= link_to "신규 제품", launches_today_path %>
                 <%= link_to "랭크보드", "/rankboard" %>
                 <% if logged_in? %>
                     <%= link_to "제품 등록", new_product_path, class: "submit-product" %>

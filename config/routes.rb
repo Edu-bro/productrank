@@ -15,7 +15,6 @@ Rails.application.routes.draw do
         post :toggle_role
       end
     end
-    resources :launches
     resources :topics
   end
 
@@ -35,13 +34,6 @@ Rails.application.routes.draw do
   post '/auth/google_test' => 'sessions#google_login'
   get '/auth/:provider/callback' => 'sessions#omniauth_callback'
   delete '/logout' => 'sessions#destroy'
-  
-  # New Launches routes
-  get '/launches' => 'launches#index'
-  get '/launches/today' => 'launches#today'
-  get '/launches/week' => 'launches#week'
-  get '/launches/month' => 'launches#month'
-  get '/launches/upcoming' => 'launches#upcoming'
 
   # Rankboard routes
   get '/rankboard' => 'leaderboards#daily'
