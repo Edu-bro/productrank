@@ -1,21 +1,10 @@
 <!-- 새로운 랭킹 리스트 (메인페이지 스타일 제품 카드 사용) -->
 <div class="rankboard-products-section">
   <% if @products && @products.any? %>
-    <div class="results-info" style="margin-bottom: 1.5rem; color: #64748b; font-size: 0.875rem;">
-      <span class="results-count"><%= @products.length %>개 제품</span>
-    </div>
-
     <!-- 제품 카드 그리드 -->
     <div class="product-list" style="display: grid; gap: 1rem;">
       <% @products.each_with_index do |product, index| %>
-        <div style="position: relative;">
-          <!-- 순위 표시 (랭크보드 전용) -->
-          <div style="position: absolute; top: 0.75rem; left: 0.75rem; z-index: 10; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; font-weight: 700; font-size: 1.5rem; width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            #<%= index + 1 %>
-          </div>
-
-          <%= render 'shared/product_card', product: product, index: index %>
-        </div>
+        <%= render 'shared/product_card', product: product, index: index %>
       <% end %>
     </div>
 
