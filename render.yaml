@@ -1,0 +1,26 @@
+databases:
+  - name: productrank-db
+    databaseName: productrank_production
+    user: productrank
+    plan: free
+
+services:
+  - type: web
+    name: productrank
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: productrank-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: RACK_ENV
+        value: production
+      - key: SECRET_KEY_BASE
+        generateValue: true

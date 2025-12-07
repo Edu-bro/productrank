@@ -27,32 +27,16 @@ test:
 production:
   primary:
     <<: *default
-    database: productrank_production
-    username: <%= ENV.fetch("POSTGRES_USER") { "productrank" } %>
-    password: <%= ENV["POSTGRES_PASSWORD"] %>
-    host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+    url: <%= ENV['DATABASE_URL'] %>
   cache:
     <<: *default
-    database: productrank_production_cache
-    username: <%= ENV.fetch("POSTGRES_USER") { "productrank" } %>
-    password: <%= ENV["POSTGRES_PASSWORD"] %>
-    host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+    url: <%= ENV['CACHE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     migrations_paths: db/cache_migrate
   queue:
     <<: *default
-    database: productrank_production_queue
-    username: <%= ENV.fetch("POSTGRES_USER") { "productrank" } %>
-    password: <%= ENV["POSTGRES_PASSWORD"] %>
-    host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+    url: <%= ENV['QUEUE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     migrations_paths: db/queue_migrate
   cable:
     <<: *default
-    database: productrank_production_cable
-    username: <%= ENV.fetch("POSTGRES_USER") { "productrank" } %>
-    password: <%= ENV["POSTGRES_PASSWORD"] %>
-    host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+    url: <%= ENV['CABLE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     migrations_paths: db/cable_migrate
