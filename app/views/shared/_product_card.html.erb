@@ -9,8 +9,6 @@ card_index = defined?(index) ? index : 0
     <div class="product-image">
         <% if product.logo_image.attached? %>
             <%= image_tag product.logo_thumb_1x, alt: product.name, style: "width: 100%; height: 100%; object-fit: cover;" %>
-        <% elsif product.logo_url.present? %>
-            <%= image_tag product.logo_url, alt: product.name, style: "width: 100%; height: 100%; object-fit: cover;" %>
         <% else %>
             <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 2rem;">
                 <%= product.name[0].upcase %>

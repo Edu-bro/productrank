@@ -515,23 +515,33 @@
 </style>
 
 <div class="min-h-screen bg-gray-50">
-  <!-- 상단 카테고리 드롭다운 -->
+  <!-- 상단 카테고리 필터 -->
   <div class="bg-white shadow-sm border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 py-4">
-      <div class="flex items-center justify-end">
-        <div class="relative">
-          <select class="flex items-center px-6 py-3 bg-blue-50 hover:bg-blue-100 rounded-xl text-base font-semibold text-blue-700 border-2 border-blue-200 hover:border-blue-300 transition-all duration-200 outline-none cursor-pointer shadow-sm" 
-                  onchange="window.location.href = this.value === 'all' ? '/products' : '/products?category=' + this.value">
-            <% @categories.each do |category| %>
-              <option value="<%= category[:slug] %>" <%= 'selected' if @current_category == category[:slug] %>>
-                <%= category[:name] %>
-              </option>
+      <h2 class="text-lg font-semibold text-gray-700 mb-3">카테고리별 탐색</h2>
+      <div class="category-scroll-container" style="overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
+        <div style="display: inline-flex; gap: 0.75rem;">
+          <% @categories.each do |category| %>
+            <%= link_to (category[:slug] == 'all' ? products_path : products_path(category: category[:slug])),
+                class: "filter-btn #{@current_category == category[:slug] ? 'active-filter' : ''}",
+                style: "display: inline-block; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; text-decoration: none; flex-shrink: 0; transition: all 0.2s; #{@current_category == category[:slug] ? 'background: #3b82f6; color: white; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);' : 'background: white; color: #374151; border: 1px solid #d1d5db;'}" do %>
+              <%= category[:name] %>
             <% end %>
-          </select>
+          <% end %>
         </div>
       </div>
+
     </div>
   </div>
+
+  <style>
+  .category-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-btn:not(.active-filter):hover {
+    background: #f3f4f6 !important;
+  }
+  </style>
 
   <main class="max-w-7xl mx-auto px-4 py-8">
     <div class="space-y-12">
@@ -540,8 +550,28 @@
           <% next if category[:slug] == 'all' || category[:products].empty? %>
         <div class="mb-12">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-900"><%= category[:name] %></h2>
-            <%= link_to products_path(category: category[:slug]), 
+            <div class="flex items-center gap-4">
+              <h2 class="text-2xl font-bold text-gray-900"><%= category[:name] %></h2>
+
+              <!-- 정렬 드롭다운 (개별 카테고리에서만 표시) -->
+              <% if @current_category != 'all' %>
+                <div class="relative" style="min-width: 140px;">
+                  <select onchange="window.location.href=this.value"
+                          style="appearance: none; padding: 0.5rem 2.5rem 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #374151; background-color: white; cursor: pointer; width: 100%;">
+                    <option value="<%= products_path(category: @current_category, sort: 'newest') %>" <%= 'selected' if @sort_by == 'newest' %>>최신순</option>
+                    <option value="<%= products_path(category: @current_category, sort: 'popular') %>" <%= 'selected' if @sort_by == 'popular' %>>랭크보드</option>
+                    <option value="<%= products_path(category: @current_category, sort: 'votes') %>" <%= 'selected' if @sort_by == 'votes' %>>투표순</option>
+                    <option value="<%= products_path(category: @current_category, sort: 'comments') %>" <%= 'selected' if @sort_by == 'comments' %>>댓글순</option>
+                  </select>
+                  <div style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); pointer-events: none;">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 4.5L6 7.5L9 4.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <%= link_to products_path(category: category[:slug]),
                 class: "text-blue-600 hover:text-blue-700 text-sm font-medium whitespace-nowrap cursor-pointer px-3 py-1 rounded-md hover:bg-blue-50 transition-colors" do %>
               모두 보기 →
             <% end %>
@@ -750,13 +780,30 @@
 
   // 페이지 로드 시 이벤트 리스너 등록
   function initComponents() {
+    // 제품 카드 마우스 이벤트
+    document.querySelectorAll('.product-card-content').forEach(card => {
+      card.addEventListener('mouseenter', function(e) {
+        const productId = this.getAttribute('data-product-id');
+        if (productId && window.ProductModal && window.ProductModal.show) {
+          window.ProductModal.show(productId);
+        }
+      });
+
+      card.addEventListener('mouseleave', function(e) {
+        const productId = this.getAttribute('data-product-id');
+        if (productId && window.ProductModal && window.ProductModal.hide) {
+          window.ProductModal.hide(productId);
+        }
+      });
+    });
+
     // 모달 이벤트
     document.querySelectorAll('.product-modal').forEach(modal => {
       modal.addEventListener('mouseover', function(e) {
         e.stopPropagation();
         clearTimeout(modalTimeout);
       });
-      
+
       modal.addEventListener('mouseleave', function(e) {
         const productId = this.id.replace('modal-', '');
         window.ProductModal.hide(productId);

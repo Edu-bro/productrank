@@ -1,20 +1,22 @@
 <!-- Cached product card partial for performance -->
-<% cache ['product_card_v1', product, product.updated_at] do %>
+<%
+  # Set default card_index if not provided
+  card_index ||= 999
+%>
+<% cache ['product_card_v7', product, product.updated_at] do %>
   <div class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-fit" data-product-id="<%= product.id %>">
-    
-    <!-- 이미지 갤러리 -->
-    <div class="relative h-32 overflow-hidden group" data-gallery="<%= product.id %>">
+
+    <!-- 이미지 갤러리 (16:9 비율) -->
+    <div class="relative overflow-hidden group" style="aspect-ratio: 16/9;" data-gallery="<%= product.id %>">
       <%
-        # 단순화: 커버 이미지만 사용 (성능 최적화)
+        # 썸네일 이미지 우선순위 (모든 product_images 표시)
         gallery_images = []
 
-        # 커버 이미지 우선, 없으면 로고 이미지 사용
-        if product.cover_url.present?
-          gallery_images << { type: 'url', data: product.cover_url }
-        elsif product.logo_url.present?
-          gallery_images << { type: 'url', data: product.logo_url }
-        elsif product.logo_image.attached?
-          gallery_images << { type: 'url', data: product.logo_thumb_1x }
+        # 모든 product_images를 갤러리에 추가
+        if product.product_images.attached?
+          product.product_images.each do |img|
+            gallery_images << { type: 'url', data: Rails.application.routes.url_helpers.rails_blob_path(img, only_path: true) }
+          end
         end
 
         # 이미지가 없으면 placeholder
@@ -25,15 +27,15 @@
       <% gallery_images.each_with_index do |image, img_index| %>
         <div class="gallery-slide" style="<%= 'display: none;' unless img_index == 0 %>" data-slide="<%= img_index %>">
           <% if image[:type] == 'url' %>
-            <img src="<%= image[:data] %>" 
+            <img src="<%= image[:data] %>"
                  alt="<%= product.name %>"
-                 width="320" 
-                 height="200"
+                 width="320"
+                 height="180"
                  loading="<%= img_index == 0 && card_index < 4 ? 'eager' : 'lazy' %>"
                  decoding="async"
                  fetchpriority="<%= img_index == 0 && card_index < 4 ? 'high' : 'low' %>"
-                 crossorigin="anonymous" 
-                 class="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105">
+                 crossorigin="anonymous"
+                 class="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105">
           <% else %>
             <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);">
               <span style="color: white; font-weight: bold; font-size: 2rem;"><%= product.name[0].upcase %></span>
@@ -68,15 +70,21 @@
     </div>
     
     <!-- 제품 정보 -->
-    <div class="relative p-4 bg-white product-card-content" 
-         onclick="window.location.href='<%= product_path(product) %>'" 
-         onmouseenter="ProductModal.show(<%= product.id %>)" 
-         onmouseleave="ProductModal.hide(<%= product.id %>)"
+    <div class="relative p-4 bg-white product-card-content"
+         onclick="window.location.href='<%= product_path(product) %>'"
+         data-product-id="<%= product.id %>"
          data-product-card="<%= product.id %>">
       <div class="flex items-center mb-2">
-        <% # PERFORMANCE: Use preloaded topic slug to avoid N+1 queries %>
-        <% first_topic_slug = get_product_first_topic_slug(product) %>
-        <span class="text-lg mr-2"><%= get_topic_emoji(first_topic_slug) %></span>
+        <!-- 제품 로고 (작은 아이콘) -->
+        <div class="mr-2" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 6px; overflow: hidden;">
+          <% if product.logo_image.attached? %>
+            <img src="<%= product.logo_thumb_1x %>" alt="<%= product.name %> 로고" style="width: 100%; height: 100%; object-fit: cover;">
+          <% else %>
+            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.75rem;">
+              <%= product.name[0].upcase %>
+            </div>
+          <% end %>
+        </div>
         <h3 class="font-semibold text-gray-900 text-base truncate"><%= product.name %></h3>
       </div>
       
@@ -85,16 +93,16 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <div class="flex items-center">
-            <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="width: 16px; height: 16px; margin-right: 0.25rem;">
+              <path d="M8 3.5C8 3.5 8.5 3 9 3.8L11.5 8.5C12 9.3 11.8 10 11 10H5C4.2 10 4 9.3 4.5 8.5L7 3.8C7.5 3 8 3.5 8 3.5Z" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
             <!-- Use counter cache for performance -->
             <span class="text-sm text-gray-500"><%= product.votes_count || 0 %></span>
           </div>
           <div class="flex items-center">
-            <i class="ri-arrow-up-line text-orange-500 text-sm mr-1"></i>
-            <span class="text-sm text-gray-500"><%= product.likes_count || 0 %></span>
-          </div>
-          <div class="flex items-center">
-            <i class="ri-chat-3-line text-blue-500 text-sm mr-1"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16" style="width: 16px; height: 16px; margin-right: 0.25rem;">
+              <path stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" fill="none" d="M14 7.667a5.667 5.667 0 0 1-7.703 5.287 2.286 2.286 0 0 0-.22-.078.571.571 0 0 0-.126-.016c-.06 0-.12.006-.2.014l-3.413.353c-.326.034-.488.05-.584-.008a.343.343 0 0 1-.157-.233c-.017-.111.06-.255.217-.543l1.09-2.018c.09-.167.135-.25.155-.329a.571.571 0 0 0 .018-.217c-.007-.083-.042-.19-.114-.403A5.667 5.667 0 1 1 14 7.667Z"></path>
+            </svg>
             <span class="text-sm text-gray-500"><%= product.comments_count || 0 %></span>
           </div>
         </div>
