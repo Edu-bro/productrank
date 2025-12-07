@@ -90,6 +90,11 @@ bundle exec rake db:seed
 2. **환경 변수 확인**: RAILS_MASTER_KEY가 올바르게 설정되었는지 확인
 3. **데이터베이스 연결**: DATABASE_URL이 자동으로 설정되었는지 확인
 
+### SECRET_KEY_BASE 오류
+
+`render-build.sh` 스크립트가 빌드 시 SECRET_KEY_BASE를 자동 생성하므로 별도 설정이 필요 없습니다.
+만약 오류가 발생하면 `render.yaml`에서 `SECRET_KEY_BASE`가 `generateValue: true`로 설정되어 있는지 확인하세요.
+
 ### Asset Precompile 오류
 
 `render-build.sh` 스크립트가 자동으로 처리하지만, 문제가 있다면:
