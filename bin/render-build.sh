@@ -7,6 +7,9 @@ if [ -z "$SECRET_KEY_BASE" ]; then
   export SECRET_KEY_BASE=$(openssl rand -hex 64)
 fi
 
+# Clear bootsnap cache to prevent stale code issues
+rm -rf tmp/cache/bootsnap*
+
 bundle install
 bundle exec rake assets:precompile
 bundle exec rake assets:clean
