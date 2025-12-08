@@ -26,4 +26,14 @@ bundle exec rake assets:precompile
 bundle exec rake assets:clean
 bundle exec rake db:migrate
 
+# Seed database only if it's empty (no products exist)
+echo "=== Checking if database needs seeding ==="
+PRODUCT_COUNT=$(bundle exec rails runner "puts Product.count")
+if [ "$PRODUCT_COUNT" -eq "0" ]; then
+  echo "Database is empty. Running seeds..."
+  bundle exec rake db:seed
+else
+  echo "Database already has $PRODUCT_COUNT products. Skipping seed."
+fi
+
 echo "=== Build completed successfully ==="
