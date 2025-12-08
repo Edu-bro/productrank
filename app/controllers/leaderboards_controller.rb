@@ -22,6 +22,13 @@ class LeaderboardsController < ApplicationController
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @date = @date.beginning_of_week
     @products = get_products_by_period(:weekly, @date)
+
+    # 제품이 없으면 전주로 이동
+    if @products.empty? && !params[:date]
+      @date = @date - 1.week
+      @products = get_products_by_period(:weekly, @date)
+    end
+
     @period_title = "이번 주 (#{@date.strftime('%m월 %d일')} - #{@date.end_of_week.strftime('%m월 %d일')})"
   end
 

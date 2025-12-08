@@ -3,11 +3,8 @@ class ProductsController < ApplicationController
   before_action :require_login, only: [:new, :create, :edit, :update, :vote, :unvote]
   
   def index
-    # Auto-publish scheduled products that have reached their launch date
-    Product.ready_to_publish.update_all(status: :live)
-    
     @current_category = params[:category].present? ? params[:category] : 'all'
-    @sort_by = params[:sort] || 'popular'
+    @sort_by = params[:sort] || 'newest'
     
     # PERFORMANCE: Disabled caching temporarily for debugging
     # cache_key = "products_index_#{@current_category}_#{@sort_by}_#{params[:page] || 1}"
@@ -66,9 +63,9 @@ class ProductsController < ApplicationController
         products = get_sorted_products(
           Product.joins(:product_topics)
                  .includes(:user)  # Only essential relations
-                 .select(:id, :name, :tagline, :description, :status, :created_at, 
+                 .select(:id, :name, :tagline, :description, :status, :created_at,
                          :votes_count, :likes_count, :comments_count, :user_id,
-                         :cover_url, :logo_url, :updated_at, :key_features)  # Only needed fields
+                         :updated_at, :key_features)  # Only needed fields
                  .where(status: [:live, :archived])
                  .where(product_topics: { topic_id: topic.id })
         ).page(params[:page]).per(20)
@@ -119,20 +116,18 @@ class ProductsController < ApplicationController
     
     # 갤러리 이미지 처리 (커버 이미지 우선, 일관성 유지)
     @gallery_images = []
-    
+
     # 1. 커버 이미지를 첫 번째로 추가 (목록 페이지와 일관성)
-    if @product.cover_url.present?
-      @gallery_images << @product.cover_url
-    elsif @product.cover_image.attached?
+    if @product.cover_image
       @gallery_images << Rails.application.routes.url_helpers.rails_blob_path(@product.cover_image, only_path: true)
     end
-    
+
     # 2. 나머지 갤러리 이미지들 추가 (중복 제거)
     gallery_urls = @product.gallery_image_urls
     gallery_urls.each do |url|
       @gallery_images << url unless @gallery_images.include?(url)
     end
-    
+
     # 3. 이미지가 없으면 기본 placeholder
     @gallery_images = ["https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=300&fit=crop"] if @gallery_images.empty?
     
@@ -173,12 +168,8 @@ class ProductsController < ApplicationController
       @product.key_features_list = features
     end
     
-    # 런칭 날짜에 따라 상태 설정
-    if @product.launch_date.present? && @product.launch_date.to_date > Date.current
-      @product.status = :scheduled  # 예약된 상태
-    else
-      @product.status = :live       # 즉시 공개 (오늘이거나 지난 날짜)
-    end
+    # 기본 상태는 즉시 공개
+    @product.status = :live
     
     if @product.save
       # 토픽 연결
@@ -212,14 +203,7 @@ class ProductsController < ApplicationController
       # 메이커 역할 추가 (등록자)
       @product.maker_roles.create(user: current_user, role: 'founder') unless @product.maker_roles.exists?(user: current_user)
 
-      # 런치 데이터 생성은 Product 모델의 after_save callback에서 자동 처리됨
-      # (sync_launch_date_to_launches 메서드)
-
-      if @product.scheduled?
-        redirect_to @product, notice: "제품이 성공적으로 등록되었습니다! #{@product.launch_date.strftime('%Y년 %m월 %d일 %H:%M')}에 공개됩니다."
-      else
-        redirect_to @product, notice: '제품이 성공적으로 등록되어 즉시 공개되었습니다!'
-      end
+      redirect_to @product, notice: '제품이 성공적으로 등록되어 즉시 공개되었습니다!'
     else
       @topics = Topic.all
       render :new
@@ -300,7 +284,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :tagline, :description, :website_url, :logo_url, :cover_url, :gallery_urls, :pricing_info, :featured, :key_features, :logo_image, :cover_image, :launch_date, :company_name, :company_description, :founded_year, :headquarters, :employee_count, gallery_images_files: [])
+    params.require(:product).permit(:name, :tagline, :description, :website_url, :pricing_info, :featured, :key_features, :logo_image, :company_name, :company_description, :founded_year, :headquarters, :employee_count, :facebook_url, :instagram_url, :tiktok_url, :github_url, product_images: [])
   end
 
   
@@ -320,8 +304,7 @@ class ProductsController < ApplicationController
       products = Product.joins(:product_topics)
                        .select('products.id, products.name, products.tagline, products.description,
                                products.votes_count, products.likes_count, products.comments_count,
-                               products.cover_url, products.logo_url, products.user_id, products.updated_at,
-                               products.key_features')
+                               products.user_id, products.updated_at, products.key_features')
                        .where(status: [:live, :archived])
                        .where(product_topics: { topic_id: topic.id })
                        .order(Arel.sql('(products.votes_count + products.likes_count * 2) DESC'))

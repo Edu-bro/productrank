@@ -71,7 +71,7 @@
   border: 2px solid #e5e5e5;
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
   background: #fafafa;
 }
 
@@ -80,6 +80,33 @@
   border-color: #ff6b35;
   background: white;
   box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+/* 인터랙티브 인풋 스타일 */
+.interactive-input.confirmed {
+  background: #f9fafb;
+  color: #6b7280;
+  border-color: #d1d5db;
+  cursor: pointer;
+  position: relative;
+  padding-right: 2.5rem;
+}
+
+.interactive-input.confirmed::after {
+  content: '✓';
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #10b981;
+  font-weight: bold;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.interactive-input.confirmed:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
 }
 
 .form-help {
@@ -135,7 +162,7 @@
 .upload-area {
   border: 2px dashed #d1d5db;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.25rem;
   text-align: center;
   background: #fafafa;
   transition: all 0.3s ease;
@@ -149,20 +176,20 @@
 }
 
 .upload-icon {
-  width: 3rem;
-  height: 3rem;
-  margin: 0 auto 1rem;
+  width: 2rem;
+  height: 2rem;
+  margin: 0 auto 0.75rem;
   color: #9ca3af;
 }
 
 .upload-text {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: #374151;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .upload-subtext {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #6b7280;
 }
 
@@ -431,7 +458,7 @@
     </div>
   <% end %>
 
-  <%= form_with model: @product, local: true, multipart: true do |form| %>
+  <%= form_with model: @product, local: true, multipart: true, data: { turbo: false } do |form| %>
     <!-- 기본 정보 섹션 -->
     <div class="form-section">
       <h2 class="section-title">
@@ -445,14 +472,14 @@
         <%= form.label :name, class: "form-label" do %>
           제품명 <span class="required">*</span>
         <% end %>
-        <%= form.text_field :name, class: "form-input", placeholder: "예: Notion" %>
+        <%= form.text_field :name, class: "form-input auto-next-field", placeholder: "예: Notion", data: { next_field: "product_tagline" } %>
       </div>
 
       <div class="form-group">
         <%= form.label :tagline, class: "form-label" do %>
           제품 한줄소개 <span class="required">*</span>
         <% end %>
-        <%= form.text_field :tagline, class: "form-input", placeholder: "예: 올인원 워크스페이스로 노트, 작업, 데이터베이스를 하나로" %>
+        <%= form.text_field :tagline, class: "form-input auto-next-field", placeholder: "예: 올인원 워크스페이스로 노트, 작업, 데이터베이스를 하나로", data: { next_field: "product_description" } %>
         <p class="form-help">최대 60자</p>
       </div>
 
@@ -460,13 +487,13 @@
         <%= form.label :description, class: "form-label" do %>
           제품 설명 <span class="required">*</span>
         <% end %>
-        <%= form.text_area :description, rows: 4, class: "form-textarea", placeholder: "제품의 주요 기능과 특징을 자세히 설명해주세요..." %>
+        <%= form.text_area :description, rows: 4, class: "form-textarea auto-next-field", placeholder: "제품의 주요 기능과 특징을 자세히 설명해주세요...", data: { next_field: "product_website_url" } %>
         <p class="form-help">최대 500자</p>
       </div>
 
       <div class="form-group">
         <%= form.label :website_url, "웹사이트 URL", class: "form-label" %>
-        <%= form.text_field :website_url, class: "form-input", placeholder: "naver.com 또는 https://notion.so" %>
+        <%= form.text_field :website_url, class: "form-input auto-next-field", placeholder: "naver.com 또는 https://notion.so", data: { next_field: "product_launch_date" } %>
         <p class="form-help">웹사이트 주소를 자유롭게 입력하세요 (http://는 자동으로 추가됩니다)</p>
       </div>
 
@@ -495,10 +522,11 @@
         <% 5.times do |i| %>
           <div class="form-group">
             <%= label_tag "key_features_#{i}", "기능 #{i + 1}", class: "form-label" %>
-            <%= text_field_tag "key_features[]", "", 
-                  class: "form-input", 
+            <%= text_field_tag "key_features[]", "",
+                  class: "form-input interactive-input",
                   placeholder: "예: 실시간 협업",
-                  maxlength: 15 %>
+                  maxlength: 15,
+                  data: { interactive: true } %>
           </div>
         <% end %>
       </div>
@@ -516,66 +544,36 @@
       <!-- 로고 업로드 -->
       <div class="form-group">
         <%= form.label :logo_image, "제품 로고", class: "form-label" %>
-        <p class="form-help" style="margin-bottom: 1rem;">파일을 업로드하거나 아래 URL 필드에 이미지 링크를 입력하세요</p>
+        <p class="form-help" style="margin-bottom: 1rem;">정사각형 비율 권장 (PNG, JPG, 최대 1MB)</p>
         <div class="upload-area" id="logo-upload">
           <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
           </svg>
           <div class="upload-text">로고 이미지를 드래그하거나 클릭하여 선택</div>
-          <div class="upload-subtext">PNG, JPG 권장 (최대 5MB)</div>
+          <div class="upload-subtext">PNG, JPG 권장 (최대 1MB)</div>
           <%= form.file_field :logo_image, class: "file-input", accept: "image/*" %>
         </div>
         <div id="logo-preview" class="image-preview"></div>
-        
-        <!-- 로고 URL 입력 -->
-        <div style="margin-top: 1rem;">
-          <%= form.label :logo_url, "또는 로고 이미지 URL", class: "form-label" %>
-          <%= form.url_field :logo_url, class: "form-input", placeholder: "https://example.com/logo.png" %>
-        </div>
       </div>
 
-      <!-- 커버 이미지 업로드 -->
+      <!-- 제품 이미지 업로드 (통합) -->
       <div class="form-group">
-        <%= form.label :cover_image, "커버 이미지", class: "form-label" %>
-        <p class="form-help" style="margin-bottom: 1rem;">파일을 업로드하거나 아래 URL 필드에 이미지 링크를 입력하세요</p>
-        <div class="upload-area" id="cover-upload">
+        <%= form.label :product_images, "제품 이미지", class: "form-label" do %>
+          제품 이미지 <span class="required">*</span>
+        <% end %>
+        <p class="form-help" style="margin-bottom: 1rem;">
+          📸 여러 이미지를 업로드하세요. <strong>첫 번째 이미지가 썸네일(커버 이미지)</strong>로 사용됩니다.<br>
+          드래그하여 순서를 변경할 수 있습니다. (각각 최대 1MB)
+        </p>
+        <div class="upload-area" id="product-images-upload">
           <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
           </svg>
-          <div class="upload-text">커버 이미지를 드래그하거나 클릭하여 선택</div>
-          <div class="upload-subtext">16:9 비율 권장 (최대 10MB)</div>
-          <%= form.file_field :cover_image, class: "file-input", accept: "image/*" %>
+          <div class="upload-text">제품 이미지들을 드래그하거나 클릭하여 선택</div>
+          <div class="upload-subtext">여러 파일 선택 가능 • 첫 번째 이미지 = 썸네일 • 각 이미지 최대 1MB</div>
+          <%= form.file_field :product_images, multiple: true, class: "file-input", accept: "image/*", id: "product-images-input" %>
         </div>
-        <div id="cover-preview" class="image-preview"></div>
-        
-        <!-- 커버 URL 입력 -->
-        <div style="margin-top: 1rem;">
-          <%= form.label :cover_url, "또는 커버 이미지 URL", class: "form-label" %>
-          <%= form.url_field :cover_url, class: "form-input", placeholder: "https://example.com/cover.jpg" %>
-        </div>
-      </div>
-
-      <!-- 갤러리 이미지 업로드 -->
-      <div class="form-group">
-        <%= form.label :gallery_images_files, "갤러리 이미지", class: "form-label" %>
-        <p class="form-help">제품의 스크린샷이나 상세 이미지를 여러 장 업로드하거나 URL로 입력하세요</p>
-        <div class="upload-area" id="gallery-upload">
-          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-          </svg>
-          <div class="upload-text">갤러리 이미지들을 드래그하거나 클릭하여 선택</div>
-          <div class="upload-subtext">여러 파일 선택 가능 (각각 최대 5MB)</div>
-          <%= form.file_field :gallery_images_files, multiple: true, class: "file-input", accept: "image/*" %>
-        </div>
-        <div id="gallery-preview" class="image-preview"></div>
-        
-        <!-- 갤러리 URL 입력 -->
-        <div style="margin-top: 1rem;">
-          <%= form.label :gallery_urls, "또는 갤러리 이미지 URL (쉼표로 구분)", class: "form-label" %>
-          <%= form.text_area :gallery_urls, rows: 3, class: "form-textarea", 
-                placeholder: "https://example.com/image1.jpg,https://example.com/image2.jpg,https://example.com/image3.jpg" %>
-          <p class="form-help">여러 이미지 URL을 쉼표(,)로 구분하여 입력하세요</p>
-        </div>
+        <div id="product-images-preview" class="image-preview sortable-images"></div>
       </div>
     </div>
 
@@ -657,19 +655,45 @@
         <%= form.text_field :employee_count, class: "form-input", placeholder: "예: 200-500명" %>
         <p class="form-help">직원 수 범위를 입력하세요 (예: 10-50명, 100-200명)</p>
       </div>
+
+      <div style="border-top: 1px solid #e5e5e5; margin: 1.5rem 0; padding-top: 1.5rem;">
+        <h3 style="font-size: 1rem; font-weight: 600; color: #333; margin-bottom: 1rem;">소셜 미디어</h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div class="form-group">
+            <%= form.label :facebook_url, "Facebook", class: "form-label" %>
+            <%= form.text_field :facebook_url, class: "form-input", placeholder: "facebook.com/yourpage" %>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :instagram_url, "Instagram", class: "form-label" %>
+            <%= form.text_field :instagram_url, class: "form-input", placeholder: "instagram.com/yourpage" %>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :tiktok_url, "TikTok", class: "form-label" %>
+            <%= form.text_field :tiktok_url, class: "form-input", placeholder: "tiktok.com/@yourpage" %>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :github_url, "GitHub", class: "form-label" %>
+            <%= form.text_field :github_url, class: "form-input", placeholder: "github.com/yourorg" %>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- 추가 정보 섹션 -->
+    <!-- 특별 혜택 섹션 -->
     <div class="form-section">
       <h2 class="section-title">
         <svg class="section-icon" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+          <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"/>
         </svg>
-        추가 정보
+        특별 혜택
       </h2>
 
       <div class="form-group">
-        <%= form.label :pricing_info, "주요 혜택 및 특징", class: "form-label" %>
+        <%= form.label :pricing_info, "제공 가능한 혜택 및 특징", class: "form-label" %>
         <%= form.text_area :pricing_info, rows: 4, class: "form-textarea",
               placeholder: "• 무료 체험 14일 제공\n• 무제한 워크스페이스\n• 24/7 고객 지원\n• API 연동 지원" %>
         <p class="form-help">ProductRank 참여자에게 제공 가능한 제품의 주요 혜택이나 특별한 특징들을 입력하세요</p>
@@ -690,8 +714,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // 파일 업로드 미리보기 기능
   function setupFileUpload(uploadId, previewId, multiple = false) {
     const uploadArea = document.getElementById(uploadId);
+    if (!uploadArea) return; // 엘리먼트가 없으면 종료
+
     const fileInput = uploadArea.querySelector('input[type="file"]');
     const preview = document.getElementById(previewId);
+    if (!fileInput || !preview) return; // 필수 엘리먼트가 없으면 종료
 
     // 드래그 앤 드롭 이벤트
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -732,8 +759,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleFiles(files) {
       preview.innerHTML = '';
+      const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+      let hasOversizedFile = false;
+
       [...files].forEach(file => {
         if (file.type.startsWith('image/')) {
+          // Check file size
+          if (file.size > MAX_FILE_SIZE) {
+            hasOversizedFile = true;
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            alert(`파일 "${file.name}"의 크기가 너무 큽니다 (${fileSizeMB}MB).\n각 이미지는 최대 1MB까지 업로드 가능합니다.`);
+            return;
+          }
+
           const reader = new FileReader();
           reader.onload = function(e) {
             const div = document.createElement('div');
@@ -747,13 +785,54 @@ document.addEventListener('DOMContentLoaded', function() {
           reader.readAsDataURL(file);
         }
       });
+
+      // Clear file input if any file was oversized
+      if (hasOversizedFile) {
+        fileInput.value = '';
+      }
     }
   }
 
   // 각 파일 업로드 영역 설정
   setupFileUpload('logo-upload', 'logo-preview');
-  setupFileUpload('cover-upload', 'cover-preview');
-  setupFileUpload('gallery-upload', 'gallery-preview', true);
+  setupFileUpload('product-images-upload', 'product-images-preview', true);
+
+  // 자동 다음 필드 이동 기능
+  const autoNextFields = document.querySelectorAll('.auto-next-field');
+
+  autoNextFields.forEach(field => {
+    field.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+
+        const nextFieldId = field.dataset.nextField;
+        if (nextFieldId) {
+          const nextField = document.getElementById(nextFieldId);
+          if (nextField) {
+            // 부드러운 스크롤과 포커스
+            nextField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+              nextField.focus();
+              // textarea인 경우 커서를 끝으로
+              if (nextField.tagName === 'TEXTAREA') {
+                nextField.setSelectionRange(nextField.value.length, nextField.value.length);
+              }
+            }, 300);
+
+            // 확정 효과 (입력값이 있으면)
+            if (field.value.trim() !== '') {
+              field.style.background = '#f0fdf4';
+              field.style.borderColor = '#10b981';
+              setTimeout(() => {
+                field.style.background = '';
+                field.style.borderColor = '';
+              }, 500);
+            }
+          }
+        }
+      }
+    });
+  });
 
   // 카테고리 선택 제한 (최대 3개)
   const topicsGrid = document.getElementById('topics-grid');
@@ -915,5 +994,179 @@ document.addEventListener('DOMContentLoaded', function() {
     button.closest('.team-member-card').remove();
     addedMembers.delete(userId);
   };
+
+  // 자동 저장 기능 (LocalStorage 사용)
+  const AUTOSAVE_KEY = 'product_form_autosave';
+  const form = document.querySelector('form');
+  const formInputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea, select');
+
+  // 폼 데이터 저장
+  function saveFormData() {
+    const formData = {};
+    formInputs.forEach(input => {
+      if (input.name && !input.name.includes('team_members')) {
+        formData[input.name] = input.value;
+      }
+    });
+
+    // 체크박스 저장
+    const checkedTopics = [];
+    document.querySelectorAll('input[name="topic_ids[]"]:checked').forEach(cb => {
+      checkedTopics.push(cb.value);
+    });
+    formData['topic_ids'] = checkedTopics;
+
+    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
+
+    // 저장 표시
+    showSaveIndicator();
+  }
+
+  // 저장 표시 알림
+  function showSaveIndicator() {
+    let indicator = document.getElementById('autosave-indicator');
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.id = 'autosave-indicator';
+      indicator.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 0.9rem; z-index: 1000; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); opacity: 0; transition: opacity 0.3s;';
+      indicator.textContent = '✓ 자동 저장됨';
+      document.body.appendChild(indicator);
+    }
+
+    indicator.style.opacity = '1';
+    setTimeout(() => {
+      indicator.style.opacity = '0';
+    }, 2000);
+  }
+
+  // 폼 데이터 복원
+  function restoreFormData() {
+    const savedData = localStorage.getItem(AUTOSAVE_KEY);
+    if (savedData) {
+      try {
+        const formData = JSON.parse(savedData);
+
+        // 입력 필드 복원
+        formInputs.forEach(input => {
+          if (input.name && formData[input.name]) {
+            input.value = formData[input.name];
+          }
+        });
+
+        // 체크박스 복원
+        if (formData['topic_ids']) {
+          formData['topic_ids'].forEach(topicId => {
+            const checkbox = document.querySelector(`input[name="topic_ids[]"][value="${topicId}"]`);
+            if (checkbox) checkbox.checked = true;
+          });
+        }
+
+        // 복원 알림
+        const restoreNotice = document.createElement('div');
+        restoreNotice.style.cssText = 'background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;';
+        restoreNotice.innerHTML = `
+          <svg style="width: 24px; height: 24px; color: #f59e0b; flex-shrink: 0;" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <div style="flex: 1;">
+            <strong style="color: #92400e; display: block; margin-bottom: 0.25rem;">이전 작성 내용을 복원했습니다</strong>
+            <p style="color: #78350f; font-size: 0.9rem; margin: 0;">자동 저장된 데이터가 입력되었습니다. 계속 작성하시거나 수정하세요.</p>
+          </div>
+          <button type="button" onclick="this.parentElement.remove(); localStorage.removeItem('${AUTOSAVE_KEY}');"
+                  style="background: #f59e0b; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; white-space: nowrap;">
+            확인
+          </button>
+        `;
+
+        const formHeader = document.querySelector('.form-header');
+        formHeader.parentNode.insertBefore(restoreNotice, formHeader.nextSibling);
+      } catch (e) {
+        console.error('자동 저장 데이터 복원 실패:', e);
+      }
+    }
+  }
+
+  // 입력 이벤트에 자동 저장 연결
+  let saveTimeout;
+  formInputs.forEach(input => {
+    input.addEventListener('input', () => {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(saveFormData, 1000); // 1초 후 저장
+    });
+  });
+
+  // 체크박스 변경 감지
+  document.querySelectorAll('input[name="topic_ids[]"]').forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(saveFormData, 1000);
+    });
+  });
+
+  // 폼 제출 시 자동 저장 데이터 삭제
+  form.addEventListener('submit', () => {
+    localStorage.removeItem(AUTOSAVE_KEY);
+  });
+
+  // Enter 키로 폼 제출 방지 (마우스 클릭만 허용)
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+    }
+  });
+
+  // 페이지 로드 시 데이터 복원
+  restoreFormData();
+
+  // 인터랙티브 인풋 기능 - 모든 텍스트 입력 필드에 적용
+  const interactiveInputs = document.querySelectorAll('.form-input:not([type="file"]):not([type="date"]), .form-textarea');
+
+  interactiveInputs.forEach(input => {
+    // Enter 키로 확정
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && input.value.trim() !== '') {
+        e.preventDefault();
+        confirmInput(input);
+      }
+    });
+
+    // 클릭으로 재수정
+    input.addEventListener('click', () => {
+      if (input.classList.contains('confirmed')) {
+        reactivateInput(input);
+      }
+    });
+
+    // Focus out 시 자동 확정 (값이 있을 때)
+    input.addEventListener('blur', () => {
+      if (input.value.trim() !== '' && !input.classList.contains('confirmed')) {
+        setTimeout(() => confirmInput(input), 200);
+      }
+    });
+  });
+
+  function confirmInput(input) {
+    if (input.value.trim() === '') return;
+
+    input.classList.add('confirmed');
+    input.setAttribute('readonly', true);
+
+    // 애니메이션 효과
+    input.style.transform = 'scale(0.98)';
+    setTimeout(() => {
+      input.style.transform = 'scale(1)';
+    }, 150);
+  }
+
+  function reactivateInput(input) {
+    input.classList.remove('confirmed');
+    input.removeAttribute('readonly');
+    input.focus();
+
+    // 커서를 끝으로 이동
+    const value = input.value;
+    input.value = '';
+    input.value = value;
+  }
 });
 </script>

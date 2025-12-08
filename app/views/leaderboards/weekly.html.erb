@@ -3,7 +3,7 @@
   <!-- 헤더 설명 -->
   <div style="margin-bottom: 2rem;">
     <h1 style="font-size: 2rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">
-      <%= @date.strftime('%Y년 %m월') %> <%= (@date.cweek) %>주차 랭크보드
+      <%= @date.strftime('%Y년 %m월') %> <%= ((@date.day - 1) / 7 + 1) %>주차 랭크보드
     </h1>
     <p style="font-size: 1.125rem; color: #6b7280;">
       <%= @date.beginning_of_week.strftime('%m월 %d일') %> - <%= @date.end_of_week.strftime('%m월 %d일') %> 주간 제품 순위입니다. 투표로 순위를 확인하세요.
@@ -26,18 +26,13 @@
               <i class="fas fa-chevron-left"></i>
             <% end %>
 
-            <div class="current-period" onclick="toggleDatePicker()" style="min-width: 200px;">
-              <span class="period-text"><%= @date.strftime('%Y년 %m월') %> <%= (@date.cweek) %>주차</span>
-              <span class="period-label">(<%= @date.beginning_of_week.strftime('%m/%d') %> - <%= @date.end_of_week.strftime('%m/%d') %>)</span>
+            <div class="current-period" onclick="toggleDatePicker()" style="cursor: pointer;">
+              <span class="period-text"><%= @date.strftime('%Y년 %m월') %> <%= ((@date.day - 1) / 7 + 1) %>주차</span>
             </div>
 
             <%= link_to "/rankboard/weekly?date=#{(@date + 1.week).strftime('%Y-%m-%d')}", class: "nav-arrow next" do %>
               <i class="fas fa-chevron-right"></i>
             <% end %>
-
-            <button class="calendar-btn" onclick="toggleDatePicker()">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
           </div>
 
           <!-- 주간 선택기 -->
@@ -108,14 +103,12 @@
 
 .current-period {
   display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   background: white;
-  cursor: pointer;
-  transition: all 0.2s;
   min-width: 150px;
+  transition: all 0.2s;
 }
 
 .current-period:hover {

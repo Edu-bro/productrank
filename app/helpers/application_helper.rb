@@ -92,7 +92,7 @@ module ApplicationHelper
 
   # Product cover/thumbnail for cards (full width/height version)
   def product_cover_tag(product, css_class: '', style: '')
-    if product.cover_image.attached?
+    if product.cover_image
       image_tag url_for(product.cover_image), alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.cover_url.present?
       image_tag product.cover_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"

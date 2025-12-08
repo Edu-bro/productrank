@@ -3,8 +3,7 @@ class Product < ApplicationRecord
   
   # Active Storage 첨부파일
   has_one_attached :logo_image
-  has_one_attached :cover_image
-  has_many_attached :gallery_images_files
+  has_many_attached :product_images  # 통합된 제품 이미지 (첫 번째가 커버)
   
   belongs_to :user
   has_many :maker_roles, dependent: :destroy
@@ -26,12 +25,52 @@ class Product < ApplicationRecord
   validates :tagline, presence: true, length: { maximum: 60 }
   validates :description, presence: true, length: { maximum: 500 }
 
+  # 이미지 필수 검증
+  validate :product_images_required
+  validate :logo_image_required
+
+  # 이미지 파일 크기 검증 (1MB)
+  validate :logo_image_size_validation
+  validate :product_images_size_validation
+
   # 회사 정보 (선택 사항)
   validates :company_name, length: { maximum: 100 }, allow_blank: true
   validates :founded_year, numericality: { only_integer: true, greater_than: 1800, less_than_or_equal_to: -> { Date.current.year } }, allow_nil: true
   validates :headquarters, length: { maximum: 200 }, allow_blank: true
   validates :employee_count, length: { maximum: 50 }, allow_blank: true
   validates :company_description, length: { maximum: 200 }, allow_blank: true
+
+  private
+
+  def product_images_required
+    unless product_images.attached?
+      errors.add(:product_images, '을(를) 최소 1개 이상 첨부해주세요')
+    end
+  end
+
+  def logo_image_required
+    unless logo_image.attached?
+      errors.add(:logo_image, '을(를) 첨부해주세요')
+    end
+  end
+
+  def logo_image_size_validation
+    if logo_image.attached? && logo_image.blob.byte_size > 1.megabyte
+      errors.add(:logo_image, '파일 크기는 1MB 이하여야 합니다')
+    end
+  end
+
+  def product_images_size_validation
+    return unless product_images.attached?
+
+    product_images.each do |image|
+      if image.blob.byte_size > 1.megabyte
+        errors.add(:product_images, "중 일부 파일의 크기가 1MB를 초과합니다 (파일명: #{image.filename})")
+      end
+    end
+  end
+
+  public
 
   # Prewarm thumbnails after create/update - fixed callback method
   after_commit -> { ThumbPrewarmJob.perform_later(id) }, on: [:create, :update], if: -> { logo_image.attached? }
@@ -78,14 +117,6 @@ class Product < ApplicationRecord
     reviews.group(:rating).count
   end
   
-  def gallery_images
-    return [] if gallery_urls.blank?
-    gallery_urls.split(',').map(&:strip)
-  end
-  
-  def gallery_images=(images)
-    self.gallery_urls = images.reject(&:blank?).join(',')
-  end
   
   # 주요 기능 관련 메서드
   def key_features_list
@@ -99,22 +130,25 @@ class Product < ApplicationRecord
 
   # Image methods - simplified for performance (no variants)
   def logo_thumb_1x
-    return logo_url if logo_url.present?
     return Rails.application.routes.url_helpers.rails_blob_path(logo_image, only_path: true) if logo_image.attached?
     nil
   end
-  
+
   def logo_thumb_2x
     logo_thumb_1x  # Use same as 1x for simplicity
   end
-  
+
+  # 커버 이미지는 첫 번째 제품 이미지
+  def cover_image
+    product_images.first if product_images.attached?
+  end
+
   def cover_thumb_1x
-    return cover_url if cover_url.present?
-    return Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) if cover_image.attached?
+    return Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) if cover_image
     nil
   end
-  
-  def cover_thumb_2x  
+
+  def cover_thumb_2x
     cover_thumb_1x  # Use same as 1x for performance
   end
   
@@ -133,20 +167,20 @@ class Product < ApplicationRecord
     )
   end
 
-  # 로컬 이미지 URL 메서드들 (호환성을 위해 유지, 새 코드에서는 *_thumb_1x 사용 권장)
+  # Image URL methods (using only attached files)
   def logo_image_url
-    logo_image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(logo_image, only_path: true) : logo_url
+    logo_image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(logo_image, only_path: true) : nil
   end
-  
+
   def cover_image_url
-    cover_image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) : cover_url
+    cover_image ? Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) : nil
   end
-  
+
   def gallery_image_urls
-    if gallery_images_files.attached?
-      gallery_images_files.map { |image| Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) }
+    if product_images.attached?
+      product_images.map { |image| Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) }
     else
-      gallery_images
+      []
     end
   end
   

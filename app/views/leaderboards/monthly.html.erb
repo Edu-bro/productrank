@@ -26,18 +26,13 @@
               <i class="fas fa-chevron-left"></i>
             <% end %>
 
-            <div class="current-period" onclick="toggleDatePicker()" style="min-width: 200px;">
+            <div class="current-period" onclick="toggleDatePicker()" style="cursor: pointer;">
               <span class="period-text"><%= @date.strftime('%Y년 %m월') %></span>
-              <span class="period-label">(<%= @date.beginning_of_month.strftime('%m/%d') %> - <%= @date.end_of_month.strftime('%m/%d') %>)</span>
             </div>
 
             <%= link_to "/rankboard/monthly?date=#{(@date + 1.month).strftime('%Y-%m-01')}", class: "nav-arrow next" do %>
               <i class="fas fa-chevron-right"></i>
             <% end %>
-
-            <button class="calendar-btn" onclick="toggleDatePicker()">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
           </div>
 
           <!-- 월 선택기 -->
@@ -108,14 +103,12 @@
 
 .current-period {
   display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   background: white;
-  cursor: pointer;
-  transition: all 0.2s;
   min-width: 150px;
+  transition: all 0.2s;
 }
 
 .current-period:hover {

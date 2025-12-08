@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_05_200747) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_07_085158) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -127,9 +127,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_200747) do
     t.string "tagline"
     t.text "description"
     t.string "website_url"
-    t.string "logo_url"
-    t.string "cover_url"
-    t.text "gallery_urls"
     t.text "pricing_info"
     t.integer "status"
     t.boolean "featured"
@@ -145,6 +142,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_200747) do
     t.string "headquarters"
     t.string "employee_count"
     t.text "company_description"
+    t.string "facebook_url"
+    t.string "instagram_url"
+    t.string "tiktok_url"
+    t.string "github_url"
     t.index ["comments_count"], name: "index_products_on_comments_count"
     t.index ["likes_count"], name: "index_products_on_likes_count"
     t.index ["name"], name: "index_products_on_name", unique: true
