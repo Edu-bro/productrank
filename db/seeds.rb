@@ -48,83 +48,83 @@ products_data = [
   # 오늘 출시된 제품들 (20개)
   {
     name: "AI Assistant Pro", tagline: "혁신적인 AI 어시스턴트로 일상 업무를 자동화하세요",
-    description: "일정 관리, 업무 처리, 생산성 향상을 도와주는 혁신적인 AI 어시스턴트입니다.", website_url: "https://aiassistantpro.com", logo_url: "https://logo.clearbit.com/openai.com", status: :live, topics: ["ai", "productivity"], launch_date: 0.days.ago
+    description: "일정 관리, 업무 처리, 생산성 향상을 도와주는 혁신적인 AI 어시스턴트입니다.", website_url: "https://aiassistantpro.com", status: :live, topics: ["ai", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "FlowSpace", tagline: "원격 팀을 위한 협업 작업 공간",
-    description: "원격 팀이 효율적으로 소통하고 프로젝트를 관리할 수 있도록 설계된 협업 플랫폼입니다.", website_url: "https://flowspace.io", logo_url: "https://logo.clearbit.com/slack.com", status: :live, topics: ["productivity", "development"], launch_date: 0.days.ago
+    description: "원격 팀이 효율적으로 소통하고 프로젝트를 관리할 수 있도록 설계된 협업 플랫폼입니다.", website_url: "https://flowspace.io", status: :live, topics: ["productivity", "development"], launch_date: 0.days.ago
   },
   {
     name: "DesignKit Pro", tagline: "전문 디자이너를 위한 올인원 툴킷",
-    description: "UI/UX 디자인, 프로토타이핑, 에셋 관리까지 한 번에 해결하는 디자인 도구입니다.", website_url: "https://designkitpro.com", logo_url: "https://logo.clearbit.com/figma.com", status: :live, topics: ["design", "productivity"], launch_date: 0.days.ago
+    description: "UI/UX 디자인, 프로토타이핑, 에셋 관리까지 한 번에 해결하는 디자인 도구입니다.", website_url: "https://designkitpro.com", status: :live, topics: ["design", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "CodeSync", tagline: "개발자를 위한 실시간 코드 공유 플랫폼",
-    description: "팀 개발 시 코드를 실시간으로 공유하고 협업할 수 있는 플랫폼입니다.", website_url: "https://codesync.dev", logo_url: "https://logo.clearbit.com/github.com", status: :live, topics: ["development", "productivity"], launch_date: 0.days.ago
+    description: "팀 개발 시 코드를 실시간으로 공유하고 협업할 수 있는 플랫폼입니다.", website_url: "https://codesync.dev", status: :live, topics: ["development", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "HealthTracker+", tagline: "개인 맞춤형 건강 관리 어시스턴트",
-    description: "AI 기반으로 개인의 건강 상태를 분석하고 맞춤형 운동 및 식단을 추천하는 헬스케어 앱입니다.", website_url: "https://healthtracker.plus", logo_url: "https://logo.clearbit.com/myfitnesspal.com", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
+    description: "AI 기반으로 개인의 건강 상태를 분석하고 맞춤형 운동 및 식단을 추천하는 헬스케어 앱입니다.", website_url: "https://healthtracker.plus", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
   },
   {
     name: "SmartBudget", tagline: "개인 재정 관리를 위한 스마트 예산 앱",
-    description: "AI가 지출 패턴을 분석해 맞춤형 예산과 절약 팁을 제공합니다.", website_url: "https://smartbudget.app", logo_url: "https://logo.clearbit.com/mint.com", status: :live, topics: ["finance", "ai"], launch_date: 0.days.ago
+    description: "AI가 지출 패턴을 분석해 맞춤형 예산과 절약 팁을 제공합니다.", website_url: "https://smartbudget.app", status: :live, topics: ["finance", "ai"], launch_date: 0.days.ago
   },
   {
     name: "EduMaster", tagline: "온라인 학습을 혁신하는 교육 플랫폼",
-    description: "개인화된 학습 경로와 실시간 피드백으로 효과적인 학습을 지원합니다.", website_url: "https://edumaster.co", logo_url: "https://logo.clearbit.com/coursera.org", status: :live, topics: ["education", "ai"], launch_date: 0.days.ago
+    description: "개인화된 학습 경로와 실시간 피드백으로 효과적인 학습을 지원합니다.", website_url: "https://edumaster.co", status: :live, topics: ["education", "ai"], launch_date: 0.days.ago
   },
   {
     name: "ShopEasy", tagline: "간편하고 안전한 온라인 쇼핑몰 솔루션",
-    description: "소상공인을 위한 원클릭 온라인 스토어 구축 및 관리 도구입니다.", website_url: "https://shopeasy.store", logo_url: "https://logo.clearbit.com/shopify.com", status: :live, topics: ["ecommerce", "productivity"], launch_date: 0.days.ago
+    description: "소상공인을 위한 원클릭 온라인 스토어 구축 및 관리 도구입니다.", website_url: "https://shopeasy.store", status: :live, topics: ["ecommerce", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "MindSpace", tagline: "정신 건강을 위한 디지털 명상 공간",
-    description: "개인 맞춤형 명상과 스트레스 관리 프로그램을 제공합니다.", website_url: "https://mindspace.app", logo_url: "https://logo.clearbit.com/headspace.com", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
+    description: "개인 맞춤형 명상과 스트레스 관리 프로그램을 제공합니다.", website_url: "https://mindspace.app", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
   },
   {
     name: "DevTools Pro", tagline: "개발자 생산성을 극대화하는 통합 도구",
-    description: "코딩, 디버깅, 배포까지 한 번에 해결하는 개발자 전용 툴킷입니다.", website_url: "https://devtools.pro", logo_url: "https://logo.clearbit.com/jetbrains.com", status: :live, topics: ["development", "productivity"], launch_date: 0.days.ago
+    description: "코딩, 디버깅, 배포까지 한 번에 해결하는 개발자 전용 툴킷입니다.", website_url: "https://devtools.pro", status: :live, topics: ["development", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "CreativeStudio", tagline: "창작자를 위한 올인원 콘텐츠 제작 도구",
-    description: "영상, 이미지, 오디오 편집을 한 곳에서 처리할 수 있는 창작 플랫폼입니다.", website_url: "https://creativestudio.io", logo_url: "https://logo.clearbit.com/adobe.com", status: :live, topics: ["design", "productivity"], launch_date: 0.days.ago
+    description: "영상, 이미지, 오디오 편집을 한 곳에서 처리할 수 있는 창작 플랫폼입니다.", website_url: "https://creativestudio.io", status: :live, topics: ["design", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "CryptoWallet+", tagline: "안전하고 직관적인 암호화폐 지갑",
-    description: "다중 코인 지원과 고급 보안 기능을 갖춘 차세대 디지털 지갑입니다.", website_url: "https://cryptowallet.plus", logo_url: "https://logo.clearbit.com/coinbase.com", status: :live, topics: ["finance", "development"], launch_date: 0.days.ago
+    description: "다중 코인 지원과 고급 보안 기능을 갖춘 차세대 디지털 지갑입니다.", website_url: "https://cryptowallet.plus", status: :live, topics: ["finance", "development"], launch_date: 0.days.ago
   },
   {
     name: "FitnessPal AI", tagline: "AI 개인 트레이너와 함께하는 맞춤 운동",
-    description: "개인의 체력 수준에 맞는 운동 계획과 실시간 피드백을 제공합니다.", website_url: "https://fitnesspal.ai", logo_url: "https://logo.clearbit.com/nike.com", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
+    description: "개인의 체력 수준에 맞는 운동 계획과 실시간 피드백을 제공합니다.", website_url: "https://fitnesspal.ai", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
   },
   {
     name: "LearnCode", tagline: "코딩을 재미있게 배우는 인터랙티브 플랫폼",
-    description: "게임화된 학습과 실습 프로젝트로 프로그래밍을 쉽게 익힐 수 있습니다.", website_url: "https://learncode.fun", logo_url: "https://logo.clearbit.com/codecademy.com", status: :live, topics: ["education", "development"], launch_date: 0.days.ago
+    description: "게임화된 학습과 실습 프로젝트로 프로그래밍을 쉽게 익힐 수 있습니다.", website_url: "https://learncode.fun", status: :live, topics: ["education", "development"], launch_date: 0.days.ago
   },
   {
     name: "SocialBoost", tagline: "소셜미디어 마케팅 자동화 도구",
-    description: "AI 기반 콘텐츠 생성과 최적 시간 포스팅으로 소셜미디어 성과를 극대화합니다.", website_url: "https://socialboost.app", logo_url: "https://logo.clearbit.com/buffer.com", status: :live, topics: ["productivity", "ai"], launch_date: 0.days.ago
+    description: "AI 기반 콘텐츠 생성과 최적 시간 포스팅으로 소셜미디어 성과를 극대화합니다.", website_url: "https://socialboost.app", status: :live, topics: ["productivity", "ai"], launch_date: 0.days.ago
   },
   {
     name: "CloudSync Pro", tagline: "멀티 클라우드 파일 동기화 솔루션",
-    description: "Google Drive, Dropbox, OneDrive를 하나로 통합 관리합니다.", website_url: "https://cloudsync.pro", logo_url: "https://logo.clearbit.com/dropbox.com", status: :live, topics: ["productivity", "development"], launch_date: 0.days.ago
+    description: "Google Drive, Dropbox, OneDrive를 하나로 통합 관리합니다.", website_url: "https://cloudsync.pro", status: :live, topics: ["productivity", "development"], launch_date: 0.days.ago
   },
   {
     name: "VoiceNote AI", tagline: "음성을 텍스트로 변환하는 스마트 노트",
-    description: "회의, 강의, 인터뷰를 실시간으로 텍스트화하고 자동 요약합니다.", website_url: "https://voicenote.ai", logo_url: "https://logo.clearbit.com/otter.ai", status: :live, topics: ["productivity", "ai"], launch_date: 0.days.ago
+    description: "회의, 강의, 인터뷰를 실시간으로 텍스트화하고 자동 요약합니다.", website_url: "https://voicenote.ai", status: :live, topics: ["productivity", "ai"], launch_date: 0.days.ago
   },
   {
     name: "MenuMaster", tagline: "레스토랑을 위한 디지털 메뉴 솔루션",
-    description: "QR코드 메뉴와 주문 시스템으로 식당 운영을 효율화합니다.", website_url: "https://menumaster.co", logo_url: "https://logo.clearbit.com/square.com", status: :live, topics: ["ecommerce", "productivity"], launch_date: 0.days.ago
+    description: "QR코드 메뉴와 주문 시스템으로 식당 운영을 효율화합니다.", website_url: "https://menumaster.co", status: :live, topics: ["ecommerce", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "PhotoMagic AI", tagline: "AI로 완성하는 완벽한 사진 편집",
-    description: "원클릭으로 전문가급 사진 보정과 배경 제거를 제공합니다.", website_url: "https://photomagic.ai", logo_url: "https://logo.clearbit.com/canva.com", status: :live, topics: ["design", "ai"], launch_date: 0.days.ago
+    description: "원클릭으로 전문가급 사진 보정과 배경 제거를 제공합니다.", website_url: "https://photomagic.ai", status: :live, topics: ["design", "ai"], launch_date: 0.days.ago
   },
   {
     name: "TimeTracker Pro", tagline: "시간 관리의 새로운 기준",
-    description: "프로젝트별 시간 추적과 생산성 분석으로 효율적인 업무를 지원합니다.", website_url: "https://timetracker.pro", logo_url: "https://logo.clearbit.com/toggl.com", status: :live, topics: ["productivity", "development"], launch_date: 0.days.ago
+    description: "프로젝트별 시간 추적과 생산성 분석으로 효율적인 업무를 지원합니다.", website_url: "https://timetracker.pro", status: :live, topics: ["productivity", "development"], launch_date: 0.days.ago
   },
 
   # 이번 주 출시된 제품들 (20개)
@@ -294,57 +294,57 @@ products_data = [
   # 오늘 출시 추가 8개
   {
     name: "NoteMaster AI", tagline: "AI가 정리하는 스마트 노트",
-    description: "회의록, 강의 노트, 아이디어를 AI가 자동으로 정리하고 태그를 생성합니다.", website_url: "https://notemaster.ai", logo_url: "https://logo.clearbit.com/notion.so", status: :live, topics: ["productivity", "ai"], launch_date: 0.days.ago
+    description: "회의록, 강의 노트, 아이디어를 AI가 자동으로 정리하고 태그를 생성합니다.", website_url: "https://notemaster.ai", status: :live, topics: ["productivity", "ai"], launch_date: 0.days.ago
   },
   {
     name: "FocusTime", tagline: "집중력 향상을 위한 생산성 타이머",
-    description: "포모도로 기법과 집중 음악, 방해 차단 기능으로 몰입을 도와줍니다.", website_url: "https://focustime.app", logo_url: "https://logo.clearbit.com/forest.app", status: :live, topics: ["productivity", "health"], launch_date: 0.days.ago
+    description: "포모도로 기법과 집중 음악, 방해 차단 기능으로 몰입을 도와줍니다.", website_url: "https://focustime.app", status: :live, topics: ["productivity", "health"], launch_date: 0.days.ago
   },
   {
     name: "QuickMock", tagline: "빠른 와이어프레임 및 목업 도구",
-    description: "드래그 앤 드롭으로 5분 안에 프로토타입을 완성하는 디자인 도구입니다.", website_url: "https://quickmock.design", logo_url: "https://logo.clearbit.com/balsamiq.com", status: :live, topics: ["design", "productivity"], launch_date: 0.days.ago
+    description: "드래그 앤 드롭으로 5분 안에 프로토타입을 완성하는 디자인 도구입니다.", website_url: "https://quickmock.design", status: :live, topics: ["design", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "SQLMaster", tagline: "SQL 쿼리 최적화 및 관리 도구",
-    description: "복잡한 SQL 쿼리를 분석하고 성능 개선 방안을 제안합니다.", website_url: "https://sqlmaster.dev", logo_url: "https://logo.clearbit.com/postgresql.org", status: :live, topics: ["development", "productivity"], launch_date: 0.days.ago
+    description: "복잡한 SQL 쿼리를 분석하고 성능 개선 방안을 제안합니다.", website_url: "https://sqlmaster.dev", status: :live, topics: ["development", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "SleepWell", tagline: "과학 기반 수면 개선 앱",
-    description: "수면 패턴 분석과 맞춤형 수면 루틴으로 깊은 잠을 도와줍니다.", website_url: "https://sleepwell.health", logo_url: "https://logo.clearbit.com/calm.com", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
+    description: "수면 패턴 분석과 맞춤형 수면 루틴으로 깊은 잠을 도와줍니다.", website_url: "https://sleepwell.health", status: :live, topics: ["health", "ai"], launch_date: 0.days.ago
   },
   {
     name: "ExpenseTracker Pro", tagline: "사업자를 위한 경비 관리 솔루션",
-    description: "영수증 스캔과 자동 분류로 경비 정산을 간소화합니다.", website_url: "https://expensetracker.pro", logo_url: "https://logo.clearbit.com/expensify.com", status: :live, topics: ["finance", "productivity"], launch_date: 0.days.ago
+    description: "영수증 스캔과 자동 분류로 경비 정산을 간소화합니다.", website_url: "https://expensetracker.pro", status: :live, topics: ["finance", "productivity"], launch_date: 0.days.ago
   },
   {
     name: "CodeMentor AI", tagline: "AI 코딩 멘토와 함께 성장하기",
-    description: "실시간 코드 리뷰와 개선 제안으로 코딩 실력을 향상시킵니다.", website_url: "https://codementor.ai", logo_url: "https://logo.clearbit.com/stackoverflow.com", status: :live, topics: ["education", "ai"], launch_date: 0.days.ago
+    description: "실시간 코드 리뷰와 개선 제안으로 코딩 실력을 향상시킵니다.", website_url: "https://codementor.ai", status: :live, topics: ["education", "ai"], launch_date: 0.days.ago
   },
   {
     name: "SmartInventory", tagline: "재고 관리 자동화 시스템",
-    description: "AI 수요 예측과 자동 발주로 재고 관리를 최적화합니다.", website_url: "https://smartinventory.shop", logo_url: "https://logo.clearbit.com/amazon.com", status: :live, topics: ["ecommerce", "ai"], launch_date: 0.days.ago
+    description: "AI 수요 예측과 자동 발주로 재고 관리를 최적화합니다.", website_url: "https://smartinventory.shop", status: :live, topics: ["ecommerce", "ai"], launch_date: 0.days.ago
   },
 
   # 출시 예정 제품 5개
   {
     name: "VoiceClone AI", tagline: "나만의 AI 음성 클론 생성",
-    description: "단 5분의 녹음으로 자연스러운 AI 음성을 만들 수 있습니다.", website_url: "https://voiceclone.ai", logo_url: "https://logo.clearbit.com/elevenlabs.io", status: :scheduled, topics: ["ai", "productivity"], launch_date: 3.days.from_now
+    description: "단 5분의 녹음으로 자연스러운 AI 음성을 만들 수 있습니다.", website_url: "https://voiceclone.ai", status: :scheduled, topics: ["ai", "productivity"], launch_date: 3.days.from_now
   },
   {
     name: "AR FitStudio", tagline: "증강현실 홈트레이닝 플랫폼",
-    description: "AR 기술로 집에서 PT샵처럼 정확한 자세 교정을 받을 수 있습니다.", website_url: "https://arfitstudio.app", logo_url: "https://logo.clearbit.com/peloton.com", status: :scheduled, topics: ["health", "ai"], launch_date: 5.days.from_now
+    description: "AR 기술로 집에서 PT샵처럼 정확한 자세 교정을 받을 수 있습니다.", website_url: "https://arfitstudio.app", status: :scheduled, topics: ["health", "ai"], launch_date: 5.days.from_now
   },
   {
     name: "BlockchainDev Kit", tagline: "블록체인 개발을 쉽게 만드는 SDK",
-    description: "스마트 컨트랙트 개발부터 배포까지 간소화하는 개발 도구입니다.", website_url: "https://blockchaindev.kit", logo_url: "https://logo.clearbit.com/ethereum.org", status: :scheduled, topics: ["development", "finance"], launch_date: 7.days.from_now
+    description: "스마트 컨트랙트 개발부터 배포까지 간소화하는 개발 도구입니다.", website_url: "https://blockchaindev.kit", status: :scheduled, topics: ["development", "finance"], launch_date: 7.days.from_now
   },
   {
     name: "AIEducator", tagline: "학생 수준에 맞춘 AI 개인교사",
-    description: "학생의 이해도를 실시간 분석해 최적의 설명 방식을 제공합니다.", website_url: "https://aieducator.learn", logo_url: "https://logo.clearbit.com/khanacademy.org", status: :scheduled, topics: ["education", "ai"], launch_date: 10.days.from_now
+    description: "학생의 이해도를 실시간 분석해 최적의 설명 방식을 제공합니다.", website_url: "https://aieducator.learn", status: :scheduled, topics: ["education", "ai"], launch_date: 10.days.from_now
   },
   {
     name: "SmartContract Builder", tagline: "노코드 스마트 컨트랙트 빌더",
-    description: "코딩 없이 드래그앤드롭으로 스마트 컨트랙트를 생성합니다.", website_url: "https://smartcontract.build", logo_url: "https://logo.clearbit.com/metamask.io", status: :scheduled, topics: ["finance", "development"], launch_date: 14.days.from_now
+    description: "코딩 없이 드래그앤드롭으로 스마트 컨트랙트를 생성합니다.", website_url: "https://smartcontract.build", status: :scheduled, topics: ["finance", "development"], launch_date: 14.days.from_now
   }
 ]
 
@@ -361,7 +361,6 @@ products_data.each_with_index do |product_data, index|
       tagline: product_data[:tagline],
       description: product_data[:description],
       website_url: product_data[:website_url],
-      logo_url: product_data[:logo_url],
       status: product_data[:status],
       featured: index < 3,
       user: random_user
@@ -370,22 +369,10 @@ products_data.each_with_index do |product_data, index|
     # Validation 일시적으로 건너뛰기
     product.save(validate: false)
   end
-  
-  # Update logo_url if product already exists
-  if product_data[:logo_url] && product.logo_url != product_data[:logo_url]
-    product.update!(logo_url: product_data[:logo_url])
-  end
-  
+
   # Add special data for product #20 (TimeTracker Pro)
   if product.name == "TimeTracker Pro"
     product.update_columns(
-      cover_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
-      gallery_urls: [
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop"
-      ].join(','),
       pricing_info: "무료 플랜: 기본 시간 추적\n프로 플랜: $9.99/월 - 고급 분석 및 팀 기능\n엔터프라이즈: $19.99/월 - 무제한 사용자 및 맞춤 기능"
     )
   end
@@ -399,14 +386,7 @@ products_data.each_with_index do |product_data, index|
   # Add maker
   user = User.where(role: :maker).sample
   MakerRole.find_or_create_by!(user: user, product: product, role: "Creator")
-  
-  # Create launch with specified date
-  Launch.find_or_create_by!(product: product) do |l|
-    l.launch_date = product_data[:launch_date]
-    l.region = "KR"
-    l.status = :live
-  end
-  
+
   # Add votes based on recency (더 최근 제품일수록 많은 투표)
   vote_count = case product_data[:launch_date]
                 when 0.days.ago
@@ -497,7 +477,6 @@ puts "\n=== Seed data created successfully! ==="
 puts "Created #{User.count} users"
 puts "Created #{Topic.count} topics"
 puts "Created #{Product.count} products"
-puts "Created #{Launch.count} launches"
 puts "Created #{Vote.count} votes"
 puts "Created #{Like.count} likes"
 puts "Created #{Comment.count} comments"
