@@ -31,8 +31,7 @@ module ApplicationHelper
 
     if user.avatar.attached?
       url_helper = Rails.application.routes.url_helpers
-      use_only_path = Rails.env.development?
-      url_helper.rails_blob_path(user.avatar, only_path: use_only_path)
+      url_helper.rails_blob_path(user.avatar, only_path: true)
     elsif user.avatar_url.present?
       user.avatar_url
     else
@@ -66,8 +65,7 @@ module ApplicationHelper
 
     if product.logo_image.attached?
       url_helper = Rails.application.routes.url_helpers
-      use_only_path = Rails.env.development?
-      url_helper.rails_blob_path(product.logo_image, only_path: use_only_path)
+      url_helper.rails_blob_path(product.logo_image, only_path: true)
     elsif product.logo_url.present?
       product.logo_url
     else
@@ -97,15 +95,14 @@ module ApplicationHelper
   # Product cover/thumbnail for cards (full width/height version)
   def product_cover_tag(product, css_class: '', style: '')
     url_helper = Rails.application.routes.url_helpers
-    use_only_path = Rails.env.development?
 
     if product.cover_image
-      cover_url = url_helper.rails_blob_path(product.cover_image, only_path: use_only_path)
+      cover_url = url_helper.rails_blob_path(product.cover_image, only_path: true)
       image_tag cover_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.cover_url.present?
       image_tag product.cover_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.logo_image.attached?
-      logo_url = url_helper.rails_blob_path(product.logo_image, only_path: use_only_path)
+      logo_url = url_helper.rails_blob_path(product.logo_image, only_path: true)
       image_tag logo_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.logo_url.present?
       image_tag product.logo_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"

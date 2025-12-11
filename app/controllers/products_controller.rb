@@ -269,18 +269,16 @@ class ProductsController < ApplicationController
   def build_gallery_images(product)
     images = []
     url_helper = Rails.application.routes.url_helpers
-    # Production: 절대 URL (R2), Development: 상대 URL (로컬)
-    use_only_path = Rails.env.development?
 
     # 1. 커버 이미지를 첫 번째로 추가 (목록 페이지와 일관성)
     if product.cover_image
-      images << url_helper.rails_blob_path(product.cover_image, only_path: use_only_path)
+      images << url_helper.rails_blob_path(product.cover_image, only_path: true)
     end
 
     # 2. 나머지 갤러리 이미지들 추가 (중복 제거)
     if product.product_images.attached?
       product.product_images.each do |image|
-        url = url_helper.rails_blob_path(image, only_path: use_only_path)
+        url = url_helper.rails_blob_path(image, only_path: true)
         images << url unless images.include?(url)
       end
     end
