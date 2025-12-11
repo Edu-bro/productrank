@@ -34,11 +34,6 @@ module ImageHelper
     image_url(product.product_images.first)
   end
 
-  def user_avatar_url(user)
-    return nil unless user.avatar.attached?
-
-    image_url(user.avatar)
-  end
 
   # 배치 처리 - 여러 이미지 URL 생성
   def product_image_urls(product)
