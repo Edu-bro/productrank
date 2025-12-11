@@ -30,7 +30,9 @@ module ApplicationHelper
     return nil unless user
 
     if user.avatar.attached?
-      url_for(user.avatar)
+      url_helper = Rails.application.routes.url_helpers
+      use_only_path = Rails.env.development?
+      url_helper.rails_blob_path(user.avatar, only_path: use_only_path)
     elsif user.avatar_url.present?
       user.avatar_url
     else
@@ -63,7 +65,9 @@ module ApplicationHelper
     return nil unless product
 
     if product.logo_image.attached?
-      url_for(product.logo_image)
+      url_helper = Rails.application.routes.url_helpers
+      use_only_path = Rails.env.development?
+      url_helper.rails_blob_path(product.logo_image, only_path: use_only_path)
     elsif product.logo_url.present?
       product.logo_url
     else
@@ -83,7 +87,7 @@ module ApplicationHelper
   def product_logo_tag(product, size: 80, css_class: 'product-logo', border_radius: '12px')
     logo_url = product_logo_url(product)
 
-    if logo_url
+    if logo_url.present?
       image_tag logo_url, alt: "#{product.name} 로고", class: css_class, style: "width: #{size}px; height: #{size}px; border-radius: #{border_radius}; object-fit: cover;"
     else
       product_logo_placeholder(product, size: size, border_radius: border_radius)
@@ -92,12 +96,17 @@ module ApplicationHelper
 
   # Product cover/thumbnail for cards (full width/height version)
   def product_cover_tag(product, css_class: '', style: '')
+    url_helper = Rails.application.routes.url_helpers
+    use_only_path = Rails.env.development?
+
     if product.cover_image
-      image_tag url_for(product.cover_image), alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
+      cover_url = url_helper.rails_blob_path(product.cover_image, only_path: use_only_path)
+      image_tag cover_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.cover_url.present?
       image_tag product.cover_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.logo_image.attached?
-      image_tag url_for(product.logo_image), alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
+      logo_url = url_helper.rails_blob_path(product.logo_image, only_path: use_only_path)
+      image_tag logo_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     elsif product.logo_url.present?
       image_tag product.logo_url, alt: product.name, class: css_class, style: "width: 100%; height: 100%; object-fit: cover; #{style}"
     else
