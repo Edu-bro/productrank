@@ -130,7 +130,12 @@ class Product < ApplicationRecord
 
   # Image methods - simplified for performance (no variants)
   def logo_thumb_1x
-    return Rails.application.routes.url_helpers.rails_blob_path(logo_image, only_path: true) if logo_image.attached?
+    if logo_image.attached?
+      # Use absolute URL in production, relative in development
+      url_helper = Rails.application.routes.url_helpers
+      only_path = Rails.env.production? ? false : true
+      return url_helper.rails_blob_path(logo_image, only_path: only_path)
+    end
     nil
   end
 
@@ -144,7 +149,11 @@ class Product < ApplicationRecord
   end
 
   def cover_thumb_1x
-    return Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) if cover_image
+    if cover_image
+      url_helper = Rails.application.routes.url_helpers
+      only_path = Rails.env.production? ? false : true
+      return url_helper.rails_blob_path(cover_image, only_path: only_path)
+    end
     nil
   end
 
@@ -154,31 +163,49 @@ class Product < ApplicationRecord
   
   def gallery_thumb_1x(image)
     return image unless image.is_a?(ActiveStorage::Blob) || image.respond_to?(:variant)
-    
-    # Return original blob path directly to avoid variant processing issues
-    Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+
+    # Return original blob path (absolute in production, relative in development)
+    url_helper = Rails.application.routes.url_helpers
+    only_path = Rails.env.production? ? false : true
+    url_helper.rails_blob_path(image, only_path: only_path)
   end
-  
+
   def gallery_thumb_2x(image)
     return image unless image.is_a?(ActiveStorage::Blob) || image.respond_to?(:variant)
-    
-    Rails.application.routes.url_helpers.rails_representation_path(
-      image.variant(resize_to_fill: [640, 400], quality: 70), only_path: true
+
+    url_helper = Rails.application.routes.url_helpers
+    only_path = Rails.env.production? ? false : true
+    url_helper.rails_representation_path(
+      image.variant(resize_to_fill: [640, 400], quality: 70), only_path: only_path
     )
   end
 
   # Image URL methods (using only attached files)
   def logo_image_url
-    logo_image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(logo_image, only_path: true) : nil
+    if logo_image.attached?
+      url_helper = Rails.application.routes.url_helpers
+      only_path = Rails.env.production? ? false : true
+      url_helper.rails_blob_path(logo_image, only_path: only_path)
+    else
+      nil
+    end
   end
 
   def cover_image_url
-    cover_image ? Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) : nil
+    if cover_image
+      url_helper = Rails.application.routes.url_helpers
+      only_path = Rails.env.production? ? false : true
+      url_helper.rails_blob_path(cover_image, only_path: only_path)
+    else
+      nil
+    end
   end
 
   def gallery_image_urls
     if product_images.attached?
-      product_images.map { |image| Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) }
+      url_helper = Rails.application.routes.url_helpers
+      only_path = Rails.env.production? ? false : true
+      product_images.map { |image| url_helper.rails_blob_path(image, only_path: only_path) }
     else
       []
     end

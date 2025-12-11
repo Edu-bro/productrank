@@ -14,8 +14,10 @@
 
         # 모든 product_images를 갤러리에 추가
         if product.product_images.attached?
+          url_helper = Rails.application.routes.url_helpers
+          only_path = Rails.env.production? ? false : true
           product.product_images.each do |img|
-            gallery_images << { type: 'url', data: Rails.application.routes.url_helpers.rails_blob_path(img, only_path: true) }
+            gallery_images << { type: 'url', data: url_helper.rails_blob_path(img, only_path: only_path) }
           end
         end
 
