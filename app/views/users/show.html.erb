@@ -7,7 +7,8 @@
       <div class="profile-header">
         <div class="profile-avatar">
           <% if @user.avatar.attached? %>
-            <img src="<%= url_for(@user.avatar) %>" alt="<%= @user.name %>">
+            <% url_helper = Rails.application.routes.url_helpers %>
+            <img src="<%= url_helper.rails_blob_path(@user.avatar, only_path: true) %>" alt="<%= @user.name %>">
           <% elsif @user.avatar_url.present? %>
             <img src="<%= @user.avatar_url %>" alt="<%= @user.name %>">
           <% else %>
@@ -223,7 +224,8 @@
                 <%= form.file_field :avatar, accept: "image/*", class: "form-control", style: "padding: 0.5rem;" %>
                 <% if @user.avatar.attached? %>
                   <div style="margin-top: 0.75rem;">
-                    <img src="<%= url_for(@user.avatar) %>" alt="현재 프로필" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                    <% url_helper = Rails.application.routes.url_helpers %>
+                    <img src="<%= url_helper.rails_blob_path(@user.avatar, only_path: true) %>" alt="현재 프로필" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
                   </div>
                 <% end %>
               </div>

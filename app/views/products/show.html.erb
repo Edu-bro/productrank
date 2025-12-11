@@ -6,7 +6,8 @@
   <meta property="og:title" content="<%= @product.name %> - ProductRank">
   <meta property="og:description" content="<%= @product.tagline %>">
   <% if @product.logo_image.attached? %>
-    <meta property="og:image" content="<%= url_for(@product.logo_image) %>">
+    <% url_helper = Rails.application.routes.url_helpers %>
+    <meta property="og:image" content="<%= url_helper.rails_blob_path(@product.logo_image, only_path: true) %>">
   <% end %>
 
   <!-- Twitter Card -->
@@ -15,7 +16,8 @@
   <meta name="twitter:title" content="<%= @product.name %> - ProductRank">
   <meta name="twitter:description" content="<%= @product.tagline %>">
   <% if @product.logo_image.attached? %>
-    <meta name="twitter:image" content="<%= url_for(@product.logo_image) %>">
+    <% url_helper = Rails.application.routes.url_helpers %>
+    <meta name="twitter:image" content="<%= url_helper.rails_blob_path(@product.logo_image, only_path: true) %>">
   <% end %>
 <% end %>
 
