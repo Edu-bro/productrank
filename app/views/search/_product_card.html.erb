@@ -2,7 +2,8 @@
   <div class="result-header">
     <div class="result-logo">
       <% if product.logo_image.attached? %>
-        <img src="<%= product.logo_thumb_1x %>" alt="<%= product.name %> 로고" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;result-logo-placeholder&quot;><%= product.name[0].upcase %></div>';">
+        <% url_helper = Rails.application.routes.url_helpers %>
+        <img src="<%= url_helper.rails_blob_path(product.logo_image, only_path: true) %>" alt="<%= product.name %> 로고" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;result-logo-placeholder&quot;><%= product.name[0].upcase %></div>';">
       <% elsif product.logo_url.present? %>
         <img src="<%= product.logo_url %>" alt="<%= product.name %> 로고" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;result-logo-placeholder&quot;><%= product.name[0].upcase %></div>';">
       <% else %>

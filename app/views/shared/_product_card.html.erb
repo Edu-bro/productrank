@@ -8,7 +8,8 @@ card_index = defined?(index) ? index : 0
     <div class="product-rank">#<%= (defined?(index) ? index + 1 : rand(1..100)) %></div>
     <div class="product-image">
         <% if product.logo_image.attached? %>
-            <img src="<%= product.logo_thumb_1x %>" alt="<%= product.name %>" style="width: 100%; height: 100%; object-fit: cover;">
+            <% url_helper = Rails.application.routes.url_helpers %>
+            <img src="<%= url_helper.rails_blob_path(product.logo_image, only_path: true) %>" alt="<%= product.name %>" style="width: 100%; height: 100%; object-fit: cover;">
         <% else %>
             <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 2rem;">
                 <%= product.name[0].upcase %>
