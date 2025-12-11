@@ -56,8 +56,11 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
+  # Set host to be used by links generated in mailer templates and image URLs
+  # Use Render's default host or environment variable if available
+  render_host = ENV.fetch("RENDER_EXTERNAL_HOSTNAME", "productrank.onrender.com")
+  config.action_mailer.default_url_options = { host: render_host }
+  config.asset_host = "https://#{render_host}"
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
