@@ -33,7 +33,12 @@
             <div class="product-header-content">
               <div class="product-logo">
                 <% if @product.logo_image.attached? %>
-                  <%= image_tag @product.logo_image, alt: "#{@product.name} 로고" %>
+                  <%
+                    url_helper = Rails.application.routes.url_helpers
+                    use_only_path = Rails.env.development?
+                    logo_url = url_helper.rails_blob_path(@product.logo_image, only_path: use_only_path)
+                  %>
+                  <img src="<%= logo_url %>" alt="<%= @product.name %> 로고">
                 <% else %>
                   <div class="logo-placeholder">
                     <%= @product.name[0].upcase %>
@@ -384,7 +389,12 @@
                 <% @similar_products.each do |product| %>
                   <div class="similar-product">
                     <% if product.logo_image.attached? %>
-                      <%= image_tag product.logo_thumb_1x, alt: product.name, class: "similar-logo" %>
+                      <%
+                        url_helper = Rails.application.routes.url_helpers
+                        use_only_path = Rails.env.development?
+                        similar_logo_url = url_helper.rails_blob_path(product.logo_image, only_path: use_only_path)
+                      %>
+                      <img src="<%= similar_logo_url %>" alt="<%= product.name %>" class="similar-logo">
                     <% else %>
                       <div class="similar-logo" style="background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
                         <%= product.name[0].upcase %>

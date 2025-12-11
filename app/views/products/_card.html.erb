@@ -80,7 +80,12 @@
         <!-- 제품 로고 (작은 아이콘) -->
         <div class="mr-2" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 6px; overflow: hidden;">
           <% if product.logo_image.attached? %>
-            <img src="<%= product.logo_thumb_1x %>" alt="<%= product.name %> 로고" style="width: 100%; height: 100%; object-fit: cover;">
+            <%
+              url_helper = Rails.application.routes.url_helpers
+              use_only_path = Rails.env.development?
+              logo_url = url_helper.rails_blob_path(product.logo_image, only_path: use_only_path)
+            %>
+            <img src="<%= logo_url %>" alt="<%= product.name %> 로고" style="width: 100%; height: 100%; object-fit: cover;">
           <% else %>
             <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.75rem;">
               <%= product.name[0].upcase %>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductRank 챌린지 및 랭크보드</title>
+    <!-- Tailwind CSS CDN 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter 폰트 설정 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (달력, 투표, 댓글 아이콘 등을 위해 사용) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f9;
+        }
+        /* Custom styles for the toggle button */
+        .toggle-container {
+            display: flex;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            padding: 2px;
+            width: 140px;
+        }
+        .toggle-button {
+            flex: 1;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: #4b5563; /* Gray text for inactive */
+        }
+        .toggle-button.active {
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            color: #1f2937; /* Darker text for active */
+        }
+        /* Modal Backdrop */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Toast Notification Styling */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1050;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Upvote animation (for feedback) */
+        @keyframes upvote-flash {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .upvote-flash {
+            animation: upvote-flash 0.3s ease-out;
+            color: #ef4444; /* Red color for emphasis */
+        }
+        
+        /* 제품 카드의 수직 공간 효율을 위한 패딩 조정 */
+        .product-card {
+            padding: 16px; /* p-4 유지 */
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="app" class="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6 md:p-8">
+        <!-- Main Application Container -->
+    </div>
+    
+    <!-- Modal Container for Date Picker -->
+    <div id="date-picker-modal-root"></div>
+    
+    <!-- Toast Notification Container -->
+    <div id="toast-root"></div>
+
+    <script>
+        // Lucide Icons 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // =========================================================================
+        // 1. Mock Data (제품 카드에 표시될 임시 데이터)
+        // =========================================================================
+        let mockProducts = [
+            // category를 배열로 변경 (최대 3개 등록 가능성 반영)
+            { id: 1, name: "Gemini Pro App", desc: "차세대 AI 에이전트 서비스로 업무를 혁신하세요.", logo: "🤖", category: ["AI", "SaaS", "Productivity"], launchDate: "2025.11.20", votes: 952, comments: 124, rank: 1, status: '월간 후보군' },
+            { id: 2, name: "Design Flow", desc: "협업 가능한 AI 기반 디자인 툴로 속도를 높입니다.", logo: "🎨", category: ["SaaS", "Design"], launchDate: "2025.11.25", votes: 810, comments: 88, rank: 2, status: '주간 챌린지 중' },
+            { id: 3, name: "FinTrack", desc: "개인 재정을 자동으로 분석하고 리포트합니다.", logo: "💰", category: ["FinTech", "Personal Finance"], launchDate: "2025.12.01", votes: 540, comments: 55, rank: 3, status: '일반 제품' },
+            { id: 4, name: "Code Sprint", desc: "개발 속도를 2배 높이는 협업 코드 리뷰 시스템.", logo: "💻", category: ["개발도구", "DevOps"], launchDate: "2025.12.05", votes: 410, comments: 22, rank: 4, status: '주간 챌린지 중' },
+            { id: 5, name: "Eco Planner", desc: "탄소 발자국을 추적하고 줄이는 지속가능성 앱.", logo: "🌎", category: ["ESG", "Lifestyle"], launchDate: "2025.10.15", votes: 305, comments: 15, rank: 5, status: '일반 제품' },
+        ];
+        
+        // 필터링에 사용할 카테고리 목록
+        const mockCategories = ["전체", "AI", "SaaS", "FinTech", "개발도구", "ESG", "Design", "Productivity", "Personal Finance", "DevOps", "Lifestyle"];
+        const mockSorts = ["최신순", "투표순", "댓글순"];
+
+        // =========================================================================
+        // 2. State Management (상태 관리)
+        // =========================================================================
+        let state = {
+            activeTab: 'rankboard', // 'rankboard' or 'challenge'
+            activePeriod: 'weekly', // 'weekly' or 'monthly'
+            activeCategory: '전체',
+            activeSort: '최신순', 
+            isModalOpen: false, // 날짜 선택 모달 상태
+        };
+
+        // UI를 다시 그리는 함수
+        function render() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                ${renderTabs()}
+                <div class="mt-6">
+                    ${renderTabContent()}
+                </div>
+            `;
+            
+            // 모달 렌더링 (상태에 따라)
+            renderModal();
+
+            // 모든 이벤트 리스너 다시 연결
+            attachEventListeners();
+            lucide.createIcons();
+        }
+
+        // =========================================================================
+        // 3. UI Components (컴포넌트 렌더링 함수)
+        // =========================================================================
+
+        // A. 메인 탭 (Tab Navigation)
+        function renderTabs() {
+            const activeClass = "border-indigo-600 text-indigo-700 font-bold";
+            const inactiveClass = "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300";
+
+            return `
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button onclick="updateState('activeTab', 'rankboard')"
+                            class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-lg transition-colors ${state.activeTab === 'rankboard' ? activeClass : inactiveClass}">
+                            🏆 랭크보드 (기존/확정 순위)
+                        </button>
+                        <button onclick="updateState('activeTab', 'challenge')"
+                            class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-lg transition-colors ${state.activeTab === 'challenge' ? activeClass : inactiveClass}">
+                            🚀 챌린지 (신규/실시간 경쟁)
+                        </button>
+                    </nav>
+                </div>
+            `;
+        }
+
+        // B. 카테고리 필터 (드롭다운 형태)
+        function renderCategoryFilter() {
+            return `
+                <div class="relative w-full md:w-44 flex-shrink-0">
+                    <select onchange="updateState('activeCategory', this.value)"
+                        class="block appearance-none w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm font-medium text-gray-700 focus:border-indigo-500 focus:ring-indigo-500 transition-shadow cursor-pointer shadow-sm">
+                        ${mockCategories.map(cat => {
+                            // "전체" 카테고리에만 "카테고리:" 접두사 유지
+                            const displayCat = cat === '전체' ? `카테고리: ${cat}` : cat;
+                            return `
+                                <option value="${cat}" ${state.activeCategory === cat ? 'selected' : ''}>
+                                    ${displayCat}
+                                </option>
+                            `;
+                        }).join('')}
+                    </select>
+                    <!-- Custom Arrow Icon -->
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    </div>
+                </div>
+            `;
+        }
+
+        // C. 기간 필터 (토글 형태)
+        function renderPeriodFilter() {
+            return `
+                <div class="toggle-container">
+                    <button onclick="updateState('activePeriod', 'weekly');" 
+                            class="toggle-button ${state.activePeriod === 'weekly' ? 'active' : ''}">
+                        주간
+                    </button>
+                    <button onclick="updateState('activePeriod', 'monthly');" 
+                            class="toggle-button ${state.activePeriod === 'monthly' ? 'active' : ''}">
+                        월간
+                    </button>
+                </div>
+            `;
+        }
+
+        // D. 정렬 필터 (챌린지 탭 전용)
+        function renderSortFilter() {
+            // 정렬 필터도 공간 확보를 위해 텍스트 크기 축소
+            return `
+                <div class="relative inline-block text-left">
+                    <select onchange="updateState('activeSort', this.value)"
+                        class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm focus:border-indigo-500 focus:ring-indigo-500 transition-shadow cursor-pointer">
+                        ${mockSorts.map(sort => `
+                            <option value="${sort}" ${state.activeSort === sort ? 'selected' : ''}>${sort}</option>
+                        `).join('')}
+                    </select>
+                </div>
+            `;
+        }
+
+        // E. 날짜/상태 표시 영역
+        function renderStatusArea() {
+            if (state.activeTab === 'rankboard') {
+                // 랭크보드: 날짜/기간 명시 및 탐색 버튼 + 클릭 시 달력 모달 띄우기
+                const dateText = state.activePeriod === 'weekly' 
+                    ? `2025년 11월 4주차` 
+                    : `2025년 11월`;
+
+                // 날짜 영역을 감싸는 div에 클릭 이벤트를 추가
+                return `
+                    <div class="flex items-center space-x-2 text-gray-700 text-sm font-medium">
+                        <button class="text-gray-400 hover:text-gray-600 transition-colors" title="이전 기간">
+                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                        </button>
+                        <span id="date-picker-trigger" class="text-sm md:text-base font-semibold whitespace-nowrap cursor-pointer hover:text-indigo-600 transition-colors">
+                            ${dateText}
+                        </span>
+                        <button class="text-gray-400 hover:text-gray-600 transition-colors" title="다음 기간">
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                // 챌린지: 진행 중 상태 명시 (활성화 상태 강조)
+                const statusText = state.activePeriod === 'weekly'
+                    ? `이번 주 챌린지 진행 중 · 마감까지 D-3`
+                    : `이번 달 챌린지 진행 중`;
+                
+                return `
+                    <div class="flex items-center space-x-2 text-sm md:text-base font-bold text-green-600 bg-green-100 px-3 py-1.5 rounded-full shadow-inner">
+                        <i data-lucide="zap" class="w-4 h-4 fill-green-600 text-green-600"></i>
+                        <span>${statusText}</span>
+                    </div>
+                `;
+            }
+        }
+
+        // F. 제품 카드 (가로형 박스)
+        function renderProductCard(product, index) {
+            const isRankboard = state.activeTab === 'rankboard';
+            const rank = index + 1; // 1-based index for mock rank
+            
+            // 상태 라벨은 챌린지 탭에서만 조건부로 사용
+            let statusColor = 'bg-blue-100 text-blue-800';
+            let statusText = '일반 제품';
+
+            if (!isRankboard) {
+                if (product.status === '주간 챌린지 중') {
+                    statusColor = 'bg-green-100 text-green-800';
+                    statusText = '주간 챌린지 진행 · 마감 D-3';
+                } else if (product.status === '월간 후보군') {
+                    statusColor = 'bg-yellow-100 text-yellow-800';
+                    statusText = '월간 랭크보드 후보 · 경쟁 중';
+                }
+            }
+            
+            // 아이콘 컴포넌트 (Lucide Icons 사용)
+            const upvoteIcon = `<i id="upvote-icon-${product.id}" data-lucide="arrow-up" class="w-4 h-4 text-red-500"></i>`;
+            const commentIcon = '<i data-lucide="message-square" class="w-4 h-4 text-gray-500"></i>';
+
+            return `
+                <div class="product-card flex items-center p-4 bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    
+                    <!-- 랭크보드: 순위 표시 -->
+                    ${isRankboard ? `
+                        <div class="w-12 text-center text-3xl font-extrabold text-indigo-600 mr-4 flex-shrink-0">
+                            #${rank}
+                        </div>
+                    ` : ''}
+
+                    <!-- 제품 로고 및 기본 정보 (flex-grow) -->
+                    <div class="flex-grow flex items-start space-x-4">
+                        <!-- 로고 (Emoji Placeholder) -->
+                        <div class="flex-shrink-0 text-3xl p-2 bg-gray-50 rounded-lg border border-gray-100">
+                            ${product.logo}
+                        </div>
+                        
+                        <!-- 제품 텍스트 정보 -->
+                        <div class="min-w-0 flex-1 space-y-1"> <!-- 공간 효율을 위해 space-y-1 적용 -->
+                            <div class="flex flex-col md:flex-row md:items-center md:space-x-2">
+                                <h3 class="text-xl font-bold text-gray-900 truncate">${product.name}</h3>
+                                <!-- 카테고리 복수 등록 반영 -->
+                                <div class="flex space-x-1 overflow-x-auto py-0.5 mt-1 md:mt-0">
+                                    ${product.category.map(cat => `
+                                        <span class="flex-shrink-0 text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">${cat}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-500 truncate">${product.desc}</p>
+                            <p class="text-xs text-gray-400">런칭일: ${product.launchDate}</p>
+                        </div>
+                    </div>
+
+                    <!-- 투표/댓글 정보 및 액션 그룹 (flex-shrink-0) -->
+                    <div class="flex-shrink-0 ml-4 flex flex-col items-end space-y-2"> <!-- 상하 공간 확보 -->
+                        
+                        <!-- 1. 액션/점수 그룹 (수평 정렬: 투표 버튼 + 스탯) -->
+                        <div class="flex items-center space-x-4">
+                            
+                            <!-- 투표하기 버튼 (챌린지 탭에서만 표시, 왼쪽에 배치) -->
+                            ${!isRankboard ? `
+                                <button onclick="handleVoteClick(${product.id})" class="bg-indigo-600 text-white text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-md whitespace-nowrap">
+                                    투표하기
+                                </button>
+                            ` : ''}
+                            
+                            <!-- 투표 및 댓글 아이콘 그룹 (스탯, 수평 정렬) -->
+                            <div class="flex space-x-3 items-center">
+                                <!-- 투표/점수 -->
+                                <div id="vote-score-group-${product.id}" 
+                                    class="flex items-center space-x-1 cursor-${!isRankboard ? 'pointer' : 'default'}"
+                                    ${!isRankboard ? `onclick="handleVoteClick(${product.id})"` : ''}
+                                >
+                                    ${upvoteIcon}
+                                    <span id="vote-count-${product.id}" class="text-sm font-semibold text-gray-800">${product.votes.toLocaleString()}</span>
+                                </div>
+
+                                <!-- 댓글 -->
+                                <div class="flex items-center space-x-1">
+                                    ${commentIcon}
+                                    <span class="text-sm font-semibold text-gray-800">${product.comments.toLocaleString()}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- 2. 상태 라벨 (아래에 배치) -->
+                        ${!isRankboard && product.status !== '일반 제품' ? `
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${statusColor} whitespace-nowrap">
+                                ${statusText}
+                            </span>
+                        ` : `<div class="h-5"></div>`} <!-- 높이 유지 -->
+                    </div>
+                </div>
+            `;
+        }
+
+        // 탭 컨텐츠 (필터 및 제품 목록)
+        function renderTabContent() {
+            const isRankboard = state.activeTab === 'rankboard';
+
+            // 필터링 및 정렬 로직 (Mock)
+            let filteredProducts = mockProducts.filter(p => {
+                // 카테고리 필터링: 제품의 카테고리 배열에 선택된 카테고리가 포함되어 있는지 확인
+                return state.activeCategory === '전체' || p.category.includes(state.activeCategory);
+            });
+
+            // 챌린지 탭 정렬 로직 (Mock)
+            if (!isRankboard) {
+                if (state.activeSort === '투표순') {
+                    filteredProducts.sort((a, b) => b.votes - a.votes);
+                } else if (state.activeSort === '최신순') {
+                    // Launch date comparison (simple string comparison for mock)
+                    filteredProducts.sort((a, b) => new Date(b.launchDate) - new Date(a.launchDate));
+                }
+                // 댓글순은 Mock이므로 투표순과 동일하게 처리
+            }
+            
+            return `
+                <div class="space-y-6">
+                    <!-- 헤더 설명 텍스트 -->
+                    <p class="text-lg text-gray-600 mt-2 mb-4">
+                        ${isRankboard 
+                            ? "명예로운 제품들의 역사가 이곳에 기록됩니다." // 랭크보드 설명
+                            : "이번 주 신규 런칭 제품들이 실시간 경쟁 중입니다. 지금 투표해서 1위를 결정하세요." // 챌린지 설명 (변경 반영됨)
+                        }
+                    </p>
+
+                    <!-- 필터 영역 (3개 요소 한 줄에 배치) -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                        
+                        <!-- 기간 필터, 카테고리 필터, 상태/정렬 필터를 모두 한 줄에 배치 (md: 이상에서) -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between space-y-3 md:space-y-0">
+                            
+                            <!-- 왼쪽 그룹: 기간 토글 & 카테고리 드롭다운 -->
+                            <div class="flex items-center space-x-4 flex-wrap md:flex-nowrap space-y-3 md:space-y-0">
+                                ${renderPeriodFilter()}
+                                ${renderCategoryFilter()} 
+                            </div>
+
+                            <!-- 오른쪽 그룹: 정렬 필터 (챌린지) 또는 날짜/상태 표시 (랭크보드) -->
+                            <div class="flex items-center space-x-4 flex-shrink-0">
+                                ${!isRankboard ? renderSortFilter() : ''}
+                                ${renderStatusArea()}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 제품 목록 -->
+                    <div class="mt-8 space-y-4">
+                        ${filteredProducts.length > 0 
+                            ? filteredProducts.map((p, i) => renderProductCard(p, i)).join('')
+                            : `<div class="text-center py-10 text-gray-500 text-xl bg-gray-100 rounded-xl">선택된 필터의 제품이 없습니다.</div>`
+                        }
+                    </div>
+                </div>
+            `;
+        }
+        
+        // G. 날짜 선택 모달 (가상 달력)
+        function renderModal() {
+            const modalRoot = document.getElementById('date-picker-modal-root');
+            if (!state.isModalOpen) {
+                modalRoot.innerHTML = '';
+                return;
+            }
+
+            const periodText = state.activePeriod === 'weekly' ? '주간' : '월간';
+
+            modalRoot.innerHTML = `
+                <div class="modal-backdrop" onclick="closeModal()">
+                    <div class="bg-white rounded-xl shadow-2xl p-6 w-80 max-w-full" onclick="event.stopPropagation()">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">${periodText} 랭킹 기록 선택</h3>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- 가상의 달력 UI -->
+                        <div class="text-center">
+                            <div class="flex justify-between items-center mb-3">
+                                <button class="text-gray-500 hover:text-indigo-600"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                                <span class="font-semibold text-lg">2025년 11월</span>
+                                <button class="text-gray-500 hover:text-indigo-600"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                            </div>
+                            
+                            <p class="text-sm text-gray-500 mb-4">${periodText} 단위로 선택 가능합니다.</p>
+                            
+                            <div class="grid grid-cols-7 gap-1 text-sm">
+                                ${['일', '월', '화', '수', '목', '금', '토'].map(d => `<div class="font-bold text-gray-500">${d}</div>`).join('')}
+                                <!-- 가상의 날짜 버튼 -->
+                                ${Array(3).fill('<div class="p-2"></div>').join('')}
+                                ${Array(30).fill(0).map((_, i) => {
+                                    const day = i + 1;
+                                    const isSelected = day >= 24 && day <= 30 && state.activePeriod === 'weekly';
+                                    const dayClass = isSelected 
+                                        ? 'bg-indigo-600 text-white font-bold rounded-md' 
+                                        : 'bg-white text-gray-800 hover:bg-indigo-50 rounded-md';
+                                    
+                                    // 주간 선택 모드일 때 4주차를 선택된 것으로 가정
+                                    if (state.activePeriod === 'weekly' && day % 7 === 4) {
+                                        return `<div class="p-2 cursor-pointer transition-colors ${dayClass} col-span-1 border border-indigo-300">4주차</div>`;
+                                    } else if (state.activePeriod === 'weekly' && day % 7 !== 4) {
+                                        return `<div class="p-2 text-gray-300"></div>`; // 주간 모드에서는 주차 단위로만 표시
+                                    }
+
+                                    return `<div class="p-2 cursor-pointer transition-colors ${dayClass}">${day}</div>`;
+                                }).join('')}
+                            </div>
+                            
+                            <button onclick="closeModal()" class="mt-6 bg-indigo-600 text-white font-semibold w-full py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                                기록 조회하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            // 모달이 열릴 때 Lucide 아이콘 다시 생성
+            lucide.createIcons();
+        }
+
+        // H. 토스트 알림 표시
+        function showToast(message) {
+            const toastRoot = document.getElementById('toast-root');
+            toastRoot.innerHTML = `<div id="live-toast" class="toast">${message}</div>`;
+            const toast = document.getElementById('live-toast');
+            
+            // 토스트 표시
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10); // 약간의 지연 후 표시
+
+            // 2초 후 숨김
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+            
+            // 2.3초 후 DOM에서 제거 (클린업)
+            setTimeout(() => {
+                toastRoot.innerHTML = '';
+            }, 2300);
+        }
+
+        // =========================================================================
+        // 4. Event & State Logic (이벤트 처리)
+        // =========================================================================
+
+        // 상태 업데이트 및 렌더링
+        function updateState(key, value) {
+            state[key] = value;
+            if (key === 'activeTab') {
+                // 탭 변경 시 필터 초기화
+                state.activePeriod = 'weekly';
+                state.activeCategory = '전체';
+                state.activeSort = '최신순'; 
+            }
+            render();
+        }
+        
+        // 모달 열기
+        function openModal() {
+            if (state.activeTab === 'rankboard') {
+                state.isModalOpen = true;
+                renderModal();
+            }
+        }
+
+        // 모달 닫기
+        function closeModal() {
+            state.isModalOpen = false;
+            renderModal();
+        }
+        
+        // 투표 처리 함수
+        function handleVoteClick(productId) {
+            // 랭크보드에서는 투표 불가
+            if (state.activeTab === 'rankboard') return;
+
+            // 1. Mock Data 업데이트 (점수 증가)
+            const productIndex = mockProducts.findIndex(p => p.id === productId);
+            if (productIndex > -1) {
+                mockProducts[productIndex].votes += 1; // 1점 추가
+            }
+            
+            // 2. UI 업데이트
+            // 투표 수만 업데이트하고 깜빡임 효과를 주기 위해 DOM 요소를 직접 조작
+            const voteCountEl = document.getElementById(`vote-count-${productId}`);
+            const upvoteIconEl = document.getElementById(`upvote-icon-${productId}`);
+            
+            if (voteCountEl && upvoteIconEl) {
+                voteCountEl.textContent = mockProducts[productIndex].votes.toLocaleString();
+                
+                // 애니메이션 효과 (아이콘 깜빡임)
+                upvoteIconEl.classList.add('upvote-flash');
+                setTimeout(() => {
+                    upvoteIconEl.classList.remove('upvote-flash');
+                }, 300);
+            }
+
+            // 3. 사용자 알림 (토스트)
+            showToast('투표가 완료되었습니다! +1점 🚀');
+        }
+
+
+        // 초기 로드 시 이벤트 리스너 연결 (DOM이 새로 렌더링된 후 실행)
+        function attachEventListeners() {
+            // 랭크보드 날짜 영역 클릭 시 모달 열기 이벤트 연결
+            const dateTrigger = document.getElementById('date-picker-trigger');
+            if (dateTrigger) {
+                dateTrigger.addEventListener('click', openModal);
+            }
+        }
+
+        // =========================================================================
+        // 5. Initialization (초기 실행)
+        // =========================================================================
+        render();
+
+    </script>
+</body>
+</html>

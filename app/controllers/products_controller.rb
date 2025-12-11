@@ -114,21 +114,10 @@ class ProductsController < ApplicationController
     @review_count = @product.review_count
     @rating_distribution = @product.rating_distribution
     
-    # 갤러리 이미지 처리 (커버 이미지 우선, 일관성 유지)
-    @gallery_images = []
+    # 갤러리 이미지 처리 (환경별 올바른 URL 생성)
+    @gallery_images = build_gallery_images(@product)
 
-    # 1. 커버 이미지를 첫 번째로 추가 (목록 페이지와 일관성)
-    if @product.cover_image
-      @gallery_images << Rails.application.routes.url_helpers.rails_blob_path(@product.cover_image, only_path: true)
-    end
-
-    # 2. 나머지 갤러리 이미지들 추가 (중복 제거)
-    gallery_urls = @product.gallery_image_urls
-    gallery_urls.each do |url|
-      @gallery_images << url unless @gallery_images.include?(url)
-    end
-
-    # 3. 이미지가 없으면 기본 placeholder
+    # 이미지가 없으면 기본 placeholder
     @gallery_images = ["https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=300&fit=crop"] if @gallery_images.empty?
     
     # 실제 메이커 팀원 정보
@@ -276,7 +265,29 @@ class ProductsController < ApplicationController
   end
   
   private
-  
+
+  def build_gallery_images(product)
+    images = []
+    url_helper = Rails.application.routes.url_helpers
+    # Production: 절대 URL (R2), Development: 상대 URL (로컬)
+    use_only_path = Rails.env.development?
+
+    # 1. 커버 이미지를 첫 번째로 추가 (목록 페이지와 일관성)
+    if product.cover_image
+      images << url_helper.rails_blob_path(product.cover_image, only_path: use_only_path)
+    end
+
+    # 2. 나머지 갤러리 이미지들 추가 (중복 제거)
+    if product.product_images.attached?
+      product.product_images.each do |image|
+        url = url_helper.rails_blob_path(image, only_path: use_only_path)
+        images << url unless images.include?(url)
+      end
+    end
+
+    images
+  end
+
   def set_product
     @product = Product.find(params[:id])
   rescue ActiveRecord::RecordNotFound
