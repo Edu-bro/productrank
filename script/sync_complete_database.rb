@@ -58,20 +58,23 @@ class DatabaseSync
       files = Dir.glob(File.join(export_dir, "*.json")).sort.reverse
       if files.empty?
         puts "❌ No export files found in #{export_dir}"
-        return
+        return { error: "No export files found in #{export_dir}" }
       end
     end
 
-    import_users_from_file(files)
-    import_topics_from_file(files)
-    import_products_from_file(files)
-    import_product_topics_from_file(files)
-    import_active_storage_blobs_from_file(files)
-    import_active_storage_attachments_from_file(files)
+    results = {}
+    results[:users] = import_users_from_file(files)
+    results[:topics] = import_topics_from_file(files)
+    results[:products] = import_products_from_file(files)
+    results[:product_topics] = import_product_topics_from_file(files)
+    results[:active_storage_blobs] = import_active_storage_blobs_from_file(files)
+    results[:active_storage_attachments] = import_active_storage_attachments_from_file(files)
 
     puts ""
     puts "✅ Import completed successfully!"
     puts ""
+
+    results
   end
 
   # ============ EXPORT METHODS ============
@@ -210,7 +213,7 @@ class DatabaseSync
   def import_users_from_file(files)
     puts "📥 Importing users..."
     file = files.find { |f| f.include?('users_') }
-    return unless file && File.exist?(file)
+    return { imported: 0, skipped: 0 } unless file && File.exist?(file)
 
     users_data = JSON.parse(File.read(file))
     imported = 0
@@ -234,12 +237,13 @@ class DatabaseSync
     end
 
     puts "  ✓ Imported #{imported} users, skipped #{skipped} existing"
+    { imported: imported, skipped: skipped }
   end
 
   def import_topics_from_file(files)
     puts "📥 Importing topics..."
     file = files.find { |f| f.include?('topics_') }
-    return unless file && File.exist?(file)
+    return { imported: 0, skipped: 0 } unless file && File.exist?(file)
 
     topics_data = JSON.parse(File.read(file))
     imported = 0
@@ -260,12 +264,13 @@ class DatabaseSync
     end
 
     puts "  ✓ Imported #{imported} topics, skipped #{skipped} existing"
+    { imported: imported, skipped: skipped }
   end
 
   def import_products_from_file(files)
     puts "📥 Importing products..."
     file = files.find { |f| f.include?('products_') }
-    return unless file && File.exist?(file)
+    return { imported: 0, skipped: 0 } unless file && File.exist?(file)
 
     products_data = JSON.parse(File.read(file))
     imported = 0
@@ -306,12 +311,13 @@ class DatabaseSync
     end
 
     puts "  ✓ Imported #{imported} products, skipped #{skipped} existing"
+    { imported: imported, skipped: skipped }
   end
 
   def import_product_topics_from_file(files)
     puts "📥 Importing product-topic associations..."
     file = files.find { |f| f.include?('product_topics_') }
-    return unless file && File.exist?(file)
+    return { imported: 0, skipped: 0 } unless file && File.exist?(file)
 
     associations_data = JSON.parse(File.read(file))
     imported = 0
@@ -335,12 +341,13 @@ class DatabaseSync
     end
 
     puts "  ✓ Imported #{imported} associations, skipped #{skipped} existing"
+    { imported: imported, skipped: skipped }
   end
 
   def import_active_storage_blobs_from_file(files)
     puts "📥 Importing Active Storage blobs..."
     file = files.find { |f| f.include?('active_storage_blobs_') }
-    return unless file && File.exist?(file)
+    return { imported: 0, skipped: 0 } unless file && File.exist?(file)
 
     blobs_data = JSON.parse(File.read(file))
     imported = 0
@@ -366,12 +373,13 @@ class DatabaseSync
     end
 
     puts "  ✓ Imported #{imported} blobs, skipped #{skipped} existing"
+    { imported: imported, skipped: skipped }
   end
 
   def import_active_storage_attachments_from_file(files)
     puts "📥 Importing Active Storage attachments..."
     file = files.find { |f| f.include?('active_storage_attachments_') }
-    return unless file && File.exist?(file)
+    return { imported: 0, skipped: 0 } unless file && File.exist?(file)
 
     attachments_data = JSON.parse(File.read(file))
     imported = 0
@@ -394,6 +402,7 @@ class DatabaseSync
     end
 
     puts "  ✓ Imported #{imported} attachments, skipped #{skipped} existing"
+    { imported: imported, skipped: skipped }
   end
 end
 

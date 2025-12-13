@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   namespace :admin do
     root 'dashboard#index'
     get 'dashboard' => 'dashboard#index'
+
+    # Database management endpoints
+    get 'database/status' => 'database#status'
+    post 'database/import' => 'database#import'
+
     resources :products do
       member do
         post :approve
