@@ -1,4 +1,7 @@
 class Admin::DatabaseController < ApplicationController
+  # Skip CSRF verification for API-like endpoints
+  skip_before_action :verify_authenticity_token, only: [:import, :status]
+
   # Security: Only allow import with correct secret token
   before_action :verify_import_token, only: [:import]
 
